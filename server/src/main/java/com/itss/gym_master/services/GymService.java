@@ -1,0 +1,50 @@
+package com.itss.gym_master.services;
+
+import com.itss.gym_master.entities.Gym;
+import com.itss.gym_master.repositories.GymRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class GymService {
+    private final GymRepository gymRepository;
+
+    @Autowired
+    public GymService(GymRepository gymRepository) {
+        this.gymRepository = gymRepository;
+    }
+
+    public List<Gym> getAllGyms() {
+        return gymRepository.findAll();
+    }
+
+    public Gym newGym(Gym newGym) {
+        return gymRepository.save(newGym);
+    }
+
+    public Optional<Gym> getOneGym(Long id) {
+        return gymRepository.findById(id);
+    }
+
+    public Gym editGym(Long id, Gym newGym) {
+        return gymRepository.findById(id).map(gym -> {
+            gym.setName(newGym.getName());
+            gym.setAddress(newGym.getAddress());
+            gym.setEmail(newGym.getEmail());
+            gym.setHotline(newGym.getHotline());
+            return gymRepository.save(gym);
+        }).orElseGet(() -> {
+            newGym.setId(id);
+            return gymRepository.save(newGym);
+        });
+    }
+
+    public Optional<Gym> removeGym(Long id) {
+        Optional<Gym> gym = gymRepository.findById(id);
+        gymRepository.deleteById(id);
+        return gym;
+    }
+}
