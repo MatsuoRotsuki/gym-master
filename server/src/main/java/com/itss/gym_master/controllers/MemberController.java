@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import com.itss.gym_master.entities.Member;
 import com.itss.gym_master.services.MemberService;
 
-import io.micrometer.core.ipc.http.HttpSender.Response;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -35,7 +34,7 @@ public class MemberController {
     ResponseEntity<Member> postM(@RequestBody @Valid Member member) {
         return new ResponseEntity<>(memberService.newMember(member), HttpStatus.CREATED);
     }
-    
+
     @GetMapping("/{id}")
     ResponseEntity<Member> one(@PathVariable Long id) {
         Member member = memberService.getOneMember(id)
