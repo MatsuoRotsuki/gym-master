@@ -3,17 +3,19 @@ package com.itss.gym_master.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import java.util.HashSet;
-import java.util.Set;
-
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
-@Table
-@Data
+@Table(name = "Equipments")
+@Setter
+@Getter
+@AllArgsConstructor
+@ToString
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor

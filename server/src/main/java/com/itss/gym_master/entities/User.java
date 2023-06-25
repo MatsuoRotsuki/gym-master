@@ -3,16 +3,22 @@ package com.itss.gym_master.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
 
 @Entity
-@Table
-@Getter
+@Table(name = "Users")
 @Setter
+@Getter
+@AllArgsConstructor
+@ToString
+@DynamicInsert
+@DynamicUpdate
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,17 +37,4 @@ public class User {
     private String phoneNumber;
     @NotEmpty(message = "Role is not defined")
     private Integer role;
-
-    public User() {
-    }
-
-    public User(String email, String passwordDigest, Integer gender, LocalDate dateOfBirth, String address, String phoneNumber, Integer role) {
-        this.email = email;
-        this.passwordDigest = passwordDigest;
-        this.gender = gender;
-        this.dateOfBirth = dateOfBirth;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.role = role;
-    }
 }
