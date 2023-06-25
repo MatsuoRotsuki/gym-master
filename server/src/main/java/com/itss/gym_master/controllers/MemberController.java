@@ -1,16 +1,14 @@
 package com.itss.gym_master.controllers;
 
 import com.itss.gym_master.entities.Feedback;
+import com.itss.gym_master.entities.Member;
 import com.itss.gym_master.exceptions.EntityNotFoundException;
+import com.itss.gym_master.services.MemberService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.itss.gym_master.entities.*;
-import com.itss.gym_master.services.MemberService;
-
-import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -56,7 +54,8 @@ public class MemberController {
         return ResponseEntity.ok().body(member);
     }
 
-    @PostMapping("/{memberId}/gyms/{gymId}/feedbacks")
+    @PostMapping(value = "/{memberId}/gyms/{gymId}/feedbacks", consumes = "application/json;charset=UTF-8",
+            produces = "application/json;charset=UTF-8")
     ResponseEntity<Feedback> newFeedback(
             @PathVariable Long memberId,
             @PathVariable Long gymId,

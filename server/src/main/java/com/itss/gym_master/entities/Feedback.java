@@ -1,13 +1,16 @@
 package com.itss.gym_master.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -26,18 +29,20 @@ public class Feedback {
     private Long id;
     @NotEmpty(message = "Content is mandatory")
     private String content;
-    @NotEmpty(message = "Rating is mandatory")
+    @NotNull(message = "Rating is mandatory")
     @Min(1)
     @Max(5)
-    private int stars;
+    private Integer stars;
     @ManyToOne()
     @JoinColumn(name = "memberId", referencedColumnName = "id")
+    @JsonIgnore
     private Member member;
 
     @ManyToOne()
     @JoinColumn(name = "gymId")
+    @JsonIgnore
     private Gym gym;
 
     @OneToMany(mappedBy = "feedback", cascade = CascadeType.ALL)
-    private Set<Reply> replies;
+    private Set<Reply> replies = new HashSet<>();
 }
