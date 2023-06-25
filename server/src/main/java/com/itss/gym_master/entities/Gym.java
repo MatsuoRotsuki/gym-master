@@ -1,10 +1,10 @@
 package com.itss.gym_master.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -12,8 +12,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table
-@Data
+@Table(name = "Gyms")
+@Setter
+@Getter
+@AllArgsConstructor
+@ToString
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor
@@ -29,6 +32,8 @@ public class Gym {
     private String hotline;
     @Email(message = "Email must be valid email")
     private String email;
+    @OneToMany(mappedBy = "gym", cascade = CascadeType.ALL)
+    private Set<Feedback> feedbacks;
 
     @ManyToMany
     @JoinTable(
@@ -36,5 +41,6 @@ public class Gym {
         joinColumns = @JoinColumn(name = "gymId", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "equipmentId", referencedColumnName = "id")
     )
+    @JsonManagedReference
     private Set<Equipment> equipments = new HashSet<>();
 }

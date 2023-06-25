@@ -1,21 +1,22 @@
 package com.itss.gym_master.entities;
 
-import java.time.LocalDate;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
-@Table(name = "members")
-@Getter
+@Table(name = "Members")
 @Setter
+@Getter
+@AllArgsConstructor
+@ToString
+@DynamicInsert
+@DynamicUpdate
+@NoArgsConstructor
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,13 +38,6 @@ public class Member {
 
     private String note;
 
-    public Member() {
-    }
-
-    public Member(LocalDate joinedDate, Double weight, String healthCondition, String note) {
-        this.joinedDate = joinedDate;
-        this.weight = weight;
-        this.healthCondition = healthCondition;
-        this.note = note;
-    }
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private Set<Feedback> feedbacks;
 }
