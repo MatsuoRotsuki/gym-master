@@ -3,6 +3,11 @@ package com.itss.gym_master.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.itss.gym_master.entities.Feedback;
+import com.itss.gym_master.entities.Gym;
+import com.itss.gym_master.exceptions.EntityNotFoundException;
+import com.itss.gym_master.repositories.FeedbackRepository;
+import com.itss.gym_master.repositories.GymRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +17,17 @@ import com.itss.gym_master.repositories.MemberRepository;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final GymRepository gymRepository;
+    private final FeedbackRepository feedbackRepository;
 
     @Autowired
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(
+            MemberRepository memberRepository,
+            GymRepository gymRepository,
+            FeedbackRepository feedbackRepository) {
         this.memberRepository = memberRepository;
+        this.gymRepository = gymRepository;
+        this.feedbackRepository = feedbackRepository;
     }
 
     public List<Member> getAllMembers() {
@@ -49,5 +61,15 @@ public class MemberService {
         Optional<Member> member = memberRepository.findById(id);
         memberRepository.deleteById(id);
         return member;
+    }
+
+    public Feedback createFeedback(Long memberId, Long gymId, Feedback feedback) {
+        Member member = memberRepository.findById(memberId).
+                orElseThrow(() -> new EntityNotFoundException("Could not found member with id: " + memberId));
+        Gym gym = gymRepository.findById(gymId).
+                orElseThrow(() -> new EntityNotFoundException("Could not found gym with id: " + gymId));
+        feedback.setMember(member);
+        feedback.setGym(gym);
+        return feedbackRepository.save(feedback);
     }
 }
