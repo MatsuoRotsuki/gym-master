@@ -29,7 +29,8 @@ public class FeedbackController {
         return ResponseEntity.ok().body(feedbackService.getAFeedback(id));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = "application/json;charset=UTF-8",
+            produces = "application/json;charset=UTF-8")
     ResponseEntity<Feedback> update(@PathVariable Long id, @RequestBody @Valid Feedback feedback) {
         return ResponseEntity.ok().body(feedbackService.updateFeedback(id, feedback));
     }

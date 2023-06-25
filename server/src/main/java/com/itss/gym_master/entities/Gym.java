@@ -1,7 +1,5 @@
 package com.itss.gym_master.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -34,7 +32,7 @@ public class Gym {
     @Email(message = "Email must be valid email")
     private String email;
     @OneToMany(mappedBy = "gym", cascade = CascadeType.ALL)
-    private Set<Feedback> feedbacks;
+    private Set<Feedback> feedbacks = new HashSet<>();
 
     @ManyToMany
     @JoinTable(

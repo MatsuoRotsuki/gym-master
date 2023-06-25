@@ -1,9 +1,6 @@
 package com.itss.gym_master.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -11,6 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -42,12 +40,11 @@ public class Equipment {
     @ManyToMany(mappedBy = "equipments", fetch = FetchType.LAZY)
     private Set<Gym> gyms = new HashSet<>();
 
-    // @Override
-    // public boolean equals(Object equipment) {
-    //     if (equipment instanceof Equipment) {
-    //         Equipment e = (Equipment) equipment;
-    //         return e.id == this.getId();
-    //     }
-    //     return false;
-    // }
+    @Override
+    public boolean equals(Object equipment) {
+        if (equipment instanceof Equipment e) {
+            return Objects.equals(e.id, this.getId());
+        }
+        return false;
+    }
 }

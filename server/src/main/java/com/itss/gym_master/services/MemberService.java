@@ -1,20 +1,19 @@
 package com.itss.gym_master.services;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.itss.gym_master.entities.Feedback;
 import com.itss.gym_master.entities.Gym;
+import com.itss.gym_master.entities.Member;
 import com.itss.gym_master.entities.User;
 import com.itss.gym_master.exceptions.EntityNotFoundException;
 import com.itss.gym_master.repositories.FeedbackRepository;
 import com.itss.gym_master.repositories.GymRepository;
+import com.itss.gym_master.repositories.MemberRepository;
 import com.itss.gym_master.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.itss.gym_master.entities.Member;
-import com.itss.gym_master.repositories.MemberRepository;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MemberService {
@@ -112,7 +111,7 @@ public class MemberService {
         feedback.setGym(gym);
         return feedbackRepository.save(feedback);
     }
-    
+
     public Optional<Member> banMember(Long id, Member bannedMember) {
         Optional<Member> member = memberRepository.findById(id);
         if (member.isPresent()) {
