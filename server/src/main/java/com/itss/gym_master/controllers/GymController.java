@@ -51,4 +51,14 @@ public class GymController {
                 .orElseThrow(() -> new EntityNotFoundException("Could not found gym with id " + id));
         return ResponseEntity.ok().body(gym);
     }
+
+    @PutMapping(value = "/{gymId}/equipments/{equipmentId}")
+    ResponseEntity<Gym> addEquipment(@PathVariable Long gymId, @PathVariable Long equipmentId) {
+        return ResponseEntity.ok().body(gymService.addEquipments(gymId, equipmentId));
+    }
+
+    @DeleteMapping(value = "/{gymId}/equipments/{equipmentId}")
+    ResponseEntity<Gym> removeEquipment(@PathVariable Long gymId, @PathVariable Long equipmentId) {
+        return ResponseEntity.ok().body(gymService.removeEquipment(gymId, equipmentId));
+    }
 }
