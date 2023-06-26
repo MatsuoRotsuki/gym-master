@@ -37,6 +37,7 @@ public class MemberService {
             member.setHealthCondition(newMember.getHealthCondition());
             member.setIsBanned(newMember.getIsBanned());
             member.setBannedReason(newMember.getBannedReason());
+            member.setNote(newMember.getNote());
             return memberRepository.save(member);
         }).orElseGet(() -> {
             newMember.setId(id);
