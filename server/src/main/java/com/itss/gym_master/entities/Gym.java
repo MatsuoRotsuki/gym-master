@@ -1,5 +1,6 @@
 package com.itss.gym_master.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -41,6 +42,5 @@ public class Gym {
         joinColumns = @JoinColumn(name = "gymId", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "equipmentId", referencedColumnName = "id")
     )
-    @JsonManagedReference
     private Set<Equipment> equipments = new HashSet<>();
 }
