@@ -1,6 +1,6 @@
 package com.itss.gym_master.controllers;
 
-import com.itss.gym_master.entities.*;
+import com.itss.gym_master.entities.Staff;
 import com.itss.gym_master.exceptions.EntityNotFoundException;
 import com.itss.gym_master.services.StaffService;
 import jakarta.validation.Valid;

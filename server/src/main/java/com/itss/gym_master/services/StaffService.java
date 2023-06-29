@@ -1,8 +1,5 @@
 package com.itss.gym_master.services;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.itss.gym_master.entities.Staff;
 import com.itss.gym_master.entities.User;
 import com.itss.gym_master.exceptions.EntityNotFoundException;
@@ -10,6 +7,9 @@ import com.itss.gym_master.repositories.StaffRepository;
 import com.itss.gym_master.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StaffService {
