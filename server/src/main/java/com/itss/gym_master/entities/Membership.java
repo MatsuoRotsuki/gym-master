@@ -1,6 +1,9 @@
 package com.itss.gym_master.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -21,16 +24,22 @@ public class Membership {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotEmpty(message = "Name is mandatory")
     private String name;
-    @NotEmpty(message = "Monthly price is mandatory")
+
+    @Min(100000)
     private Long monthlyPrice;
+
     private String description;
-    @NotEmpty(message = "Max number of members is mandatory")
+
+    @Min(0)
+    @Max(50)
     private Integer maxNumOfMembers;
 
-    @ManyToOne
-    @JoinColumn(name = "createdBy", referencedColumnName = "id")
+    @JsonIgnoreProperties(value = {"memberships"}, allowSetters = true)
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "createdBy", referencedColumnName = "id", nullable = false)
     private Staff createdBy;
 
     @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL)

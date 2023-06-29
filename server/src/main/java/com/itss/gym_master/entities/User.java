@@ -49,7 +49,6 @@ public class User {
     private String address;
 
     @NotEmpty(message = "Phone number is mandatory")
-    @Length(min = 8, max = 10)
     private String phoneNumber;
 
     @Min(value = 1, message = "Role enum not approved")
