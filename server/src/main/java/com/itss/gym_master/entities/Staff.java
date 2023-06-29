@@ -1,10 +1,15 @@
 package com.itss.gym_master.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
 import java.util.Set;
@@ -22,17 +27,25 @@ public class Staff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotEmpty(message = "Position is mandatory")
-    private Integer role;
+
+    @NotEmpty
+    private String position;
+
     private String note;
-    @NotEmpty(message = "Hired date is mandatory")
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date hiredDate;
-    @NotEmpty(message = "Employment status is mandatory")
+
+    @Min(1)
+    @Max(3)
     private Integer employmentStatus;
-    @NotEmpty(message = "Salary is mandatory")
+
+    @Min(1000000)
     private Long salary;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = {"staff", "member"}, allowSetters = true)
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 

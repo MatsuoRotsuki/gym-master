@@ -63,4 +63,20 @@ public class MemberController {
             @RequestBody @Valid Feedback feedback) {
         return new ResponseEntity<>(memberService.createFeedback(memberId, gymId, feedback), HttpStatus.CREATED);
     }
+
+    @PatchMapping(value = "/{id}/ban", consumes = "application/json;charset=UTF-8",
+            produces = "application/json;charset=UTF-8")
+    ResponseEntity<Member> ban(@PathVariable @Valid Member bannedMember, @PathVariable Long id) {
+        Member member = memberService.banMember(id, bannedMember)
+                .orElseThrow(() -> new EntityNotFoundException("Could not found member with id " + id));
+        return ResponseEntity.ok().body(member);
+    }
+
+    @PatchMapping(value = "/{id}/unban", consumes = "application/json;charset=UTF-8",
+            produces = "application/json;charset=UTF-8")
+    ResponseEntity<Member> unban(@PathVariable Long id) {
+        Member member = memberService.unbanMember(id)
+                .orElseThrow(() -> new EntityNotFoundException("Could not found member with id " + id));
+        return ResponseEntity.ok().body(member);
+    }
 }
