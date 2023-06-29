@@ -1,6 +1,9 @@
 package com.itss.gym_master.services;
 
+import com.itss.gym_master.entities.Equipment;
 import com.itss.gym_master.entities.Gym;
+import com.itss.gym_master.exceptions.EntityNotFoundException;
+import com.itss.gym_master.repositories.EquipmentRepository;
 import com.itss.gym_master.repositories.GymRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +14,12 @@ import java.util.Optional;
 @Service
 public class GymService {
     private final GymRepository gymRepository;
+    private final EquipmentRepository equipmentRepository;
 
     @Autowired
-    public GymService(GymRepository gymRepository) {
+    public GymService(GymRepository gymRepository, EquipmentRepository equipmentRepository) {
         this.gymRepository = gymRepository;
+        this.equipmentRepository = equipmentRepository;
     }
 
     public List<Gym> getAllGyms() {
@@ -36,15 +41,36 @@ public class GymService {
             gym.setEmail(newGym.getEmail());
             gym.setHotline(newGym.getHotline());
             return gymRepository.save(gym);
-        }).orElseGet(() -> {
-            newGym.setId(id);
-            return gymRepository.save(newGym);
-        });
+        }).orElseThrow(() -> new EntityNotFoundException("Could not found gym with id " + id));
     }
 
     public Optional<Gym> removeGym(Long id) {
         Optional<Gym> gym = gymRepository.findById(id);
         gymRepository.deleteById(id);
         return gym;
+    }
+
+    public Gym addEquipments(Long gymId, Long equipmentId) {
+        Gym gym = gymRepository.findById(gymId).orElseThrow(
+                () -> new EntityNotFoundException("Could not find gym with id " + gymId)
+        );
+        Equipment e = equipmentRepository.findById(equipmentId).orElseThrow(
+            () -> new EntityNotFoundException("Could not found equipment with id " + equipmentId)
+        );
+        gym.getEquipments().add(e);
+        return gymRepository.save(gym);
+    }
+
+    public Gym removeEquipment(Long gymId, Long equipmentId) {
+        Gym gym = gymRepository.findById(gymId).orElseThrow(
+            () -> new EntityNotFoundException("Could not find gym with id " + gymId)
+        );
+
+        Equipment e = equipmentRepository.findById(equipmentId).orElseThrow(
+            () -> new EntityNotFoundException("Could not found equipment with id " + equipmentId)
+        );
+
+        gym.getEquipments().remove(e);
+        return gymRepository.save(gym);
     }
 }

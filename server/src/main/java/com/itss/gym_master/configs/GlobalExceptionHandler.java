@@ -1,5 +1,5 @@
 package com.itss.gym_master.configs;
-import com.itss.gym_master.exceptions.GymNotFoundException;
+import com.itss.gym_master.exceptions.EntityNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +24,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(GymNotFoundException.class)
-    public ResponseEntity<Map<String, List<String>>> handleNotFoundException(GymNotFoundException ex) {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<Map<String, List<String>>> handleNotFoundException(EntityNotFoundException ex) {
         List<String> errors = Collections.singletonList(ex.getMessage());
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
     }

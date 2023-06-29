@@ -1,7 +1,7 @@
 package com.itss.gym_master.controllers;
 
 import com.itss.gym_master.entities.Gym;
-import com.itss.gym_master.exceptions.GymNotFoundException;
+import com.itss.gym_master.exceptions.EntityNotFoundException;
 import com.itss.gym_master.services.GymService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class GymController {
     @GetMapping("/{id}")
     ResponseEntity<Gym> one(@PathVariable Long id) {
         Gym gym = gymService.getOneGym(id)
-                .orElseThrow(() -> new GymNotFoundException("Could not found gym with id " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Could not found gym with id " + id));
         return ResponseEntity.ok().body(gym);
     }
 
@@ -48,7 +48,17 @@ public class GymController {
     @DeleteMapping(value = "/{id}")
     ResponseEntity<Gym> remove(@PathVariable Long id) {
         Gym gym = gymService.removeGym(id)
-                .orElseThrow(() -> new GymNotFoundException("Could not found gym with id " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Could not found gym with id " + id));
         return ResponseEntity.ok().body(gym);
+    }
+
+    @PutMapping(value = "/{gymId}/equipments/{equipmentId}")
+    ResponseEntity<Gym> addEquipment(@PathVariable Long gymId, @PathVariable Long equipmentId) {
+        return ResponseEntity.ok().body(gymService.addEquipments(gymId, equipmentId));
+    }
+
+    @DeleteMapping(value = "/{gymId}/equipments/{equipmentId}")
+    ResponseEntity<Gym> removeEquipment(@PathVariable Long gymId, @PathVariable Long equipmentId) {
+        return ResponseEntity.ok().body(gymService.removeEquipment(gymId, equipmentId));
     }
 }
