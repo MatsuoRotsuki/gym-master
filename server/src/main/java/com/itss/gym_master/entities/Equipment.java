@@ -1,6 +1,7 @@
 package com.itss.gym_master.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -36,8 +37,8 @@ public class Equipment {
 
     private String description;
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "equipments", fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"equipments", "feedbacks"})
     private Set<Gym> gyms = new HashSet<>();
 
     @Override

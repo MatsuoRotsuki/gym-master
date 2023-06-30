@@ -1,6 +1,7 @@
 package com.itss.gym_master.controllers;
 
 import com.itss.gym_master.entities.Membership;
+import com.itss.gym_master.entities.Reply;
 import com.itss.gym_master.entities.Staff;
 import com.itss.gym_master.exceptions.EntityNotFoundException;
 import com.itss.gym_master.services.MembershipService;
@@ -68,5 +69,21 @@ public class StaffController {
             produces = "application/json;charset=UTF-8")
     ResponseEntity<Membership> newMembership(@RequestBody @Valid Membership newMembership, @PathVariable Long id) {
         return new ResponseEntity<>(membershipService.newMembership(newMembership, id), HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "/{staffId}/feedbacks/{feedbackId}/replies", consumes = "application/json;charset=UTF-8",
+            produces = "application/json;charset=UTF-8")
+    ResponseEntity<Reply> replyFeedback(@PathVariable Long staffId,
+                                        @PathVariable Long feedbackId,
+                                        @RequestBody @Valid Reply reply) {
+        return ResponseEntity.ok().body(staffService.replyFeedback(staffId, feedbackId, reply));
+    }
+
+    @PutMapping(value = "/{staffId}/replies/{replyId}", consumes = "application/json;charset=UTF-8",
+            produces = "application/json;charset=UTF-8")
+    ResponseEntity<Reply> editReply(@PathVariable Long staffId,
+                                    @PathVariable Long replyId,
+                                    @RequestBody Reply reply) {
+        return ResponseEntity.ok().body(staffService.editReply(staffId, replyId, reply));
     }
 }
