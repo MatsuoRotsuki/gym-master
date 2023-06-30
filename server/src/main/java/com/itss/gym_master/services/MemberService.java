@@ -128,7 +128,6 @@ public class MemberService {
             member.get().setIsBanned(false);
             member.get().setBannedReason("");
         }
-
         return member;
     }
 }

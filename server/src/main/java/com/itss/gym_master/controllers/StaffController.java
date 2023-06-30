@@ -1,7 +1,9 @@
 package com.itss.gym_master.controllers;
 
+import com.itss.gym_master.entities.Membership;
 import com.itss.gym_master.entities.Staff;
 import com.itss.gym_master.exceptions.EntityNotFoundException;
+import com.itss.gym_master.services.MembershipService;
 import com.itss.gym_master.services.StaffService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,13 @@ import java.util.List;
 @RequestMapping("api/v1/staffs")
 public class StaffController {
     private final StaffService staffService;
+    private final MembershipService membershipService;
 
     @Autowired
-    public StaffController(StaffService staffService) {
+    public StaffController(StaffService staffService,
+                           MembershipService membershipService) {
         this.staffService = staffService;
+        this.membershipService = membershipService;
     }
 
     @GetMapping()
@@ -50,5 +55,18 @@ public class StaffController {
         Staff staff = staffService.removeStaff(id)
                 .orElseThrow(() -> new EntityNotFoundException("Could not found staff with id " + id));
         return ResponseEntity.ok().body(staff);
+    }
+
+    /**
+     * Liên quan đến gói tập
+     * Thêm mới một gói tập, biết thông tin của người đang đăng nhập
+     * @param newMembership Thông tin cần thiết cho gói tập cần tạo
+     * @param id mã ID của nhân viên tạo gói tập
+     * @return Thông tin gói tập vừa tạo
+     */
+    @PostMapping(value = "/{id}/add-membership", consumes = "application/json;charset=UTF-8",
+            produces = "application/json;charset=UTF-8")
+    ResponseEntity<Membership> newMembership(@RequestBody @Valid Membership newMembership, @PathVariable Long id) {
+        return new ResponseEntity<>(membershipService.newMembership(newMembership, id), HttpStatus.CREATED);
     }
 }

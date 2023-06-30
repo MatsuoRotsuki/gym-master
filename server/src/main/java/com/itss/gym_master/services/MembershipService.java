@@ -27,11 +27,10 @@ public class MembershipService {
         return membershipRepository.findAll();
     }
 
-    public Staff newMembership(Membership newMembership, Long id) {
-        return staffRepository.findById(id).map(staff -> {
-            staff.getMemberships().add(membershipRepository.save(newMembership));
-            return staffRepository.save(staff);
-        }).orElseThrow(() -> new EntityNotFoundException("Could not found staff with id " + id));
+    public Membership newMembership(Membership newMembership, Long id) {
+        Staff createdStaff = staffRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Could not found staff with id " + id));
+        newMembership.setCreatedBy(createdStaff);
+        return membershipRepository.save(newMembership);
     }
 
     public Optional<Membership> getOneMembership(Long id) {

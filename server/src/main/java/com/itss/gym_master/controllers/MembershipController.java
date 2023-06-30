@@ -26,18 +26,18 @@ public class MembershipController {
         return ResponseEntity.ok().body(membershipService.getAllMemberships());
     }
 
-//    @PostMapping(consumes = "application/json;charset=UTF-8",
-//            produces = "application/json;charset=UTF-8")
-//    ResponseEntity<Membership> newMembership(@RequestBody @Valid Membership membership) {
-//        return new ResponseEntity<>(membershipService.newMembership(membership), HttpStatus.CREATED);
-//    }
-
     @GetMapping("/{id}")
     ResponseEntity<Membership> one(@PathVariable Long id) {
         Membership membership = membershipService.getOneMembership(id)
                 .orElseThrow(() -> new EntityNotFoundException("Could not found membership with id " + id));
         return ResponseEntity.ok().body(membership);
     }
+
+//    @PostMapping(consumes = "application/json;charset=UTF-8",
+//            produces = "application/json;charset=UTF-8")
+//    ResponseEntity<Membership> newMembership(@RequestBody @Valid Membership membership) {
+//        return new ResponseEntity<>(membershipService.newMembership(membership), HttpStatus.CREATED);
+//    }
 
     @PutMapping(value = "/{id}", consumes = "application/json;charset=UTF-8",
             produces = "application/json;charset=UTF-8")

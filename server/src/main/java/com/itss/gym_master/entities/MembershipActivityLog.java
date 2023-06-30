@@ -1,7 +1,8 @@
 package com.itss.gym_master.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -20,12 +21,12 @@ public class MembershipActivityLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Type of registration is mandatory")
+    @Min(0) //Register
+    @Max(1) //Renew
     private Integer type;
 
-    // CÁI NÀY CHƯA BIẾT NHƯ THẾ NÀO?
-    @NotEmpty(message = "Perios is mandatory")
-    private String period;
+    @Min(1)
+    private Long periodOfMonths;
 
     private String note;
 

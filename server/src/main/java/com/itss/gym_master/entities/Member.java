@@ -11,6 +11,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -48,6 +49,9 @@ public class Member {
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<MemberMembership> memberMemberships = new HashSet<>();
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private Set<Feedback> feedbacks;
+    private Set<Feedback> feedbacks = new HashSet<>();
 }

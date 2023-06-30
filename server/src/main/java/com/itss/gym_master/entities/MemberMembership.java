@@ -1,12 +1,14 @@
 package com.itss.gym_master.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-
-import java.sql.Date;
+import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Table(name = "MemberMemberships")
@@ -22,12 +24,24 @@ public class MemberMembership {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotEmpty(message = "Valid until date is mandatory")
-    private Date validUntil;
-    @NotEmpty(message = "Valid from date is mandatory")
-    private Date validFrom;
 
-    @ManyToOne
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Column(nullable = false)
+    private LocalDate validUntil;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Column(nullable = false)
+    private LocalDate validFrom;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+
+    @JsonIgnoreProperties(value = {"memberMemberships"}, allowSetters = true)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "memberId", referencedColumnName = "id")
     private Member member;
 

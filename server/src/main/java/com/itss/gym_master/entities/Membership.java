@@ -37,11 +37,12 @@ public class Membership {
     @Max(50)
     private Integer maxNumOfMembers;
 
-    @JsonIgnoreProperties(value = {"memberships"}, allowSetters = true)
+    @JsonIgnoreProperties(value = {"memberships", "membershipActivityLogs", "replies"}, allowSetters = true)
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "createdBy", referencedColumnName = "id", nullable = false)
     private Staff createdBy;
 
+    @JsonIgnoreProperties(value = {"membership"}, allowSetters = true)
     @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL)
     private Set<MemberMembership> registrations;
 }
