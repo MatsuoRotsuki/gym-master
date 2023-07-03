@@ -1,6 +1,7 @@
 package com.itss.gym_master.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
@@ -46,7 +47,7 @@ public class Staff {
     private Long salary;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties(value = {"staff", "member"}, allowSetters = true)
+    @JsonIgnore
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 

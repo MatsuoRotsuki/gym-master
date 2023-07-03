@@ -1,6 +1,8 @@
 package com.itss.gym_master.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -35,12 +37,12 @@ public class Feedback {
     private Integer stars;
     @ManyToOne()
     @JoinColumn(name = "memberId", referencedColumnName = "id")
-    @JsonIgnore
+    @JsonIgnoreProperties({"feedbacks", "user", "memberMemberships"})
     private Member member;
 
     @ManyToOne()
     @JoinColumn(name = "gymId")
-    @JsonIgnore
+    @JsonIgnoreProperties({"feedbacks", "equipments"})
     private Gym gym;
 
     @OneToMany(mappedBy = "feedback", cascade = CascadeType.ALL)

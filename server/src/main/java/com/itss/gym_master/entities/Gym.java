@@ -1,5 +1,7 @@
 package com.itss.gym_master.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -32,6 +34,7 @@ public class Gym {
     @Email(message = "Email must be valid email")
     private String email;
     @OneToMany(mappedBy = "gym", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("gym")
     private Set<Feedback> feedbacks = new HashSet<>();
 
     @ManyToMany
@@ -40,5 +43,6 @@ public class Gym {
         joinColumns = @JoinColumn(name = "gymId", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "equipmentId", referencedColumnName = "id")
     )
+    @JsonIgnoreProperties("gyms")
     private Set<Equipment> equipments = new HashSet<>();
 }
