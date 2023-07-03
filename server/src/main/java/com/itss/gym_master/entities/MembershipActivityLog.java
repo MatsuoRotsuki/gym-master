@@ -1,5 +1,6 @@
 package com.itss.gym_master.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -30,15 +31,13 @@ public class MembershipActivityLog {
 
     private String note;
 
-    @ManyToOne
-    @JoinColumn(name = "loggedBy", referencedColumnName = "id")
-    private Staff loggedBy;
-
-    @ManyToOne
+    @JsonIgnoreProperties(value = {"member", "membership", "membershipActivityLogs", "usageLogs"}, allowSetters = true)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "memberMembershipId", referencedColumnName = "id")
     private MemberMembership memberMembership;
 
-    @OneToOne
+    @JsonIgnoreProperties(value = {"membershipActivityLog"}, allowSetters = true)
+    @OneToOne()
     @JoinColumn(name = "paymentId", referencedColumnName = "id")
     private Payment payment;
 }

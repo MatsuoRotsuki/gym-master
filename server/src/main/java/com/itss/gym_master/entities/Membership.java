@@ -9,6 +9,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -37,12 +38,12 @@ public class Membership {
     @Max(50)
     private Integer maxNumOfMembers;
 
-    @JsonIgnoreProperties(value = {"memberships", "membershipActivityLogs", "replies"}, allowSetters = true)
+    @JsonIgnoreProperties(value = {"createdMemberships", "loggedPayments", "replies", "loggedUsageLogs"}, allowSetters = true)
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "createdBy", referencedColumnName = "id", nullable = false)
     private Staff createdBy;
 
     @JsonIgnoreProperties(value = {"membership"}, allowSetters = true)
     @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL)
-    private Set<MemberMembership> registrations;
+    private Set<MemberMembership> registrations = new HashSet<>();
 }

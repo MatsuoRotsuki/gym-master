@@ -1,15 +1,17 @@
 package com.itss.gym_master.services;
 
 import com.github.javafaker.Faker;
-import com.github.javafaker.Internet;
 import com.itss.gym_master.entities.*;
 import com.itss.gym_master.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -21,8 +23,11 @@ public class SeederService {
     private final MemberRepository memberRepository;
     private final StaffRepository staffRepository;
     private final MembershipRepository membershipRepository;
+    private final FeedbackRepository feedbackRepository;
+    private final MemberMembershipRepository memberMembershipRepository;
 
     public static final Faker faker = new Faker();
+    public static final Random rand = new Random();
 
     @Autowired
     public SeederService(EquipmentRepository equipmentRepository,
@@ -30,13 +35,17 @@ public class SeederService {
                          UserRepository userRepository,
                          MemberRepository memberRepository,
                          StaffRepository staffRepository,
-                         MembershipRepository membershipRepository) {
+                         MembershipRepository membershipRepository,
+                         FeedbackRepository feedbackRepository,
+                         MemberMembershipRepository memberMembershipRepository) {
         this.equipmentRepository = equipmentRepository;
         this.gymRepository = gymRepository;
         this.userRepository = userRepository;
         this.memberRepository = memberRepository;
         this.staffRepository = staffRepository;
         this.membershipRepository = membershipRepository;
+        this.feedbackRepository = feedbackRepository;
+        this.memberMembershipRepository = memberMembershipRepository;
     }
 
     public List<Gym> fakeGyms() {
@@ -68,6 +77,8 @@ public class SeederService {
 
         for (int i = 0; i < 30; i++) {
             User user = new User();
+            user.setFirstName(faker.name().firstName());
+            user.setLastName(faker.name().lastName());
             user.setAddress(faker.address().fullAddress());
             user.setGender(faker.random().nextInt(0,1));
             user.setEmail(faker.internet().emailAddress());
@@ -82,7 +93,7 @@ public class SeederService {
             newStaff.setPosition(positions.get(new Random().nextInt(positions.size())));
             newStaff.setEmploymentStatus(faker.random().nextInt(1,3));
             newStaff.setNote(faker.lorem().sentence());
-            newStaff.setHiredDate(Date.valueOf(faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
+            newStaff.setHiredDate(faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
             newStaff.setSalary(1000000L + faker.random().nextInt(0, 5000000));
             newStaff.setUser(user);
             newStaff = staffRepository.save(newStaff);
@@ -97,6 +108,8 @@ public class SeederService {
 
         for(int i = 0; i < 100; i++) {
             User user = new User();
+            user.setFirstName(faker.name().firstName());
+            user.setLastName(faker.name().lastName());
             user.setAddress(faker.address().fullAddress());
             user.setGender(faker.random().nextInt(2));
             user.setEmail(faker.internet().emailAddress());
@@ -116,5 +129,60 @@ public class SeederService {
             members.add(newMember);
         }
         return members;
+    }
+
+    public List<Feedback> fakeFeedbacks() {
+        List<Feedback> feedbacks = new ArrayList<>();
+
+        for(int i = 0; i < 100; i++) {
+            List<Member> members = memberRepository.findAll();
+            List<Gym> gyms = gymRepository.findAll();
+            Member randMember = members.get(rand.nextInt(members.size()));
+            Gym randGym = gyms.get(rand.nextInt(gyms.size()));
+
+            Feedback feedback = new Feedback();
+            feedback.setContent(faker.lorem().sentence());
+            feedback.setStars(faker.random().nextInt(1, 5));
+            feedback.setGym(randGym);
+            feedback.setMember(randMember);
+
+            //Seed Replies
+            feedbacks.add(feedbackRepository.save(feedback));
+        }
+        return feedbacks;
+    }
+
+    public List<Membership> fakeMemberships() {
+        List<Membership> memberships = new ArrayList<>();
+
+        List<Member> members = memberRepository.findAll();
+
+        List<Staff> staffs = staffRepository.findAll();
+
+        for (int i = 0; i < 10; i++) {
+            Membership membership = new Membership();
+            membership.setName("Gói fitness 1 tháng");
+            membership.setMonthlyPrice(100000 + faker.random().nextLong(100000));
+            membership.setMaxNumOfMembers(faker.random().nextInt(0, 50));
+            membership.setDescription("Goi tap luyen giup co the san chac");
+            membership.setCreatedBy(staffs.get(rand.nextInt(staffs.size())));
+
+            //Seed memberMembership
+            for(int j = 0; j < 10; j++) {
+                Member randMember = members.get(rand.nextInt(members.size()));
+                MemberMembership memberMembership = new MemberMembership();
+                memberMembership.setValidFrom(LocalDate.of(2023, 7, 3));
+                memberMembership.setValidUntil(LocalDate.of(2023, 9, 3));
+                memberMembership.setMembership(membership);
+                memberMembership.setCreatedAt(LocalDateTime.now());
+                memberMembership.setMember(randMember);
+
+                memberMembershipRepository.save(memberMembership);
+            }
+
+            memberships.add(membershipRepository.save(membership));
+        }
+
+        return memberships;
     }
 }

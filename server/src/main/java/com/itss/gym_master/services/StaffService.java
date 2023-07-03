@@ -38,6 +38,7 @@ public class StaffService {
      */
     public Staff newStaff(Staff staff) {
         User newUser = staff.getUser();
+        newUser.setRole(2);
         userRepository.save(newUser);
         return staffRepository.save(staff);
     }

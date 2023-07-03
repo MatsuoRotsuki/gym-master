@@ -49,6 +49,7 @@ public class MemberService {
      */
     public Member newMember(Member member) {
         User newUser = member.getUser();
+        newUser.setRole(3);
         userRepository.save(newUser);
         return memberRepository.save(member);
     }
@@ -112,22 +113,21 @@ public class MemberService {
         return feedbackRepository.save(feedback);
     }
 
-    public Optional<Member> banMember(Long id, Member bannedMember) {
-        Optional<Member> member = memberRepository.findById(id);
-        if (member.isPresent()) {
-            member.get().setIsBanned(true);
-            member.get().setBannedReason(bannedMember.getBannedReason());
-            memberRepository.save(member.get());
-        }
+    public Member banMember(Long id, String banReason) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Could not found member with id " + id));
+        member.setIsBanned(true);
+        member.setBannedReason(banReason);
+        memberRepository.save(member);
+
         return member;
     }
 
-    public Optional<Member> unbanMember(Long id) {
-        Optional<Member> member = memberRepository.findById(id);
-        if (member.isPresent()) {
-            member.get().setIsBanned(false);
-            member.get().setBannedReason("");
-        }
+    public Member unbanMember(Long id) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Could not found member with id " + id));
+        member.setIsBanned(false);
+        member.setBannedReason(null);
         return member;
     }
 }

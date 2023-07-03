@@ -11,7 +11,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,7 +36,7 @@ public class Staff {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date hiredDate;
+    private LocalDate hiredDate;
 
     @Min(1)
     @Max(3)
@@ -50,12 +50,7 @@ public class Staff {
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 
-    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.DETACH)
-    private Set<Membership> memberships = new HashSet<>();
-
-    @OneToMany(mappedBy = "loggedBy", cascade = CascadeType.DETACH)
-    private Set<MembershipActivityLog> membershipActivityLogs = new HashSet<>();
-
+    @JsonIgnoreProperties(value = {"staff"}, allowSetters = true)
     @OneToMany(mappedBy = "staff", cascade = CascadeType.DETACH)
     private Set<Reply> replies = new HashSet<>();
 }

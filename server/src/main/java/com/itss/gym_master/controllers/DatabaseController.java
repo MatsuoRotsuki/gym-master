@@ -1,8 +1,7 @@
 package com.itss.gym_master.controllers;
 
-import com.itss.gym_master.entities.Gym;
-import com.itss.gym_master.entities.Member;
-import com.itss.gym_master.entities.Staff;
+import com.itss.gym_master.entities.*;
+import com.itss.gym_master.services.FeedbackService;
 import com.itss.gym_master.services.SeederService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +34,15 @@ public class DatabaseController {
     @GetMapping("members/seed")
     public ResponseEntity<List<Member>> seedMembers() {
         return ResponseEntity.ok().body(seederService.fakeMembers());
+    }
+
+    @GetMapping("feedbacks/seed")
+    public ResponseEntity<List<Feedback>> seedFeedbacks() {
+        return ResponseEntity.ok().body(seederService.fakeFeedbacks());
+    }
+
+    @GetMapping("memberships/seed")
+    public ResponseEntity<List<Membership>> seedMemberships() {
+        return ResponseEntity.ok().body(seederService.fakeMemberships());
     }
 }

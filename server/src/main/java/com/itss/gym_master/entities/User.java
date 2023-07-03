@@ -26,6 +26,7 @@ import java.time.LocalDate;
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor
+@JsonIgnoreProperties(value = {"role"}, allowGetters = true)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +38,12 @@ public class User {
 
     @NotEmpty(message = "Password is mandatory")
     private String passwordDigest;
+
+    @NotEmpty(message = "First name is mandatory")
+    private String firstName;
+
+    @NotEmpty(message = "Last name is mandatory")
+    private String lastName;
 
     @Min(value = 0, message = "Gender enum not approved")
     @Max(value = 1, message = "Gender enum not approved")
@@ -51,8 +58,6 @@ public class User {
     @NotEmpty(message = "Phone number is mandatory")
     private String phoneNumber;
 
-    @Min(value = 1, message = "Role enum not approved")
-    @Max(value = 3, message = "Role enum not approved")
     private Integer role;
 
     @JsonIgnoreProperties({"user"})
