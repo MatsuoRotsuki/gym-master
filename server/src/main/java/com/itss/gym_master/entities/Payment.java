@@ -1,6 +1,7 @@
 package com.itss.gym_master.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -20,13 +21,12 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Amount of payment is mandatory")
+    @Min(100000)
     private Long amount;
 
     @NotEmpty(message = "Method of payment is mandatory")
     private String method;
 
-    private Long discount;
-
+    //Auto generated
     private String invoiceNumber;
 }

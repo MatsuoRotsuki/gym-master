@@ -1,8 +1,11 @@
 package com.itss.gym_master.controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.itss.gym_master.entities.Feedback;
 import com.itss.gym_master.entities.Member;
+import com.itss.gym_master.entities.MemberMembership;
 import com.itss.gym_master.exceptions.EntityNotFoundException;
+import com.itss.gym_master.services.MemberMembershipService;
 import com.itss.gym_master.services.MemberService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +15,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("api/v1/members")
 public class MemberController {
     public final MemberService memberService;
+    public final MemberMembershipService memberMembershipService;
 
     @Autowired
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService,
+            MemberMembershipService memberMembershipService) {
         this.memberService = memberService;
+        this.memberMembershipService = memberMembershipService;
     }
 
     @GetMapping()
@@ -28,8 +33,7 @@ public class MemberController {
         return ResponseEntity.ok().body(memberService.getAllMembers());
     }
 
-    @PostMapping(consumes = "application/json;charset=UTF-8",
-            produces = "application/json;charset=UTF-8")
+    @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     ResponseEntity<Member> postM(@RequestBody @Valid Member member) {
         return new ResponseEntity<>(memberService.newMember(member), HttpStatus.CREATED);
     }
@@ -41,8 +45,7 @@ public class MemberController {
         return ResponseEntity.ok().body(member);
     }
 
-    @PutMapping(value = "/{id}", consumes = "application/json;charset=UTF-8",
-            produces = "application/json;charset=UTF-8")
+    @PutMapping(value = "/{id}", consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     ResponseEntity<Member> edit(@RequestBody Member member, @PathVariable Long id) {
         return ResponseEntity.ok().body(memberService.editMember(id, member));
     }
@@ -54,8 +57,7 @@ public class MemberController {
         return ResponseEntity.ok().body(member);
     }
 
-    @PostMapping(value = "/{memberId}/gyms/{gymId}/feedbacks", consumes = "application/json;charset=UTF-8",
-            produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "/{memberId}/gyms/{gymId}/feedbacks", consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     ResponseEntity<Feedback> newFeedback(
             @PathVariable Long memberId,
             @PathVariable Long gymId,
@@ -63,19 +65,17 @@ public class MemberController {
         return new ResponseEntity<>(memberService.createFeedback(memberId, gymId, feedback), HttpStatus.CREATED);
     }
 
-    @PatchMapping(value = "/{id}/ban", consumes = "application/json;charset=UTF-8",
-            produces = "application/json;charset=UTF-8")
-    ResponseEntity<Member> ban(@PathVariable @Valid Member bannedMember, @PathVariable Long id) {
-        Member member = memberService.banMember(id, bannedMember)
-                .orElseThrow(() -> new EntityNotFoundException("Could not found member with id " + id));
+    @PutMapping(value = "/{id}/ban", consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
+    ResponseEntity<Member> ban(@RequestBody JsonNode jsonNode, @PathVariable Long id) {
+        String banReason = jsonNode.get("banReason").isNull() ? null : jsonNode.get("banReason").asText();
+        Member member = memberService.banMember(id, banReason);
+
         return ResponseEntity.ok().body(member);
     }
 
-    @PatchMapping(value = "/{id}/unban", consumes = "application/json;charset=UTF-8",
-            produces = "application/json;charset=UTF-8")
+    @PutMapping(value = "/{id}/unban", consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     ResponseEntity<Member> unban(@PathVariable Long id) {
-        Member member = memberService.unbanMember(id)
-                .orElseThrow(() -> new EntityNotFoundException("Could not found member with id " + id));
+        Member member = memberService.unbanMember(id);
         return ResponseEntity.ok().body(member);
     }
 }

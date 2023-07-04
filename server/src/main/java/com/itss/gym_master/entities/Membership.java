@@ -1,11 +1,15 @@
 package com.itss.gym_master.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -21,18 +25,25 @@ public class Membership {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotEmpty(message = "Name is mandatory")
     private String name;
-    @NotEmpty(message = "Monthly price is mandatory")
+
+    @Min(100000)
     private Long monthlyPrice;
+
     private String description;
-    @NotEmpty(message = "Max number of members is mandatory")
+
+    @Min(0)
+    @Max(50)
     private Integer maxNumOfMembers;
 
-    @ManyToOne
-    @JoinColumn(name = "createdBy", referencedColumnName = "id")
+    @JsonIgnoreProperties(value = {"createdMemberships", "loggedPayments", "replies", "loggedUsageLogs"}, allowSetters = true)
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "createdBy", referencedColumnName = "id", nullable = false)
     private Staff createdBy;
 
+    @JsonIgnoreProperties(value = {"membership"}, allowSetters = true)
     @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL)
-    private Set<MemberMembership> registrations;
+    private Set<MemberMembership> registrations = new HashSet<>();
 }

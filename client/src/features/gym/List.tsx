@@ -1,9 +1,9 @@
 import React from 'react'
 import { LoadingOutlined } from '@ant-design/icons'
 import DefaultLayout from '~/components/Layout/DefaultLayout'
-import useGymStore from '~/stores/GymStore'
+import useGymStore from '~/features/gym/GymStore'
 
-const Room = () => {
+const List = () => {
   const [rooms] = useGymStore(state => [state.rooms])
 
   return (
@@ -26,4 +26,4 @@ const Room = () => {
   )
 }
 
-export default Room
+export default List

@@ -1,5 +1,7 @@
 package com.itss.gym_master.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -25,9 +27,11 @@ public class Reply {
 
     @ManyToOne
     @JoinColumn(name = "postedBy", referencedColumnName = "id")
+    @JsonIgnoreProperties({"replies", "memberships", "membershipActivityLogs"})
     private Staff staff;
 
     @ManyToOne
     @JoinColumn(name = "feedbackId", referencedColumnName = "id")
+    @JsonIgnoreProperties({"replies", "gym"})
     private Feedback feedback;
 }

@@ -36,6 +36,7 @@ public class MemberService {
 
     /**
      * Lấy danh sách tất cả hội viên
+     * 
      * @return danh sách tất cả hội viên
      */
     public List<Member> getAllMembers() {
@@ -44,26 +45,31 @@ public class MemberService {
 
     /**
      * Thêm mới một hội viên
+     * 
      * @param member thông tin hội viên dùng để tạo mới
      * @return thông tin hội viên vừa được tạo mới
      */
     public Member newMember(Member member) {
         User newUser = member.getUser();
+        newUser.setRole(3);
         userRepository.save(newUser);
         return memberRepository.save(member);
     }
 
     /**
      * Lấy thông tin của một hội viên cụ thể
+     * 
      * @param id mã ID của hội viên
      * @return thông tin hội viên
      */
     public Optional<Member> getOneMember(Long id) {
         return memberRepository.findById(id);
     }
+
     /**
      * Chỉnh sửa thông tin một hội viên
-     * @param id mã ID của hội viên
+     * 
+     * @param id        mã ID của hội viên
      * @param newMember thông tin đã chỉnh sửa của hội viên
      * @return thông tin hội viên sau khi chỉnh sửa
      */
@@ -93,6 +99,7 @@ public class MemberService {
 
     /**
      * Xóa thông tin của một hội viên cụ thể
+     * 
      * @param id mã ID của hội viên
      * @return thông tin của hội viên dã xóa
      */
@@ -103,32 +110,30 @@ public class MemberService {
     }
 
     public Feedback createFeedback(Long memberId, Long gymId, Feedback feedback) {
-        Member member = memberRepository.findById(memberId).
-                orElseThrow(() -> new EntityNotFoundException("Could not found member with id: " + memberId));
-        Gym gym = gymRepository.findById(gymId).
-                orElseThrow(() -> new EntityNotFoundException("Could not found gym with id: " + gymId));
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("Could not found member with id: " + memberId));
+        Gym gym = gymRepository.findById(gymId)
+                .orElseThrow(() -> new EntityNotFoundException("Could not found gym with id: " + gymId));
         feedback.setMember(member);
         feedback.setGym(gym);
         return feedbackRepository.save(feedback);
     }
 
-    public Optional<Member> banMember(Long id, Member bannedMember) {
-        Optional<Member> member = memberRepository.findById(id);
-        if (member.isPresent()) {
-            member.get().setIsBanned(true);
-            member.get().setBannedReason(bannedMember.getBannedReason());
-            memberRepository.save(member.get());
-        }
+    public Member banMember(Long id, String banReason) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Could not found member with id " + id));
+        member.setIsBanned(true);
+        member.setBannedReason(banReason);
+        memberRepository.save(member);
+
         return member;
     }
 
-    public Optional<Member> unbanMember(Long id) {
-        Optional<Member> member = memberRepository.findById(id);
-        if (member.isPresent()) {
-            member.get().setIsBanned(false);
-            member.get().setBannedReason("");
-        }
-
+    public Member unbanMember(Long id) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Could not found member with id " + id));
+        member.setIsBanned(false);
+        member.setBannedReason(null);
         return member;
     }
 }

@@ -66,10 +66,3 @@
   width: 0;
   display: none !important;
 }
-
-.ant-color-picker-trigger,
-.ant-color-picker-color-block,
-.ant-color-picker-color-block-inner {
-  width: 15px !important;
-  height: 15px !important;
-}

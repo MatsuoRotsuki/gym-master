@@ -1,15 +1,49 @@
 import React from 'react'
+import { ToastContainer } from 'react-toastify'
+import { AnimatePresence, motion } from 'framer-motion'
+import SideBar from '../SideBar'
+import NavBar from '../NavBar'
 
 type PropsType = {
   children: React.ReactNode
 }
 
+const variants = {
+  hidden: { opacity: 0, y: 10 },
+  enter: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -10 }
+}
+
 const DefaultLayout = ({ children }: PropsType) => {
   return (
-    <div className="h-screen w-screen overflow-hidden bg-neutral-3">
-      <p className="px-8 py-2 text-2xl font-medium">Gym master</p>
-      {children}
-    </div>
+    <AnimatePresence
+      initial={true}
+      onExitComplete={() => {
+        if (typeof window !== 'undefined') {
+          window.scrollTo({ top: 0 })
+        }
+      }}
+    >
+      <div className="flex h-screen w-screen shadow-md">
+        <ToastContainer autoClose={1500} style={{ fontSize: '16px' }} />
+        <SideBar />
+
+        <div className="relative h-full grow overflow-y-auto bg-neutral-3">
+          <NavBar />
+
+          <motion.div
+            className="h-max p-3"
+            initial="hidden"
+            animate="enter"
+            exit="exit"
+            variants={variants}
+            transition={{ duration: 0.5, type: 'easeOut' }}
+          >
+            {children}
+          </motion.div>
+        </div>
+      </div>
+    </AnimatePresence>
   )
 }
 

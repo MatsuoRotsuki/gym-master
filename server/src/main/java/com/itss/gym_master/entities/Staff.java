@@ -1,6 +1,7 @@
 package com.itss.gym_master.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
@@ -11,7 +12,8 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -35,7 +37,7 @@ public class Staff {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date hiredDate;
+    private LocalDate hiredDate;
 
     @Min(1)
     @Max(3)
@@ -45,16 +47,11 @@ public class Staff {
     private Long salary;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties(value = {"staff", "member"}, allowSetters = true)
+    @JsonIgnore
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 
-    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL)
-    private Set<Membership> memberships;
-
-    @OneToMany(mappedBy = "loggedBy", cascade = CascadeType.DETACH)
-    private Set<MembershipActivityLog> membershipActivityLogs;
-
+    @JsonIgnoreProperties(value = { "staff" }, allowSetters = true)
     @OneToMany(mappedBy = "staff", cascade = CascadeType.DETACH)
-    private Set<Reply> replies;
+    private Set<Reply> replies = new HashSet<>();
 }
