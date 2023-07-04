@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { getAllGyms } from '~/lib/getAllGyms'
+import { getAllGyms } from '~/lib/gymApi'
 
 interface IGymStore {
   rooms: Room[]
