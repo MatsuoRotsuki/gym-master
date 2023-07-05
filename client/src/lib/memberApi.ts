@@ -28,3 +28,9 @@ export const updateMember = async (member: IMember) => {
     console.error('Lỗi r bé ơi >_<', error)
   }
 }
+
+export const getMemberById = async (id: string | undefined) => {
+    const response = await axiosClient.get(`members/${id}`)
+    if (!response) return
+    return response
+  }

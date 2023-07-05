@@ -63,14 +63,14 @@ const Detail = ({ equipment, isOpen, setIsOpen }: PropsType) => {
 
           <DetailWrapper className="text-base" label="Mô tả: " title={equipment.description} />
 
-          {equipment.gyms.length !== 0 && (
+          {equipment.gyms?.length !== 0 && (
             <div>
               <p className="col-span-2 text-base font-medium text-noneSelected">
                 Nằm ở phòng gym:{' '}
               </p>
 
               <div className="hidden-scroll-bar mt-2 grid max-h-[14rem] grid-cols-3 gap-1 overflow-y-auto">
-                {equipment.gyms.map((gym, index) => (
+                {equipment.gyms?.map((gym, index) => (
                   <button
                     key={`each-gym-room-${gym.id}-${index}`}
                     className=" rounded-md border border-disabled p-1 shadow-sm transition-shadow hover:shadow-xl"

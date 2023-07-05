@@ -11,7 +11,6 @@ const List = () => {
     state.currentPage,
     state.setCurrentPage
   ])
-
   return (
     <DefaultLayout title="Danh sách phòng tập">
       <ListNavBar quantity={Array.from(equipments.keys()).length} />

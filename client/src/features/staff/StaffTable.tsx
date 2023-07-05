@@ -15,9 +15,9 @@ const StaffTable = (props: any) => {
     const navigate = useNavigate()
     const total = staffs.length
 
-    const onDelete = (staffId: string) => {
+    const onDelete = (staffId: number) => {
         showDeleteConfirm({
-            title: 'Bạn có chắc chắn muốn xóa bé khỏi sự kiện này không?',
+            title: 'Bạn có chắc chắn muốn xóa nhân viên này không?',
             icon: <WarningFilled />,
             onOk: async () => {
                 try {
@@ -39,35 +39,34 @@ const StaffTable = (props: any) => {
 const columns: ColumnsType<IStaff> = [
     {
         title: 'Mã nhân viên',
-        dataIndex: 'id',
+        dataIndex: "id",
         key: 'id'
     },
     {
         title: 'Họ và tên',
-        dataIndex: ["user", "hoTen"],
         key: 'name',
-        render: (text, record) => (
+        render: (_, record) => (
             <button
                 className="transition-colors hover:text-primary"
                 onClick={() => navigate(`/nhan-vien/${record.id}`)}
             >
-                {text}
+                {`${record.firstName} ${record.lastName}`}
             </button>
         )
     },
     {
         title: 'Ngày tuyển',
-        dataIndex: ["hired_date"],
+        dataIndex: "hiredDate",
         key: 'hire_date',
     },
     {
         title: 'Vị trí',
-        dataIndex: 'position',
+        dataIndex: "position",
         key: 'position'
     },
     {
         title: 'Lương',
-        dataIndex: 'salary',
+        dataIndex:"salary",
         key: 'salary'
     },
     {

@@ -8,7 +8,7 @@ import GymCreate from './features/gym/Create'
 import GymEdit from './features/gym/Edit'
 import GymDetail from './features/gym/Detail'
 
-import StaffList from './features/staff/List'
+import StaffList from './features/staff/StaffList'
 import StaffCreate from './features/staff/Create'
 import StaffEdit from './features/staff/Edit'
 import StaffDetail from './features/staff/Detail'
@@ -36,14 +36,14 @@ function App() {
           <Route path="phong-tap">
             <Route index element={<GymList />} />
             <Route path="create" element={<GymCreate />} />
-            <Route path="edit" element={<GymEdit />} />
-            <Route path=":id" element={<GymDetail />} />
+            {/* <Route path="edit" element={<GymEdit />} /> */}
+            {/* <Route path=":id" element={<GymDetail />} /> */}
           </Route>
 
           <Route path="nhan-vien">
             <Route index element={<StaffList />} />
             <Route path="create" element={<StaffCreate />} />
-            <Route path="edit" element={<StaffEdit />} />
+            <Route path="edit/:id" element={<StaffEdit />} />
             <Route path=":id" element={<StaffDetail />} />
           </Route>
 

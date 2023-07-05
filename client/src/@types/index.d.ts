@@ -17,6 +17,9 @@ declare interface IGym {
   address: string
   hotline: string
   email: string
+  equipments: IEquipment[]
+  feedbacks: IFeedback[]
+  image: string
 }
 
 declare interface IEquipment {
@@ -28,6 +31,15 @@ declare interface IEquipment {
   gyms: IGym[]
 }
 
+declare interface IFeedback {
+  id: number,
+  content: string,
+  stars: number,
+  member: IMember
+  gym: IGym,
+  member: IMember
+}
+
 declare type EquipmentType = Map<string, IEquipment>
 
 declare interface IUser {
@@ -37,6 +49,8 @@ declare interface IUser {
 }
 
 declare interface IMember {
+  firstName: any
+  lastName: any
   id: string
   joinedDate: Date
   weight: number
@@ -63,3 +77,44 @@ declare interface IMembership {
   createdBy: IUser
   registrations: IMember[]
 }
+type IStaff = {
+  id: number
+  firstName: string,
+  lastName: string,
+  gender: number,
+  dateOfBirth: Date,
+  address: string,
+  phoneNumber: string,
+  avatar: string,
+  role: string,
+  hiredDate: Date
+  position: string
+  salary: string
+  employmentStatus: number
+  note: string
+}
+
+// type IMember = {
+//   id: string,
+//   joinDate: Date,
+//   weight: number,
+//   healthCondition: string,
+//   isBanned: boolean,
+//   bannedReason: string,
+//   note: string,
+//   user: IUser,
+//   feedbacks: IFeedbacks[]
+// }
+
+// type IUser = {
+//   id: number,
+//   email: string,
+//   firstName: string,
+//   lastName: string,
+//   gender: number,
+//   dateOfBirth: Date,
+//   address: string,
+//   phoneNumber: string,
+//   role: string,
+//   staff: IStaff
+// }

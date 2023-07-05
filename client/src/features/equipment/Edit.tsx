@@ -58,7 +58,7 @@ const Edit = ({ equipment, isOpen, setIsOpen }: PropsType) => {
         onFinish={onFinish}
         initialValues={{
           ...equipment,
-          gyms: equipment.gyms.map(gym => gym.id)
+          gyms: equipment.gyms?.map(gym => gym.id)
         }}
         autoComplete="off"
         labelCol={{ span: 6 }}

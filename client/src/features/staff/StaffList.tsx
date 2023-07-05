@@ -4,22 +4,17 @@ import React, { useEffect } from 'react'
 import HomeLayout from '~/components/Layout/HomeLayout'
 import StaffTable from './StaffTable'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useStaffStore } from '~/staffStore'
 import { useEffectOnce } from 'usehooks-ts'
+import useStaffStore from './StaffStore'
 
 interface Props {}
 
 const StaffList = () => {
     const navigate = useNavigate()
 
-    const [staffs, getAllStaff] = useStaffStore(state => [
-        state.staffs,
-        state.getAllStaff
-    ])
-
-    useEffectOnce(() => {
-        getAllStaff()
-    })
+    const [staffs] = useStaffStore(state => [
+        state.staffs
+      ])
   return (
         <HomeLayout>
             <div className="mb-2 flex min-h-full flex-col">

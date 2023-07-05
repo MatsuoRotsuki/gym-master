@@ -1,10 +1,246 @@
-import React from 'react'
+import { ExclamationCircleFilled, LoadingOutlined } from '@ant-design/icons'
+import { Button, DatePicker, Form, Input, InputNumber, Radio, Space } from 'antd'
+import Password from 'antd/es/input/Password'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { showDeleteConfirm } from '~/components/Layout/ConfirmModal'
 import DefaultLayout from '~/components/Layout/DefaultLayout'
+import SubHeader from '~/components/Layout/SubHeader'
+import useStaffStore from './StaffStore'
+import { useEffectOnce } from 'usehooks-ts'
+import moment from 'moment'
+import { AxiosError, AxiosResponse } from 'axios'
+import { toast } from 'react-toastify'
+import axiosClient from '~/lib/axiosClient'
 
 const Edit = () => {
+  const [form] = Form.useForm()
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
+  const {id} = useParams()
+  const [staff, getStaffById] = useStaffStore(state => [
+    state.staff,
+    state.getStaffById
+  ])
+  useEffectOnce(() => {
+    getStaffById(id)
+  })
+  useEffect(() => {
+    form.setFieldsValue(staff)
+  }, [form, staff])
+  const onFinish = async (values: any) => {
+    setLoading(true)
+    const ngaySinhDate = new Date(values.dateOfBirth)
+    const formattedngaySinhDate = moment(ngaySinhDate).format('YYYY-MM-DD')
+    const hiredDate = new Date(values.hiredDate)
+    const formattedHiredDate = moment(hiredDate).format('YYYY-MM-DD')
+    const request = {
+        avatar: null,
+        position: values.position,
+        note: values.note,
+        hiredDate: formattedHiredDate,
+        employmentStatus: values.employmentStatus,
+        salary: values.salary,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        gender: values.gender,
+        dateOfBirth: formattedngaySinhDate,
+        // email: values.email,
+        address: values.address,
+        phoneNumber: values.phoneNumber,
+     }
+    try {
+      const response: AxiosResponse = await axiosClient.put(
+        `/staffs/${id}`,
+        request
+      )
+      form.resetFields()
+      setTimeout(() => {
+        toast.success('Cập nhật nhân viên thành công', {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 2000,
+          toastId: 'add-staff-success'
+        })
+      }, 200)
+      navigate(`/nhan-vien`)
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const dataError: { error: string } | unknown = axiosError.response?.data
+      const dataError2 = dataError as { error: string }
+      const messageError = dataError2.error
+      toast.error(messageError ?? error, {
+        position: toast.POSITION.TOP_RIGHT
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+  console.log(staff)
   return (
     <DefaultLayout>
-      <div>Edit</div>
+      <div className="min-h-full w-full rounded-lg bg-bgPrimary px-4 py-2 shadow-md">
+       <SubHeader title={`Chỉnh sửa nhân viên`} type="create" />
+       <Form
+          form={form}
+          layout="vertical"
+          name="form_in_modal"
+          title="Thêm nhân viên"
+          initialValues={{ modifier: 'public' }}
+          className="grid auto-rows-max grid-cols-8"
+          onFinish={onFinish}
+        >
+          <div className="col-span-6 col-start-1">
+          <Form.Item
+              name="firstName"
+              label="First Name"
+              labelCol={{ span: 8 }}
+              rules={[{ required: true}]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="lastName"
+              label="Last Name"
+              labelCol={{ span: 8 }}
+              rules={[{ required: true }]}
+            >
+              <Input />
+            </Form.Item>
+            {/* <Form.Item
+              name= "email"
+              label="Email"
+              labelCol={{ span: 8 }}
+              rules={[{ required: true }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="passwordDigest"
+              label="Mật khẩu"
+              labelCol={{ span: 8 }}
+              rules={[{ required: true }]}
+            >
+              <Password />
+            </Form.Item> */}
+            <Form.Item
+              name="gender"
+              label="Giới tính"
+              labelCol={{ span: 8 }}
+              rules={[{ required: true }]}
+            >
+              <Radio.Group>
+                    {["Nam", "Nữ"].map((gender, index) => (
+                      <Radio value={index} key={index}>
+                        {gender}
+                      </Radio>
+                    ))}
+                </Radio.Group>
+            </Form.Item>
+            <Form.Item
+              name= "dateOfBirth"
+              label="Ngày sinh"
+              labelCol={{ span: 8 }}
+              rules={[{ required: true }]}
+            >
+              <DatePicker />
+            </Form.Item>
+            <Form.Item
+              name="address"
+              label="Địa chỉ"
+              labelCol={{ span: 8 }}
+              rules={[{ required: true }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="phoneNumber"
+              label="Điện thoại"
+              labelCol={{ span: 8 }}
+              rules={[{ required: true }]}
+            >
+              <Input />
+            </Form.Item>
+            {/* <Form.Item
+              name={["user", "role"]}
+              label=""
+              labelCol={{ span: 8 }}
+              rules={[{ required: true }]}
+              initialValue={2}
+              //hidden
+            >
+              <InputNumber defaultValue={2}/>
+            </Form.Item> */}
+            <Form.Item
+              name="position"
+              label="Vị trí"
+              labelCol={{ span: 8 }}
+              rules={[{ required: true }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="note"
+              label="Ghi chú"
+              labelCol={{ span: 8 }}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="hiredDate"
+              label="Ngày tuyển dụng"
+              labelCol={{ span: 8 }}
+              rules={[{ required: true }]}
+            >
+              <DatePicker />
+            </Form.Item>
+            <Form.Item
+              name="employmentStatus"
+              label="Trạng thái làm việc"
+              labelCol={{ span: 8 }}
+              rules={[{ required: true }]}
+            >
+              <Radio.Group>
+                {["Không làm", "Đang làm"].map((status, index) => (
+                    <Radio value={index} key={index}>
+                      {status}
+                    </Radio>
+                ))}
+              </Radio.Group>
+            </Form.Item>
+            <Form.Item
+              name="salary"
+              label="Lương"
+              labelCol={{ span: 8 }}
+              rules={[{ required: true }]}
+            >
+              <InputNumber addonAfter="vnd"/>
+            </Form.Item>
+          </div>
+          <Form.Item className="col-span-8 col-start-6 ms-32">
+              <Space>
+                <Button
+                  type="primary"
+                  htmlType="button"
+                  className="bg-danger"
+                  onClick={() =>
+                    showDeleteConfirm({
+                      title: 'Bạn có chắc chắn muốn hủy quá trình ?',
+                      icon: <ExclamationCircleFilled />,
+                      onOk() {
+                        navigate(-1)
+                      }
+                    })
+                  }
+                >
+                  Hủy
+                </Button>
+                <Button disabled={loading} type="primary" htmlType="submit" ghost>
+                  {loading ? <LoadingOutlined /> : 'Tạo'}
+                </Button>
+              </Space>
+            </Form.Item>
+        </Form>
+        </div>
     </DefaultLayout>
   )
 }
