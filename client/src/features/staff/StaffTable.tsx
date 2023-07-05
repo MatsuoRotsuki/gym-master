@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined, WarningFilled } from '@ant-design/icons'
-import { Space } from 'antd'
+import { Space, Tag } from 'antd'
 import Table, { ColumnsType } from 'antd/es/table'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -68,6 +68,19 @@ const columns: ColumnsType<IStaff> = [
         title: 'Lương',
         dataIndex:"salary",
         key: 'salary'
+    },
+    {
+        title: 'Trạng thái làm việc',
+        key: 'status',
+        render: (_, record) => (
+            <>
+                {record.employmentStatus === 2 ? (
+                    <Tag color="volcano">Đã ngưng làm việc</Tag>
+                  ) : (
+                    <Tag color="green">Đang làm việc</Tag>
+                )}
+            </>
+        )
     },
     {
         title: ' ',

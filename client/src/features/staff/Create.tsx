@@ -6,7 +6,7 @@ import Password from 'antd/es/input/Password'
 import { AxiosError, AxiosResponse } from 'axios'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
 import { showDeleteConfirm } from '~/components/Layout/ConfirmModal'
 import DefaultLayout from '~/components/Layout/DefaultLayout'
 import SubHeader from '~/components/Layout/SubHeader'
@@ -32,6 +32,8 @@ const Create = () => {
         ...values,
         note: values.note ?? null,
         hiredDate: formattedHiredDate,
+        ...values.user,
+        dateOfBirth: formattedngaySinhDate,
         user: {
           ...values.user,
           dateOfBirth: formattedngaySinhDate
@@ -44,7 +46,7 @@ const Create = () => {
       )
       form.resetFields()
       setTimeout(() => {
-        toast.success('Thêm bé thành công', {
+        toast.success('Thêm nhân viên thành công', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 2000,
           toastId: 'add-children-success'
@@ -77,22 +79,27 @@ const Create = () => {
           onFinish={onFinish}
         >
           <div className="col-span-6 col-start-1">
-            <Form.Item
-              name={["user", "firstName"]}
-              label="First Name"
-              labelCol={{ span: 8 }}
-              rules={[{ required: true}]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name={["user", "lastName"]}
-              label="Last Name"
-              labelCol={{ span: 8 }}
-              rules={[{ required: true }]}
-            >
-              <Input />
-            </Form.Item>
+            <div className='flex flex-row'>
+              <Form.Item
+                name={["user", "firstName"]}
+                label="First Name"
+                labelCol={{ span: 8 }}
+                rules={[{ required: true}]}
+                className='me-auto'
+                style={{width: 200}}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name={["user", "lastName"]}
+                label="Last Name"
+                labelCol={{ span: 8 }}
+                rules={[{ required: true }]}
+                style={{width: 200}}
+              >
+                <Input />
+              </Form.Item>
+            </div>
             <Form.Item
               name={["user", "email"]}
               label="Email"
@@ -153,7 +160,7 @@ const Create = () => {
               labelCol={{ span: 8 }}
               rules={[{ required: true }]}
               initialValue={2}
-              //hidden
+              hidden
             >
               <InputNumber defaultValue={2}/>
             </Form.Item>
@@ -187,8 +194,8 @@ const Create = () => {
               rules={[{ required: true }]}
             >
               <Radio.Group>
-                {["Không làm", "Đang làm"].map((status, index) => (
-                    <Radio value={index} key={index}>
+                {["Đang làm", "Không còn làm"].map((status, index) => (
+                    <Radio value={index+1} key={index+1}>
                       {status}
                     </Radio>
                 ))}
@@ -228,6 +235,7 @@ const Create = () => {
             </Form.Item>
         </Form>
         </div>
+        <ToastContainer />
     </DefaultLayout>
   )
 }

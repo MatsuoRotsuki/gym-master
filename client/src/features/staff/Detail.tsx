@@ -129,8 +129,8 @@ const Detail = () => {
                         day: 'numeric'
                       }).format(new Date(staff?.hiredDate))} />
                 <StaffInfoItem label="Trạng thái làm việc" value={
-                  !staff.employmentStatus ? (
-                    <Tag color="volcano">Đã nguưng làm việc</Tag>
+                  staff.employmentStatus === 2 ? (
+                    <Tag color="volcano">Đã ngưng làm việc</Tag>
                   ) : (
                     <Tag color="green">Đang làm việc</Tag>
                   )

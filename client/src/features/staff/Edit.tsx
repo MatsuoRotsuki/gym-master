@@ -200,8 +200,8 @@ const Edit = () => {
               rules={[{ required: true }]}
             >
               <Radio.Group>
-                {["Không làm", "Đang làm"].map((status, index) => (
-                    <Radio value={index} key={index}>
+                {["Đang làm", "Không còn làm"].map((status, index) => (
+                    <Radio value={index+1} key={index+1}>
                       {status}
                     </Radio>
                 ))}
