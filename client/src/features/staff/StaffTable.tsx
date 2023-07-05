@@ -21,16 +21,20 @@ const StaffTable = (props: any) => {
             icon: <WarningFilled />,
             onOk: async () => {
                 try {
-                    await axiosClient.delete(`v1/staffs/${staffId}/delete`)
+                    await axiosClient.delete(`/staffs/${staffId}`)
                     toast.success('Xóa nhân viên thành công', {
-                        position: toast.POSITION.TOP_RIGHT
+                        position: toast.POSITION.TOP_RIGHT,
+                        autoClose: 2000
                     })
-                    navigate(`/nhan-vien/`)
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 2000)
                 } catch (e) {
                     const err = e as Error
                     console.log(err.message)
                     toast.error((err as Error).message, {
-                        position: toast.POSITION.TOP_RIGHT
+                        position: toast.POSITION.TOP_RIGHT,
+                        autoClose: 2000
                     })
                 }
             }

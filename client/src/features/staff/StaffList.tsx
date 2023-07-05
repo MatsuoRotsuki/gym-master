@@ -6,6 +6,7 @@ import StaffTable from './StaffTable'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useEffectOnce } from 'usehooks-ts'
 import useStaffStore from './StaffStore'
+import DefaultLayout from '~/components/Layout/DefaultLayout'
 
 interface Props {}
 
@@ -16,7 +17,7 @@ const StaffList = () => {
         state.staffs
       ])
   return (
-        <HomeLayout>
+        <DefaultLayout>
             <div className="mb-2 flex min-h-full flex-col">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center justify-between">
@@ -37,7 +38,7 @@ const StaffList = () => {
                     <StaffTable staffs={staffs} />
                 </div>
             </div>
-        </HomeLayout>
+        </DefaultLayout>
   )
 }
 
