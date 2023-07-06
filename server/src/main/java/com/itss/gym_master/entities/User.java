@@ -1,8 +1,10 @@
 package com.itss.gym_master.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -34,6 +36,7 @@ public class User {
 
     @Column(unique = true)
     @Email(message = "Email must be valid email")
+    @NotEmpty(message = "Email is mandatory")
     private String email;
 
     @NotEmpty(message = "Password is mandatory")
@@ -67,6 +70,7 @@ public class User {
 
     @JsonIgnoreProperties({ "user" })
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Staff staff;
 
     @JsonIgnore
