@@ -29,3 +29,26 @@ declare interface IEquipment {
 }
 
 declare type EquipmentType = Map<string, IEquipment>
+
+declare interface IUser {
+  id: string
+  email: string
+  firstName: string
+  lastName: string
+  gender: number
+  dateOfBirth: Date
+  address: string
+  phoneNumber: string
+  role: number
+}
+
+declare interface IMember {
+  id: string
+  joinedDate: Date
+  weight: number
+  healthCondition: string
+  isBanned?: boolean
+  bannedReason?: string
+  note?: string
+  user: IUser
+}
