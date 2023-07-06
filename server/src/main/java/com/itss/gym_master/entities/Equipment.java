@@ -37,7 +37,6 @@ public class Equipment {
 
     private String description;
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "equipments", fetch = FetchType.LAZY)
     @JsonIgnoreProperties({ "equipments", "feedbacks" })
     private Set<Gym> gyms = new HashSet<>();

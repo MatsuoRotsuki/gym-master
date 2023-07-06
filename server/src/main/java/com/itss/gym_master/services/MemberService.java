@@ -36,7 +36,7 @@ public class MemberService {
 
     /**
      * Lấy danh sách tất cả hội viên
-     * 
+     *
      * @return danh sách tất cả hội viên
      */
     public List<Member> getAllMembers() {
@@ -45,7 +45,7 @@ public class MemberService {
 
     /**
      * Thêm mới một hội viên
-     * 
+     *
      * @param member thông tin hội viên dùng để tạo mới
      * @return thông tin hội viên vừa được tạo mới
      */
@@ -58,7 +58,7 @@ public class MemberService {
 
     /**
      * Lấy thông tin của một hội viên cụ thể
-     * 
+     *
      * @param id mã ID của hội viên
      * @return thông tin hội viên
      */
@@ -68,7 +68,7 @@ public class MemberService {
 
     /**
      * Chỉnh sửa thông tin một hội viên
-     * 
+     *
      * @param id        mã ID của hội viên
      * @param newMember thông tin đã chỉnh sửa của hội viên
      * @return thông tin hội viên sau khi chỉnh sửa
@@ -85,11 +85,12 @@ public class MemberService {
             User currentUser = member.getUser();
             User newUser = newMember.getUser();
             userRepository.findById(currentUser.getId()).map(user -> {
-                user.setPasswordDigest(newUser.getPasswordDigest());
                 user.setDateOfBirth(newUser.getDateOfBirth());
                 user.setGender(newUser.getGender());
                 user.setAddress(newUser.getAddress());
                 user.setPhoneNumber(newUser.getPhoneNumber());
+                user.setFirstName(newUser.getFirstName());
+                user.setLastName(newUser.getLastName());
                 return userRepository.save(user);
             });
 
@@ -99,7 +100,7 @@ public class MemberService {
 
     /**
      * Xóa thông tin của một hội viên cụ thể
-     * 
+     *
      * @param id mã ID của hội viên
      * @return thông tin của hội viên dã xóa
      */
