@@ -6,6 +6,7 @@ import NavBar from '../NavBar'
 
 type PropsType = {
   children: React.ReactNode
+  title?: string
 }
 
 const variants = {
@@ -14,7 +15,7 @@ const variants = {
   exit: { opacity: 0, y: -10 }
 }
 
-const DefaultLayout = ({ children }: PropsType) => {
+const DefaultLayout = ({ children, title }: PropsType) => {
   return (
     <AnimatePresence
       initial={true}
@@ -28,8 +29,8 @@ const DefaultLayout = ({ children }: PropsType) => {
         <ToastContainer autoClose={1500} style={{ fontSize: '16px' }} />
         <SideBar />
 
-        <div className="relative h-full grow overflow-y-auto bg-neutral-3">
-          <NavBar />
+        <div className="relative h-full grow overflow-y-auto">
+          <NavBar title={title} />
 
           <motion.div
             className="h-max p-3"

@@ -14,9 +14,7 @@ import StaffEdit from './features/staff/Edit'
 import StaffDetail from './features/staff/Detail'
 
 import EquipmentList from './features/equipment/List'
-import EquipmentCreate from './features/equipment/Create'
 import EquipmentEdit from './features/equipment/Edit'
-import EquipmentDetail from './features/equipment/Detail'
 
 import SubscriptionList from './features/subscription/List'
 import SubscriptionCreate from './features/subscription/Create'
@@ -58,9 +56,7 @@ function App() {
 
           <Route path="thiet-bi">
             <Route index element={<EquipmentList />} />
-            <Route path="create" element={<EquipmentCreate />} />
             <Route path="edit" element={<EquipmentEdit />} />
-            <Route path=":id" element={<EquipmentDetail />} />
           </Route>
 
           <Route path="hoi-vien">

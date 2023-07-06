@@ -2,10 +2,17 @@ import React from 'react'
 import AccountPopover from './AccoutPopover'
 import { SearchOutlined } from '@ant-design/icons'
 
-const NavBar = () => {
+type PropsType = {
+  title?: string
+}
+
+const NavBar = ({ title }: PropsType) => {
   return (
     <div className="sticky top-0 z-50 flex max-h-[3rem] min-h-[3rem] w-full items-center justify-between border-b-2 border-borderLine bg-bgDefault pr-4">
-      <div className="grow"></div>
+      <div className="grow">
+        <p className="px-3 text-xl font-semibold">{title}</p>
+      </div>
+
       <div className="flex items-center justify-center gap-3">
         <div className="flex items-center justify-center gap-1 rounded-md border border-disabled px-3 py-1">
           <SearchOutlined className="text-textHover" />
