@@ -1,6 +1,8 @@
 package com.itss.gym_master.controllers;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.itss.gym_master.entities.User;
+import com.itss.gym_master.services.AuthService;
 import com.itss.gym_master.services.MemberService;
 import com.itss.gym_master.services.StaffService;
 import com.itss.gym_master.services.UserService;
@@ -14,28 +16,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/v1/auth")
 public class AuthController {
-    private final MemberService memberService;
-    private final StaffService staffService;
-    private final UserService userService;
+    private final AuthService authService;
 
     @Autowired
-    public AuthController(MemberService memberService,
-                          StaffService staffService,
-                          UserService userService) {
-        this.memberService = memberService;
-        this.staffService = staffService;
-        this.userService = userService;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
-//    @PostMapping(value = "login", consumes = "application/json;charset=UTF-8",
-//            produces = "application/json;charset=UTF-8")
-//    ResponseEntity<User> login (@RequestBody User user) {
-//        return
-//    }
+    @PostMapping(value = "login", consumes = "application/json;charset=UTF-8",
+           produces = "application/json;charset=UTF-8")
+    ResponseEntity<User> login (@RequestBody ObjectNode objectNode) {
+        return ResponseEntity.ok().body(
+               authService.login(objectNode.get("email").asText(), objectNode.get("password").asText())
+        );
+    }
 
-//    @PostMapping(value = "login", consumes = "application/json;charset=UTF-8",
-//            produces = "application/json;charset=UTF-8")
-//    ResponseEntity<User> register(@RequestBody User user) {
-//
-//    }
+    @PostMapping(value = "signup", consumes = "application/json;charset=UTF-8",
+           produces = "application/json;charset=UTF-8")
+    ResponseEntity<User> signUp(@RequestBody User user) {
+        return ResponseEntity.ok().body(
+                authService.signUp(user)
+        );
+    }
 }

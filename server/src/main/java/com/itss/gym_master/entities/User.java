@@ -34,6 +34,7 @@ public class User {
 
     @Column(unique = true)
     @Email(message = "Email must be valid email")
+    @NotEmpty(message = "Email is mandatory")
     private String email;
 
     @NotEmpty(message = "Password is mandatory")
@@ -60,7 +61,7 @@ public class User {
 
     private Integer role;
 
-    @JsonIgnoreProperties({"user"})
+    @JsonIgnoreProperties({"user", "feedbacks"})
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Member member;
 

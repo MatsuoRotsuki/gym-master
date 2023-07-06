@@ -30,7 +30,7 @@ public class Member {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate joinedDate;
+    private LocalDate joinedDate = LocalDate.now();
 
     @DecimalMin("0.0")
     @DecimalMax("200.0")
