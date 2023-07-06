@@ -39,7 +39,8 @@ export default {
       'primary-5': '#40A9FF',
       'neutral-3': '#F5F5F5',
       'dust-red-3': '#FFA39E',
-      'dust-red-5': '#FF4D4F'
+      'dust-red-5': '#FF4D4F',
+      'neutral-2': '#FAFAFA'
     }
   },
   plugins: [],

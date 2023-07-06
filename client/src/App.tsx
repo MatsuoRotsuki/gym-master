@@ -56,14 +56,11 @@ function App() {
 
           <Route path="thiet-bi">
             <Route index element={<EquipmentList />} />
-            <Route path="edit" element={<EquipmentEdit />} />
           </Route>
 
           <Route path="hoi-vien">
             <Route index element={<MemberList />} />
             <Route path="create" element={<MemberCreate />} />
-            <Route path="edit" element={<MemberEdit />} />
-            <Route path=":id" element={<MemberDetail />} />
           </Route>
 
           <Route path="phan-hoi" element={<Feedback />} />

@@ -16,3 +16,35 @@ export const getAllEquipments = async () => {
     console.error('==> Toang méo chạy được rồi ><!', error)
   }
 }
+
+export const addNewEquipment = async (equipment: IEquipment) => {
+  try {
+    const response = await axiosClient.post('/equipments', equipment)
+    if (!response) return
+
+    const data = response as unknown as IEquipment
+    return data
+  } catch (error) {
+    console.error('==> Toang méo chạy được rồi ><!', error)
+  }
+}
+
+export const updateEquipment = async (equipment: IEquipment) => {
+  try {
+    const response = await axiosClient.put(`/equipments/${equipment.id}`, equipment)
+    if (!response) return
+
+    const data = response as unknown as IEquipment
+    return data
+  } catch (error) {
+    console.error('==> Toang méo chạy được rồi ><!', error)
+  }
+}
+
+export const deleteEquipment = async (id: string) => {
+  try {
+    await axiosClient.delete(`/equipments/${id}`)
+  } catch (error) {
+    console.error('==> Toang méo chạy được rồi ><!', error)
+  }
+}

@@ -52,3 +52,5 @@ declare interface IMember {
   note?: string
   user: IUser
 }
+
+declare type FilePreview = File & { preview: string }

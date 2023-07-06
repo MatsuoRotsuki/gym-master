@@ -1,6 +1,10 @@
-import React from 'react'
-import { Form, Input, Modal, Select } from 'antd'
+import React, { useState } from 'react'
+import { Button, Form, Input, Modal, Select, Space, message } from 'antd'
 import { equipmentType } from '~/app/config'
+import UploadImage from '~/components/UploadImage'
+import useEquipmentStore from './EquipmentStore'
+import { LoadingOutlined } from '@ant-design/icons'
+import useGymStore from '../gym/GymStore'
 
 type PropsType = {
   isOpen: boolean
@@ -10,7 +14,29 @@ type PropsType = {
 const Create = ({ isOpen, setIsOpen }: PropsType) => {
   const [form] = Form.useForm()
 
-  const onFinish = (values: IEquipment) => {}
+  const [rooms] = useGymStore(state => [state.rooms])
+  const [addNewEquipment] = useEquipmentStore(state => [state.addNewEquipment])
+
+  const [image, setImage] = useState<FilePreview | null | { preview: string }>(null)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const onFinish = (values: IEquipment) => {
+    if (!image) return
+    setIsLoading(true)
+
+    addNewEquipment({ ...values, gyms: [] })
+      .then(() => {
+        setIsOpen(false)
+        message.open({
+          type: 'success',
+          content: 'Thêm mới thiết bị thành công !'
+        })
+        form.resetFields()
+        setImage(null)
+      })
+      .catch(error => console.error(error))
+      .finally(() => setIsLoading(false))
+  }
 
   return (
     <Modal
@@ -22,7 +48,14 @@ const Create = ({ isOpen, setIsOpen }: PropsType) => {
       footer={[<></>]}
       centered
     >
-      <Form form={form} name="add-equipment" autoComplete="off" labelCol={{ span: 6 }}>
+      <Form
+        form={form}
+        name="add-equipment"
+        onFinish={onFinish}
+        autoComplete="off"
+        labelCol={{ span: 6 }}
+        className="custom-scroll-bar max-h-[75vh] overflow-y-auto pe-1"
+      >
         <Form.Item
           label="Tên thiết bị"
           name="name"
@@ -58,12 +91,54 @@ const Create = ({ isOpen, setIsOpen }: PropsType) => {
         </Form.Item>
 
         <Form.Item
+          label="Phòng gym"
+          name="gyms"
+          rules={[{ required: true, message: 'Hãy chọn ít nhất một phòng gym' }]}
+        >
+          <Select
+            showSearch
+            mode="multiple"
+            placeholder="Nhập họ tên người chủ hộ"
+            options={Array.from(rooms).map(room => ({
+              label: `${room.name} - ${room.address}`,
+              value: room.id
+            }))}
+            filterOption={(input, option) =>
+              (option?.label.split('-')[0] ?? '').toLowerCase().includes(input.toLowerCase())
+            }
+          />
+        </Form.Item>
+
+        <Form.Item
           label="Mô tả"
           name="description"
           rules={[{ required: true, message: 'Mô tả không được để trống' }]}
         >
           <Input.TextArea placeholder="Nhập mô tả" />
         </Form.Item>
+
+        <Form.Item label="Ảnh minh họa" required>
+          <UploadImage image={image} setImage={setImage} className="aspect-square w-[8rem]" />
+        </Form.Item>
+
+        <Space className="flex justify-end">
+          <Button
+            type="primary"
+            ghost
+            danger
+            htmlType="button"
+            onClick={() => {
+              form.resetFields()
+              setImage(null)
+              setIsOpen(false)
+            }}
+          >
+            Hủy
+          </Button>
+          <Button type="primary" ghost htmlType="submit" disabled={isLoading}>
+            {isLoading ? <LoadingOutlined className="justity-center flex items-center" /> : 'Thêm'}
+          </Button>
+        </Space>
       </Form>
     </Modal>
   )

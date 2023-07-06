@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Button } from 'antd'
 import Create from './Create'
 
@@ -15,6 +15,7 @@ const ListNavBar = ({ quantity }: PropsType) => {
         <p className="text-xl font-medium">
           <span className="text-3xl">{quantity}</span> thiết bị
         </p>
+
         <Button type="primary" ghost onClick={() => setIsOpen(true)}>
           Thêm thiết bị
         </Button>
