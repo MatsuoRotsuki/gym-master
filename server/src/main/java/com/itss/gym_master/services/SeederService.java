@@ -77,14 +77,9 @@ public class SeederService {
 
         for (int i = 0; i < 30; i++) {
             User user = new User();
-            user.setFirstName(faker.name().firstName());
-            user.setLastName(faker.name().lastName());
-            user.setAddress(faker.address().fullAddress());
-            user.setGender(faker.random().nextInt(0, 1));
+
             user.setEmail(faker.internet().emailAddress());
             user.setPasswordDigest(faker.internet().password());
-            user.setDateOfBirth(faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-            user.setPhoneNumber(faker.phoneNumber().cellPhone());
             user.setRole(2);
             user = userRepository.save(user);
 
@@ -96,6 +91,12 @@ public class SeederService {
             newStaff.setHiredDate(faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
             newStaff.setSalary(1000000L + faker.random().nextInt(0, 5000000));
             newStaff.setUser(user);
+            newStaff.setFirstName(faker.name().firstName());
+            newStaff.setLastName(faker.name().lastName());
+            newStaff.setAddress(faker.address().fullAddress());
+            newStaff.setGender(faker.random().nextInt(0, 1));
+            newStaff.setDateOfBirth(faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            newStaff.setPhoneNumber(faker.phoneNumber().cellPhone());
             newStaff = staffRepository.save(newStaff);
             staffs.add(newStaff);
         }
@@ -108,14 +109,8 @@ public class SeederService {
 
         for (int i = 0; i < 100; i++) {
             User user = new User();
-            user.setFirstName(faker.name().firstName());
-            user.setLastName(faker.name().lastName());
-            user.setAddress(faker.address().fullAddress());
-            user.setGender(faker.random().nextInt(2));
             user.setEmail(faker.internet().emailAddress());
             user.setPasswordDigest(faker.internet().password());
-            user.setDateOfBirth(faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-            user.setPhoneNumber(faker.phoneNumber().cellPhone());
             user.setRole(3);
             userRepository.save(user);
 
@@ -125,6 +120,12 @@ public class SeederService {
             newMember.setNote(faker.lorem().sentence());
             newMember.setHealthCondition(faker.lorem().sentence());
             newMember.setUser(user);
+            newMember.setFirstName(faker.name().firstName());
+            newMember.setLastName(faker.name().lastName());
+            newMember.setAddress(faker.address().fullAddress());
+            newMember.setGender(faker.random().nextInt(0, 1));
+            newMember.setDateOfBirth(faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            newMember.setPhoneNumber(faker.phoneNumber().cellPhone());
             newMember = memberRepository.save(newMember);
             members.add(newMember);
         }

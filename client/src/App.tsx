@@ -61,6 +61,8 @@ function App() {
           <Route path="hoi-vien">
             <Route index element={<MemberList />} />
             <Route path="create" element={<MemberCreate />} />
+            {/* <Route path="edit" element={<MemberEdit />} />
+            <Route path=":id" element={<MemberDetail />} /> */}
           </Route>
 
           <Route path="phan-hoi" element={<Feedback />} />

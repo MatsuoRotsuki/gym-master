@@ -32,10 +32,8 @@ public class UserService {
     public User editUser(Long id, User newUser) {
         return userRepository.findById(id).map(user -> {
             user.setEmail(newUser.getEmail());
-            user.setGender(newUser.getGender());
             user.setPasswordDigest(newUser.getPasswordDigest());
             user.setRole(newUser.getRole());
-            user.setDateOfBirth(newUser.getDateOfBirth());
             return userRepository.save(user);
         }).orElseGet(() -> {
             newUser.setId(id);

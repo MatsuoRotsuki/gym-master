@@ -33,6 +33,27 @@ public class Staff {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message = "First name is mandatory")
+    private String firstName;
+
+    @NotEmpty(message = "First name is mandatory")
+    private String lastName;
+
+    @Min(value = 0, message = "Gender enum not approved")
+    @Max(value = 1, message = "Gender enum not approved")
+    private Integer gender;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateOfBirth;
+
+    private String address;
+
+    @NotEmpty(message = "Phone number is mandatory")
+    private String phoneNumber;
+
+    private String avatar;
+
     @NotEmpty
     private String position;
 
@@ -51,7 +72,7 @@ public class Staff {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId", referencedColumnName = "id")
-    @JsonBackReference
+    @JsonBackReference(value = "manageStaff")
     private User user;
 
     @JsonIgnoreProperties(value = { "staff" }, allowSetters = true)

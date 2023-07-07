@@ -79,17 +79,13 @@ public class StaffService {
             staff.setHiredDate(newStaff.getHiredDate());
             staff.setEmploymentStatus(newStaff.getEmploymentStatus());
             staff.setSalary(newStaff.getSalary());
-
-            User newUser = newStaff.getUser();
-            User currentUser = staff.getUser();
-            userRepository.findById(currentUser.getId()).map(user -> {
-                user.setPasswordDigest(newUser.getPasswordDigest());
-                user.setDateOfBirth(newUser.getDateOfBirth());
-                user.setGender(newUser.getGender());
-                user.setAddress(newUser.getAddress());
-                user.setPhoneNumber(newUser.getPhoneNumber());
-                return userRepository.save(user);
-            });
+            staff.setFirstName(newStaff.getFirstName());
+            staff.setLastName(newStaff.getLastName());
+            staff.setAddress(newStaff.getAddress());
+            staff.setPhoneNumber(newStaff.getPhoneNumber());
+            staff.setDateOfBirth(newStaff.getDateOfBirth());
+            staff.setGender(newStaff.getGender());
+            staff.setAvatar(newStaff.getAvatar());
 
             return staffRepository.save(staff);
         }).orElseThrow(() -> new EntityNotFoundException("Could not found staff with id " + id));

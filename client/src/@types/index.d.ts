@@ -54,3 +54,12 @@ declare interface IMember {
 }
 
 declare type FilePreview = File & { preview: string }
+declare interface IMembership {
+  id: string
+  name: string
+  monthlyPrice: number
+  description: string
+  maxNumOfMembers: number
+  createdBy: IUser
+  registrations: IMember[]
+}

@@ -81,18 +81,13 @@ public class MemberService {
             member.setIsBanned(newMember.getIsBanned());
             member.setBannedReason(newMember.getBannedReason());
             member.setNote(newMember.getNote());
-
-            User currentUser = member.getUser();
-            User newUser = newMember.getUser();
-            userRepository.findById(currentUser.getId()).map(user -> {
-                user.setDateOfBirth(newUser.getDateOfBirth());
-                user.setGender(newUser.getGender());
-                user.setAddress(newUser.getAddress());
-                user.setPhoneNumber(newUser.getPhoneNumber());
-                user.setFirstName(newUser.getFirstName());
-                user.setLastName(newUser.getLastName());
-                return userRepository.save(user);
-            });
+            member.setFirstName(newMember.getFirstName());
+            member.setLastName(newMember.getLastName());
+            member.setAddress(newMember.getAddress());
+            member.setAvatar(newMember.getAvatar());
+            member.setDateOfBirth(newMember.getDateOfBirth());
+            member.setPhoneNumber(newMember.getPhoneNumber());
+            member.setGender(newMember.getGender());
 
             return memberRepository.save(member);
         }).orElseThrow(() -> new EntityNotFoundException("Could not found member with id " + id));

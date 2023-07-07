@@ -42,34 +42,16 @@ public class User {
     @NotEmpty(message = "Password is mandatory")
     private String passwordDigest;
 
-    @NotEmpty(message = "First name is mandatory")
-    private String firstName;
-
-    @NotEmpty(message = "Last name is mandatory")
-    private String lastName;
-
-    @Min(value = 0, message = "Gender enum not approved")
-    @Max(value = 1, message = "Gender enum not approved")
-    private Integer gender;
-
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dateOfBirth;
-
-    private String address;
-
-    @NotEmpty(message = "Phone number is mandatory")
-    private String phoneNumber;
-
     private Integer role;
 
     @JsonIgnoreProperties({ "user" })
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "manageMember")
     private Member member;
 
     @JsonIgnoreProperties({ "user" })
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value = "manageStaff")
     private Staff staff;
 
     @JsonIgnore

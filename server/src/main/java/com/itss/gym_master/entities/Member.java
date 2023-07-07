@@ -1,10 +1,10 @@
 package com.itss.gym_master.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -32,6 +32,27 @@ public class Member {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate joinedDate = LocalDate.now();
 
+    @NotEmpty(message = "First name is mandatory")
+    private String firstName;
+
+    @NotEmpty(message = "First name is mandatory")
+    private String lastName;
+
+    @Min(value = 0, message = "Gender enum not approved")
+    @Max(value = 1, message = "Gender enum not approved")
+    private Integer gender;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateOfBirth;
+
+    private String address;
+
+    @NotEmpty(message = "Phone number is mandatory")
+    private String phoneNumber;
+
+    private String avatar;
+
     @DecimalMin("0.0")
     @DecimalMax("200.0")
     private Double weight;
@@ -45,7 +66,7 @@ public class Member {
     private String note;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = { "member", "staff" }, allowSetters = true)
+    @JsonBackReference(value = "manageMember")
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 

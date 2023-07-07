@@ -114,15 +114,15 @@ class StaffServiceTest {
         newStaff.setNote("None");
         newStaff.setSalary(10000000L);
         newStaff.setEmploymentStatus(2);
+        newStaff.setDateOfBirth(LocalDate.now());
+        newStaff.setGender(1);
+        newStaff.setAddress("Ha Noi, Viet nam");
+        newStaff.setPhoneNumber("0345678912");
         //newStaff.setHiredDate();
 
         // create new user
         User newUser = new User();
         newUser.setPasswordDigest("1223456789@");
-        newUser.setDateOfBirth(LocalDate.now());
-        newUser.setGender(1);
-        newUser.setAddress("Ha Noi, Viet nam");
-        newUser.setPhoneNumber("0345678912");
 
         newStaff.setUser(newUser);
 
@@ -139,12 +139,11 @@ class StaffServiceTest {
         Assertions.assertEquals(newStaff.getNote(), updatedStaff.getNote());
         Assertions.assertEquals(newStaff.getSalary(), updatedStaff.getSalary());
         Assertions.assertEquals(newStaff.getEmploymentStatus(), updatedStaff.getEmploymentStatus());
+        Assertions.assertEquals(newStaff.getDateOfBirth(), updatedStaff.getDateOfBirth());
+        Assertions.assertEquals(newStaff.getAddress(), updatedStaff.getAddress());
+        Assertions.assertEquals(newStaff.getPhoneNumber(), updatedStaff.getPhoneNumber());
 
         Assertions.assertEquals(newUser.getPasswordDigest(), updatedStaff.getUser().getPasswordDigest());
-        Assertions.assertEquals(newUser.getDateOfBirth(), updatedStaff.getUser().getDateOfBirth());
-        Assertions.assertEquals(newUser.getAddress(), updatedStaff.getUser().getAddress());
-        Assertions.assertEquals(newUser.getPasswordDigest(), updatedStaff.getUser().getPasswordDigest());
-        Assertions.assertEquals(newUser.getPhoneNumber(), updatedStaff.getUser().getPhoneNumber());
     }
 
     @Test
