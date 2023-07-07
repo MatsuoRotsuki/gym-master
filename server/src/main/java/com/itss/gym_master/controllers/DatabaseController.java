@@ -21,28 +21,13 @@ public class DatabaseController {
         this.seederService = seederService;
     }
 
-    @GetMapping("gyms/seed")
-    public ResponseEntity<List<Gym>> seedGyms() {
-        return ResponseEntity.ok().body(seederService.fakeGyms());
-    }
-
-    @GetMapping("staffs/seed")
-    public ResponseEntity<List<Staff>> seedStaffs() {
-        return ResponseEntity.ok().body(seederService.fakeStaffs());
-    }
-
-    @GetMapping("members/seed")
-    public ResponseEntity<List<Member>> seedMembers() {
-        return ResponseEntity.ok().body(seederService.fakeMembers());
-    }
-
-    @GetMapping("feedbacks/seed")
-    public ResponseEntity<List<Feedback>> seedFeedbacks() {
-        return ResponseEntity.ok().body(seederService.fakeFeedbacks());
-    }
-
-    @GetMapping("memberships/seed")
-    public ResponseEntity<List<Membership>> seedMemberships() {
-        return ResponseEntity.ok().body(seederService.fakeMemberships());
+    @GetMapping("seed")
+    public ResponseEntity<String> seed() {
+        seederService.fakeMembers();
+        seederService.fakeStaffs();
+        seederService.fakeGyms();
+        seederService.fakeMemberships();
+        seederService.fakeFeedbacks();
+        return ResponseEntity.ok().body("Success :))))");
     }
 }
