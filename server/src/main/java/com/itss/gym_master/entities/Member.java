@@ -74,5 +74,6 @@ public class Member {
     private Set<MemberMembership> memberMemberships = new HashSet<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"member"})
     private Set<Feedback> feedbacks = new HashSet<>();
 }
