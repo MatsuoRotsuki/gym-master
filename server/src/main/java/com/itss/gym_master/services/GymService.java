@@ -40,6 +40,7 @@ public class GymService {
             gym.setAddress(newGym.getAddress());
             gym.setEmail(newGym.getEmail());
             gym.setHotline(newGym.getHotline());
+            gym.setImage(newGym.getImage());
             return gymRepository.save(gym);
         }).orElseThrow(() -> new EntityNotFoundException("Could not found gym with id " + id));
     }

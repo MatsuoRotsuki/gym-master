@@ -33,6 +33,7 @@ public class Gym {
     private String hotline;
     @Email(message = "Email must be valid email")
     private String email;
+    private String image;
     @OneToMany(mappedBy = "gym", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("gym")
     private Set<Feedback> feedbacks = new HashSet<>();

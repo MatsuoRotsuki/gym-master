@@ -39,6 +39,7 @@ public class EquipmentService {
             e.setType(equipment.getType());
             e.setManufacturer(equipment.getManufacturer());
             e.setDescription(equipment.getDescription());
+            e.setImage(equipment.getImage());
             return equipmentRepository.save(e);
         }).orElseThrow(() -> new EntityNotFoundException("Could not find equipment with id " + id));
     }
