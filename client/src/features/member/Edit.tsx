@@ -15,22 +15,22 @@ const Edit = ({ member, isOpen, setIsOpen }: PropsType) => {
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
-  const [isBanned, setIsBanned] = React.useState<boolean>(member.isBanned ?? false)
+  const [isBanned, setIsBanned] = React.useState<boolean>(member.isBanned as boolean)
 
   const [updateMember] = useMemberStore(state => [state.updateMember])
 
   const onFinish = async (values: any) => {
     setIsLoading(true)
     member = { ...member, ...values, isBanned }
-    member.user.firstName = values.firstName
-    member.user.lastName = values.lastName
-    console.log(member)
+    let error = false
     try {
       updateMember(member)
     } catch (error) {
+      error = true
       console.log('Lỗi r bé ơi', error)
     } finally {
       setIsLoading(false)
+      if (!error) setIsOpen(false)
     }
   }
 
@@ -76,8 +76,6 @@ const Edit = ({ member, isOpen, setIsOpen }: PropsType) => {
       <Form
         form={form}
         initialValues={{
-          lastName: member.user.lastName,
-          firstName: member.user.firstName,
           ...member
         }}
         onFinish={onFinish}

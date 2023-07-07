@@ -11,7 +11,7 @@ interface IMemberStore {
 
 const useMemberStore = create<IMemberStore>((set, get) => ({
   members: new Map<string, IMember>(),
-  currentPage: { page: 1, offset: 8 },
+  currentPage: { page: 1, offset: 6 },
   getAllMembers: async () => {
     const data = await getAllMembers()
     if (!data) return
@@ -25,7 +25,7 @@ const useMemberStore = create<IMemberStore>((set, get) => ({
     const members = get().members
     members.set(member.id, member)
 
-    set({ members })
+    set({ members: members })
   }
 }))
 

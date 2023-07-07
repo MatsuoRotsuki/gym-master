@@ -33,12 +33,6 @@ declare type EquipmentType = Map<string, IEquipment>
 declare interface IUser {
   id: string
   email: string
-  firstName: string
-  lastName: string
-  gender: number
-  dateOfBirth: Date
-  address: string
-  phoneNumber: string
   role: number
 }
 
@@ -50,7 +44,13 @@ declare interface IMember {
   isBanned?: boolean
   bannedReason?: string
   note?: string
-  user: IUser
+  firstName: string
+  lastName: string
+  gender: number
+  dateOfBirth: Date
+  address: string
+  phoneNumber: string
+  avatar?: string
 }
 
 declare type FilePreview = File & { preview: string }

@@ -1,43 +1,37 @@
-import React, { useCallback, useState } from 'react'
-import { Button, Tag } from 'antd'
-import Detail from './Detail'
-import { EditOutlined } from '@ant-design/icons'
-import Edit from './Edit'
+import { Avatar, Tag } from 'antd'
+import React from 'react'
 
 type PropsType = {
   member: IMember
+  setCurrentMember: React.Dispatch<React.SetStateAction<IMember>>
+  className?: string
 }
 
-const MemberCard = ({ member }: PropsType) => {
-  const [isDetailOpened, setIsDetailOpened] = useState<boolean>(false)
-  const [isUpdateOpened, setIsUpdateOpened] = useState<boolean>(false)
-
+function MemberCard({ member, setCurrentMember, className }: PropsType) {
   return (
-    <div className="relative rounded border border-cartBorder text-start shadow-sm transition-shadow hover:shadow-2xl">
-      <button onClick={() => setIsDetailOpened(true)}>
-        <img
-          src="https://cali.vn/storage/app/media/old/Calipso-NganPham/gymer-insta/cropped-images/gymer-insta-5-0-0-0-0-1546234815.jpg"
-          alt="equipment image"
-          className="aspect-square w-full rounded-t object-cover"
-        />
-
-        <div className="px-3 py-2">
-          <p className="text-lg font-semibold">{`${member.user.firstName} ${member.user.lastName}`}</p>
-          <p className="text-gray-500 text-sm">{member.healthCondition}</p>
-        </div>
-      </button>
-      <Tag className="absolute left-2 top-2" color={member.isBanned ? 'volcano' : 'green'}>
-        {member.isBanned ? 'Đã bị khóa' : 'Đang hoạt động'}
-      </Tag>
-      <Button
-        className="absolute right-0 top-0 border-none"
-        type="primary"
-        ghost
-        icon={<EditOutlined />}
-        onClick={() => setIsUpdateOpened(true)}
+    <div
+      className={`flex items-start justify-start gap-2 p-4 hover:bg-bgSecondary ${className}`}
+      onClick={() => setCurrentMember(member)}
+    >
+      <Avatar
+        shape="square"
+        size={64}
+        src={
+          member.avatar ??
+          'https://cali.vn/storage/app/media/old/Calipso-NganPham/gymer-insta/cropped-images/gymer-insta-5-0-0-0-0-1546234815.jpg'
+        }
       />
-      <Detail isOpen={isDetailOpened} setIsOpen={setIsDetailOpened} member={member}></Detail>
-      <Edit isOpen={isUpdateOpened} setIsOpen={setIsUpdateOpened} member={member}></Edit>
+      <div className="w-full">
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-lg">{`${member.firstName} ${member.lastName}`}</p>
+          {member.isBanned ? (
+            <Tag color="volcano">Đã bị khóa</Tag>
+          ) : (
+            <Tag color="green">Đang hoạt động</Tag>
+          )}
+        </div>
+        <p className="text-noneSelected">{`Sức khỏe tốt`}</p>
+      </div>
     </div>
   )
 }

@@ -7,6 +7,7 @@ import NavBar from '../NavBar'
 type PropsType = {
   children: React.ReactNode
   title?: string
+  style?: string
 }
 
 const variants = {
@@ -20,7 +21,7 @@ const variants = {
   exit: { opacity: 0, x: -0, y: -10 }
 }
 
-const DefaultLayout = ({ children, title }: PropsType) => {
+const DefaultLayout = ({ children, title, style }: PropsType) => {
   return (
     <AnimatePresence
       initial={true}
@@ -38,7 +39,7 @@ const DefaultLayout = ({ children, title }: PropsType) => {
           <NavBar title={title} />
 
           <motion.div
-            className="h-max p-3"
+            className={`h-max ${style ?? 'p-3'}`}
             initial="hidden"
             animate="enter"
             exit="exit"

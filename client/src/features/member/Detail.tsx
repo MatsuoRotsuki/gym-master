@@ -1,79 +1,97 @@
+import { Avatar, Button, Empty, Space, Tabs, TabsProps, Tag } from 'antd'
 import React from 'react'
-import { Modal, Tag } from 'antd'
+import Edit from './Edit'
+import { InfoCircleOutlined } from '@ant-design/icons'
+import { genderType } from '~/app/config'
 
 type PropsType = {
   member: IMember
-  isOpen: boolean
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 type DetailWrapperPropsType = {
   label: string
-  title: React.ReactNode
-  className?: string
+  value: React.ReactNode
+  icon?: React.ReactNode
 }
 
-const DetailWrapper = ({ label, title, className }: DetailWrapperPropsType) => {
+const DetailWrapper = ({ label, value }: DetailWrapperPropsType) => {
   return (
-    <div className={`grid w-full grid-cols-5 items-end font-medium ${className}`}>
-      <p className="col-span-2 text-base text-noneSelected">{label}</p>
-      <div className="col-span-3">{title}</div>
+    <div className="flex flex-col justify-start">
+      <p className="text-base font-semibold">{label}</p>
+      <p className="text-base text-noneSelected">{value}</p>
     </div>
   )
 }
 
-const Detail = ({ isOpen, setIsOpen, member }: PropsType) => {
+const MemberInfo = ({ member }: PropsType) => {
   return (
-    <Modal
-      open={isOpen}
-      onCancel={() => setIsOpen(false)}
-      onOk={() => {
-        setIsOpen(false)
-      }}
-      footer={[<></>]}
-      centered
-      width={880}
-    >
-      <div className="flex items-start justify-start gap-4">
-        <img
-          src="https://cali.vn/storage/app/media/old/Calipso-NganPham/gymer-insta/cropped-images/gymer-insta-5-0-0-0-0-1546234815.jpg"
-          alt="member-image"
-          className="aspect-square w-[25rem] rounded-md object-contain"
+    <div className="flex items-start justify-start gap-4">
+      <img
+        src="https://cali.vn/storage/app/media/old/Calipso-NganPham/gymer-insta/cropped-images/gymer-insta-5-0-0-0-0-1546234815.jpg"
+        alt="member-image"
+        className="aspect-square w-[20rem] rounded-md object-contain"
+      />
+      <div className="grid w-full grid-cols-2 gap-4">
+        <DetailWrapper label="Họ và tên" value={`${member.firstName} ${member.lastName}`} />
+        <DetailWrapper label="Giới tính" value={genderType[member.gender]} />
+        <DetailWrapper
+          label="Ngày sinh"
+          value={new Date(member.dateOfBirth).toLocaleDateString('vi-VN')}
         />
-        <div className="flex w-full flex-col items-start justify-start gap-2">
-          <DetailWrapper
-            className="text-xl"
-            label="Họ và tên"
-            title={`${member.user.firstName} ${member.user.lastName}`}
-          />
-          <DetailWrapper className="text-xl" label="Sức khỏe" title={`Sức khỏe tốt`} />
-          <DetailWrapper
-            className="text-xl"
-            label="Tham gia từ"
-            title={new Date(member.joinedDate).toLocaleDateString('vi-VN')}
-          />
-          <DetailWrapper
-            className="text-xl"
-            label="Cân nặng"
-            title={`${member.weight.toFixed(2)} kg`}
-          />
-          <DetailWrapper
-            className="text-xl"
-            label="Tình trạng"
-            title={
-              member.isBanned ? (
+        <DetailWrapper label="Số điện thoại" value={member.phoneNumber} />
+        <DetailWrapper label="Sức khỏe" value={`Sức khỏe tốt`} />
+        <DetailWrapper
+          label="Tham gia từ"
+          value={new Date(member.joinedDate).toLocaleDateString('vi-VN')}
+        />
+        <DetailWrapper label="Cân nặng" value={`${member.weight.toFixed(2)} kg`} />
+        {member.isBanned && <DetailWrapper label="Lý do bị khóa" value={member.bannedReason} />}
+      </div>
+    </div>
+  )
+}
+
+function Detail({ member }: PropsType) {
+  const [isOpen, setIsOpen] = React.useState<boolean>(false)
+
+  const items: TabsProps['items'] = [
+    {
+      key: 'thong-tin',
+      label: 'Thông tin',
+      children: <MemberInfo member={member} />
+    },
+    {
+      key: 'memberMembership',
+      label: 'Gói tập đã đăng ký',
+      children: <div>Gói tập đã đăng ký</div>
+    }
+  ]
+
+  return (
+    <div className="w-full p-4">
+      {Object.keys(member).length > 0 ? (
+        <>
+          <div className="flex items-start justify-between">
+            <div className="flex items-center justify-start gap-4">
+              <p className="text-2xl font-medium">{`${member.firstName} ${member.lastName}`}</p>
+              {member.isBanned ? (
                 <Tag color="volcano">Đã bị khóa</Tag>
               ) : (
                 <Tag color="green">Đang hoạt động</Tag>
-              )
-            }
-          />
-          {member.isBanned && (
-            <DetailWrapper className="text-xl" label="Lý do" title={member.bannedReason} />
-          )}
-        </div>
-      </div>
-    </Modal>
+              )}
+            </div>
+            <Button ghost type="primary" onClick={() => setIsOpen(true)}>
+              Chỉnh sửa
+            </Button>
+            <Edit member={member} isOpen={isOpen} setIsOpen={setIsOpen} />
+          </div>
+          <p className="text-base text-noneSelected">{member.address}</p>
+          <Tabs defaultActiveKey="1" items={items}></Tabs>
+        </>
+      ) : (
+        <Empty />
+      )}
+    </div>
   )
 }
 
