@@ -52,7 +52,7 @@ class StaffServiceTest {
     void newStaff() {
         Staff staff = new Staff();
         User user = new User();
-        user.setRole(1);
+        user.setRole(2);
         staff.setUser(user);
 
         // Mock the behavior of the userRepository.save() and staffRepository.save() methods
