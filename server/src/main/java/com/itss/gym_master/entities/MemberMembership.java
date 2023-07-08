@@ -42,7 +42,7 @@ public class MemberMembership {
 
     private Boolean hasActivated = false;
 
-    @JsonIgnoreProperties(value = {"memberMemberships" , "feedbacks"}, allowSetters = true)
+    @JsonIgnoreProperties(value = {"memberMemberships", "feedbacks"}, allowSetters = true)
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "memberId", referencedColumnName = "id")
     private Member member;

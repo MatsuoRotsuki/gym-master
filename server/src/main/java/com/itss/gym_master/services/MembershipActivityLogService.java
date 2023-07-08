@@ -56,19 +56,17 @@ public class MembershipActivityLogService {
             {
                 targetedMemberMembership.setValidFrom(LocalDate.now());
                 targetedMemberMembership.setValidUntil(LocalDate.now().plusMonths(targetedLog.getPeriodOfMonths()));
-            }else if (targetedLog.getType() == 1) //Renew
+            } else if (targetedLog.getType() == 1) //Renew
             {
                 LocalDate currentValidUntil = targetedMemberMembership.getValidUntil();
-                if (currentValidUntil.isBefore(LocalDate.now()))
-                {
+                if (currentValidUntil.isBefore(LocalDate.now())) {
                     //Expired
                     LocalDate newValidFrom = LocalDate.now();
                     targetedMemberMembership.setValidFrom(newValidFrom);
                     LocalDate newValidUntil = newValidFrom.plusMonths(targetedLog.getPeriodOfMonths());
 
                     targetedMemberMembership.setValidUntil(newValidUntil);
-                }
-                else {
+                } else {
                     //Not expired
                     LocalDate newValidUntil = currentValidUntil.plusMonths(targetedLog.getPeriodOfMonths());
                     targetedMemberMembership.setValidUntil(newValidUntil);
@@ -77,8 +75,7 @@ public class MembershipActivityLogService {
             memberMembershipRepository.save(targetedMemberMembership);
 
             return membershipActivityLogRepository.save(targetedLog);
-        }
-        else {
+        } else {
             //Throw exception: số tiền bạn nhập không đủ thanh toán cho hoạt động này.
             throw new NotEnoughRequiredAmountException("Not enough amount for this activity. Required amount is " + requiredAmount + " but inputed is " + payment.getAmount() + ". Abort");
         }

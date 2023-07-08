@@ -4,14 +4,12 @@ import com.github.javafaker.Faker;
 import com.itss.gym_master.entities.*;
 import com.itss.gym_master.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -31,13 +29,13 @@ public class SeederService {
 
     @Autowired
     public SeederService(EquipmentRepository equipmentRepository,
-            GymRepository gymRepository,
-            UserRepository userRepository,
-            MemberRepository memberRepository,
-            StaffRepository staffRepository,
-            MembershipRepository membershipRepository,
-            FeedbackRepository feedbackRepository,
-            MemberMembershipRepository memberMembershipRepository) {
+                         GymRepository gymRepository,
+                         UserRepository userRepository,
+                         MemberRepository memberRepository,
+                         StaffRepository staffRepository,
+                         MembershipRepository membershipRepository,
+                         FeedbackRepository feedbackRepository,
+                         MemberMembershipRepository memberMembershipRepository) {
         this.equipmentRepository = equipmentRepository;
         this.gymRepository = gymRepository;
         this.userRepository = userRepository;

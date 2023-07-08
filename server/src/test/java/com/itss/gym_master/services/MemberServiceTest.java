@@ -1,8 +1,14 @@
 package com.itss.gym_master.services;
 
-import com.itss.gym_master.entities.*;
+import com.itss.gym_master.entities.Feedback;
+import com.itss.gym_master.entities.Gym;
+import com.itss.gym_master.entities.Member;
+import com.itss.gym_master.entities.User;
 import com.itss.gym_master.exceptions.EntityNotFoundException;
-import com.itss.gym_master.repositories.*;
+import com.itss.gym_master.repositories.FeedbackRepository;
+import com.itss.gym_master.repositories.GymRepository;
+import com.itss.gym_master.repositories.MemberRepository;
+import com.itss.gym_master.repositories.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,12 +23,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 class MemberServiceTest {
-    private Member member;
     private MemberService memberService;
     private MemberRepository memberRepository;
     private UserRepository userRepository;
     private GymRepository gymRepository;
     private FeedbackRepository feedbackRepository;
+
     @BeforeEach
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this); // Initialize mocks
@@ -64,7 +70,7 @@ class MemberServiceTest {
         Mockito.verify(userRepository).save(user);
         Mockito.verify(memberRepository).save(member);
         Assertions.assertEquals(member, result);
-        Assertions.assertEquals(3,user.getRole());
+        Assertions.assertEquals(3, user.getRole());
     }
 
     @Test
@@ -83,7 +89,7 @@ class MemberServiceTest {
     }
 
     @Test
-    void getOneMember_MemberNotFound(){
+    void getOneMember_MemberNotFound() {
         Long memberId = 1L;
         when(memberRepository.findById(memberId)).thenReturn(Optional.empty());
         Optional<Member> emptyResult = memberService.getOneMember(memberId);
@@ -143,7 +149,7 @@ class MemberServiceTest {
     }
 
     @Test
-    void editMember_MemberNotFound(){
+    void editMember_MemberNotFound() {
         Long memberId = 1L;
         Member newMember = new Member();
 
@@ -153,6 +159,7 @@ class MemberServiceTest {
             memberService.editMember(memberId, newMember);
         });
     }
+
     @Test
     void removeMember_MemberExists() {
         Long memberId = 1L;
@@ -168,7 +175,7 @@ class MemberServiceTest {
     }
 
     @Test
-    void removeMember_MemberNotExists(){
+    void removeMember_MemberNotExists() {
         Long memberId = 1L;
         when(memberRepository.findById(memberId)).thenReturn(Optional.empty());
         Optional<Member> result = memberService.removeMember(memberId);
@@ -179,7 +186,6 @@ class MemberServiceTest {
     void createFeedback_Success() {
         Long memberId = 1L;
         Long gymId = 2L;
-        Long feedbackId = 3L;
         Member member = new Member();
         Gym gym = new Gym();
         Feedback feedback = new Feedback();
@@ -189,8 +195,8 @@ class MemberServiceTest {
         when(feedbackRepository.save(feedback)).thenReturn(feedback);
         Feedback result = memberService.createFeedback(memberId, gymId, feedback);
         Assertions.assertEquals(member, result.getMember());
-        Assertions.assertEquals(gym,result.getGym());
-        Assertions.assertEquals(feedback,result);
+        Assertions.assertEquals(gym, result.getGym());
+        Assertions.assertEquals(feedback, result);
 
     }
 
@@ -203,10 +209,10 @@ class MemberServiceTest {
         String banReason = "Khong dong tien";
 
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
-        Member result = memberService.banMember(memberId,banReason);
+        Member result = memberService.banMember(memberId, banReason);
 
-        Assertions.assertEquals(member,result);
-        Assertions.assertEquals(banReason,result.getBannedReason());
+        Assertions.assertEquals(member, result);
+        Assertions.assertEquals(banReason, result.getBannedReason());
 
     }
 
@@ -220,7 +226,7 @@ class MemberServiceTest {
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
         Member result = memberService.unbanMember(memberId);
 
-        Assertions.assertEquals(member,result);
+        Assertions.assertEquals(member, result);
         Assertions.assertFalse(result.getIsBanned());
     }
 }

@@ -22,7 +22,7 @@ public class StaffController {
 
     @Autowired
     public StaffController(StaffService staffService,
-            MembershipService membershipService) {
+                           MembershipService membershipService) {
         this.staffService = staffService;
         this.membershipService = membershipService;
     }
@@ -59,7 +59,7 @@ public class StaffController {
     /**
      * Liên quan đến gói tập
      * Thêm mới một gói tập, biết thông tin của người đang đăng nhập
-     * 
+     *
      * @param newMembership Thông tin cần thiết cho gói tập cần tạo
      * @param id            mã ID của nhân viên tạo gói tập
      * @return Thông tin gói tập vừa tạo
@@ -71,15 +71,15 @@ public class StaffController {
 
     @PostMapping(value = "/{staffId}/feedbacks/{feedbackId}/replies", consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     ResponseEntity<Reply> replyFeedback(@PathVariable Long staffId,
-            @PathVariable Long feedbackId,
-            @RequestBody @Valid Reply reply) {
+                                        @PathVariable Long feedbackId,
+                                        @RequestBody @Valid Reply reply) {
         return ResponseEntity.ok().body(staffService.replyFeedback(staffId, feedbackId, reply));
     }
 
     @PutMapping(value = "/{staffId}/replies/{replyId}", consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     ResponseEntity<Reply> editReply(@PathVariable Long staffId,
-            @PathVariable Long replyId,
-            @RequestBody Reply reply) {
+                                    @PathVariable Long replyId,
+                                    @RequestBody Reply reply) {
         return ResponseEntity.ok().body(staffService.editReply(staffId, replyId, reply));
     }
 }

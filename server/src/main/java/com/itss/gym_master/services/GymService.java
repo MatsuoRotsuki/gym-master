@@ -56,7 +56,7 @@ public class GymService {
                 () -> new EntityNotFoundException("Could not find gym with id " + gymId)
         );
         Equipment e = equipmentRepository.findById(equipmentId).orElseThrow(
-            () -> new EntityNotFoundException("Could not found equipment with id " + equipmentId)
+                () -> new EntityNotFoundException("Could not found equipment with id " + equipmentId)
         );
         gym.getEquipments().add(e);
         return gymRepository.save(gym);
@@ -64,11 +64,11 @@ public class GymService {
 
     public Gym removeEquipment(Long gymId, Long equipmentId) {
         Gym gym = gymRepository.findById(gymId).orElseThrow(
-            () -> new EntityNotFoundException("Could not find gym with id " + gymId)
+                () -> new EntityNotFoundException("Could not find gym with id " + gymId)
         );
 
         Equipment e = equipmentRepository.findById(equipmentId).orElseThrow(
-            () -> new EntityNotFoundException("Could not found equipment with id " + equipmentId)
+                () -> new EntityNotFoundException("Could not found equipment with id " + equipmentId)
         );
 
         gym.getEquipments().remove(e);

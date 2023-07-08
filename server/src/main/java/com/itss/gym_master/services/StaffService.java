@@ -24,9 +24,9 @@ public class StaffService {
 
     @Autowired
     public StaffService(StaffRepository staffRepository,
-            UserRepository userRepository,
-            FeedbackRepository feedbackRepository,
-            ReplyRepository replyRepository) {
+                        UserRepository userRepository,
+                        FeedbackRepository feedbackRepository,
+                        ReplyRepository replyRepository) {
         this.staffRepository = staffRepository;
         this.userRepository = userRepository;
         this.replyRepository = replyRepository;
@@ -35,7 +35,7 @@ public class StaffService {
 
     /**
      * Lấy danh sách tất cả nhân viên
-     * 
+     *
      * @return danh sách tất cả nhân viên
      */
     public List<Staff> getAllStaffs() {
@@ -44,7 +44,7 @@ public class StaffService {
 
     /**
      * Thêm mới một nhân viên
-     * 
+     *
      * @param staff Thông tin nhân viên dùng để tạo mới
      * @return Thông tin nhân viên vừa được tạo mới
      */
@@ -57,7 +57,7 @@ public class StaffService {
 
     /**
      * Lấy thông tin của một nhân viên cụ thể
-     * 
+     *
      * @param id mã ID của nhân viên
      * @return thôn tin của nhân viên
      */
@@ -67,7 +67,7 @@ public class StaffService {
 
     /**
      * Chỉnh sửa thông tin của nhân viên
-     * 
+     *
      * @param id       mã ID của nhân viên
      * @param newStaff thông tin đã chỉnh sửa của nhân viên
      * @return thông tin nhân viên sau khi chỉnh sửa
@@ -93,7 +93,7 @@ public class StaffService {
 
     /**
      * Xóa thông tin của một nhân viên cụ thể
-     * 
+     *
      * @param id mã ID của nhân viên
      * @return thông tin của nhân viên đã xóa
      */

@@ -2,7 +2,6 @@ package com.itss.gym_master.controllers;
 
 import com.itss.gym_master.entities.Reply;
 import com.itss.gym_master.services.ReplyService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

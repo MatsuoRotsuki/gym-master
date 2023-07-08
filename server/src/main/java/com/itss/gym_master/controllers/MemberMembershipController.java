@@ -72,7 +72,8 @@ public class MemberMembershipController {
 
     /**
      * Tiếp nhận api ghi lich sử sử dụng
-     * @param id mã đăng ký gói tập
+     *
+     * @param id       mã đăng ký gói tập
      * @param jsonNode thông tin cần thiết để ghi lịch sử sử dụng
      * @return Trả về thông tin lịch sử sử dụng vừa ghi
      */
@@ -80,8 +81,6 @@ public class MemberMembershipController {
             produces = "application/json;charset=UTF-8")
     public ResponseEntity<UsageLog> logUsage(@PathVariable Long id,
                                              @RequestBody JsonNode jsonNode) {
-        Long loggedBy = jsonNode.get("loggedBy").asLong();
-        Long gymId = jsonNode.get("gymId").asLong();
         String note = jsonNode.get("note").isNull() ? null : jsonNode.get("note").asText();
 
         return ResponseEntity.ok().body(usageLogService.newUsageLog(id, note));

@@ -1,34 +1,34 @@
 package com.itss.gym_master.services;
 
-import com.itss.gym_master.entities.*;
+import com.itss.gym_master.entities.Equipment;
+import com.itss.gym_master.entities.Gym;
 import com.itss.gym_master.exceptions.EntityNotFoundException;
-import com.itss.gym_master.repositories.*;
+import com.itss.gym_master.repositories.EquipmentRepository;
+import com.itss.gym_master.repositories.GymRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class GymServiceTest {
-    private Gym gym;
     private GymRepository gymRepository;
     private EquipmentRepository equipmentRepository;
     private GymService gymService;
+
     @BeforeEach
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this); // Initialize mocks
         gymRepository = Mockito.mock(GymRepository.class);
         equipmentRepository = Mockito.mock(EquipmentRepository.class);
-        gymService = new GymService(gymRepository ,equipmentRepository );
+        gymService = new GymService(gymRepository, equipmentRepository);
     }
 
     @Test
@@ -47,8 +47,8 @@ class GymServiceTest {
         when(gymRepository.save(Mockito.any(Gym.class))).thenReturn(gym);
         when(equipmentRepository.save(Mockito.any(Equipment.class))).thenReturn(equipment);
         Gym result = gymService.newGym(gym);
-        Assertions.assertEquals(gym,result);
-        Assertions.assertEquals(equipments,result.getEquipments());
+        Assertions.assertEquals(gym, result);
+        Assertions.assertEquals(equipments, result.getEquipments());
     }
 
     @Test
@@ -66,7 +66,7 @@ class GymServiceTest {
     }
 
     @Test
-    void getOneGym_GymNotFound(){
+    void getOneGym_GymNotFound() {
 
     }
 
@@ -119,6 +119,7 @@ class GymServiceTest {
         assertTrue(result.isPresent());
         assertEquals(gym, result.get());
     }
+
     @Test
     void removeGym_GymNotExists() {
         Long gymId = 1L;
@@ -126,6 +127,7 @@ class GymServiceTest {
         Optional<Gym> result = gymService.removeGym(gymId);
         assertFalse(result.isPresent());
     }
+
     @Test
     void addEquipments_GymExists() {
         Gym gym = new Gym();
@@ -204,7 +206,8 @@ class GymServiceTest {
 //        verifyNoInteractions(gymRepository);
     }
 
-    @Test void removeEquipment_EquipmentNotExists(){
+    @Test
+    void removeEquipment_EquipmentNotExists() {
         Gym gym = new Gym();
         gym.setId(1L);
 

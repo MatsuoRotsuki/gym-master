@@ -1,14 +1,8 @@
 package com.itss.gym_master.services;
 
-import com.itss.gym_master.entities.Equipment;
 import com.itss.gym_master.entities.Feedback;
-import com.itss.gym_master.entities.Staff;
-import com.itss.gym_master.entities.User;
 import com.itss.gym_master.exceptions.EntityNotFoundException;
 import com.itss.gym_master.repositories.FeedbackRepository;
-import com.itss.gym_master.repositories.ReplyRepository;
-import com.itss.gym_master.repositories.StaffRepository;
-import com.itss.gym_master.repositories.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,15 +18,18 @@ import static org.mockito.Mockito.when;
 class FeedbackServiceTest {
     private FeedbackRepository feedbackRepository;
     private FeedbackService feedbackService;
+
     @BeforeEach
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this); // Initialize mocks
         feedbackRepository = Mockito.mock(FeedbackRepository.class);
         feedbackService = new FeedbackService(feedbackRepository);
     }
+
     @AfterEach
     void tearDown() {
     }
+
     @Test
     void getAllFeedbacks() {
     }
@@ -52,7 +49,7 @@ class FeedbackServiceTest {
         assertEquals(expectedFeedback, result.get());
     }
 
-//    @Test
+    //    @Test
 //    void getAFeedback_FeedbackNotExists() {
 //        Long feedbackId = 1L;
 //        when(feedbackRepository.findById(feedbackId)).thenReturn(Optional.empty());
@@ -73,10 +70,10 @@ class FeedbackServiceTest {
         newFeedback.setContent("New feedback");
         newFeedback.setStars(5);
 
-        Feedback result = feedbackService.updateFeedback(feedbackId,newFeedback);
+        Feedback result = feedbackService.updateFeedback(feedbackId, newFeedback);
 
         Assertions.assertEquals(feedbackId, result.getId());
-        Assertions.assertEquals(newFeedback.getContent(),result.getContent());
+        Assertions.assertEquals(newFeedback.getContent(), result.getContent());
         Assertions.assertEquals(newFeedback.getStars(), result.getStars());
     }
 
@@ -87,7 +84,7 @@ class FeedbackServiceTest {
 
         Mockito.when(feedbackRepository.findById(feedbackId)).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> {
-           feedbackService.updateFeedback(feedbackId, feedback);
+            feedbackService.updateFeedback(feedbackId, feedback);
         });
     }
 

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.itss.gym_master.entities.Feedback;
 import com.itss.gym_master.entities.Member;
-import com.itss.gym_master.entities.MemberMembership;
 import com.itss.gym_master.exceptions.EntityNotFoundException;
 import com.itss.gym_master.services.MemberMembershipService;
 import com.itss.gym_master.services.MemberService;
@@ -24,7 +23,7 @@ public class MemberController {
 
     @Autowired
     public MemberController(MemberService memberService,
-            MemberMembershipService memberMembershipService) {
+                            MemberMembershipService memberMembershipService) {
         this.memberService = memberService;
         this.memberMembershipService = memberMembershipService;
     }

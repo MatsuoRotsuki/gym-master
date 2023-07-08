@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -29,6 +28,7 @@ class StaffServiceTest {
     private FeedbackRepository feedbackRepository;
     private ReplyRepository replyRepository;
     private StaffService staffService;
+
     @BeforeEach
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this); // Initialize mocks
@@ -38,12 +38,13 @@ class StaffServiceTest {
         feedbackRepository = Mockito.mock(FeedbackRepository.class);
         staffRepository = Mockito.mock(StaffRepository.class);
         replyRepository = Mockito.mock(ReplyRepository.class);
-        staffService = new StaffService(staffRepository ,userRepository,feedbackRepository, replyRepository );
+        staffService = new StaffService(staffRepository, userRepository, feedbackRepository, replyRepository);
     }
 
     @AfterEach
     void tearDown() {
     }
+
     @Test
     void getAllStaffs() {
     }
@@ -66,7 +67,7 @@ class StaffServiceTest {
         Mockito.verify(userRepository).save(user);
         Mockito.verify(staffRepository).save(staff);
         Assertions.assertEquals(staff, result);
-        Assertions.assertEquals(2,user.getRole());
+        Assertions.assertEquals(2, user.getRole());
     }
 
     @Test
@@ -91,7 +92,7 @@ class StaffServiceTest {
     }
 
     @Test
-    public void getOneStaff_StaffNotFound(){
+    public void getOneStaff_StaffNotFound() {
         Long staffId = 1L;
         when(staffRepository.findById(staffId)).thenReturn(Optional.empty());
         Optional<Staff> emptyResult = staffService.getOneStaff(staffId);
@@ -181,7 +182,7 @@ class StaffServiceTest {
     }
 
     @Test
-    public void replyFeedback_Success(){
+    public void replyFeedback_Success() {
         Long staffId = 1L;
         Long feedbackId = 2L;
         Staff staff = new Staff();
@@ -192,14 +193,14 @@ class StaffServiceTest {
         when(feedbackRepository.findById(feedbackId)).thenReturn(Optional.of(feedback));
         when(replyRepository.save(reply)).thenReturn(reply);
 
-        Reply result = staffService.replyFeedback(staffId,feedbackId, reply);
-        assertEquals( staff, reply.getStaff());
+        Reply result = staffService.replyFeedback(staffId, feedbackId, reply);
+        assertEquals(staff, reply.getStaff());
         assertEquals(feedback, reply.getFeedback());
         assertEquals(reply, result);
     }
 
     @Test
-    public void replyFeedback_StaffNotFound(){
+    public void replyFeedback_StaffNotFound() {
         Long staffId = 1L;
         Long feedbackId = 2L;
         Reply reply = new Reply();

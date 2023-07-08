@@ -1,6 +1,5 @@
 package com.itss.gym_master.services;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.itss.gym_master.entities.Feedback;
 import com.itss.gym_master.entities.Gym;
 import com.itss.gym_master.entities.Member;
