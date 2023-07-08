@@ -1,10 +1,8 @@
 package com.itss.gym_master.services;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.itss.gym_master.entities.Member;
 import com.itss.gym_master.entities.User;
 import com.itss.gym_master.exceptions.EntityNotFoundException;
-import com.itss.gym_master.exceptions.UserIsBannedException;
 import com.itss.gym_master.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

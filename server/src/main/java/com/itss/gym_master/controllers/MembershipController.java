@@ -3,9 +3,7 @@ package com.itss.gym_master.controllers;
 import com.itss.gym_master.entities.Membership;
 import com.itss.gym_master.exceptions.EntityNotFoundException;
 import com.itss.gym_master.services.MembershipService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -3,9 +3,6 @@ package com.itss.gym_master.controllers;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.itss.gym_master.entities.User;
 import com.itss.gym_master.services.AuthService;
-import com.itss.gym_master.services.MemberService;
-import com.itss.gym_master.services.StaffService;
-import com.itss.gym_master.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,15 +21,15 @@ public class AuthController {
     }
 
     @PostMapping(value = "login", consumes = "application/json;charset=UTF-8",
-           produces = "application/json;charset=UTF-8")
-    ResponseEntity<User> login (@RequestBody ObjectNode objectNode) {
+            produces = "application/json;charset=UTF-8")
+    ResponseEntity<User> login(@RequestBody ObjectNode objectNode) {
         return ResponseEntity.ok().body(
-               authService.login(objectNode.get("email").asText(), objectNode.get("password").asText())
+                authService.login(objectNode.get("email").asText(), objectNode.get("password").asText())
         );
     }
 
     @PostMapping(value = "signup", consumes = "application/json;charset=UTF-8",
-           produces = "application/json;charset=UTF-8")
+            produces = "application/json;charset=UTF-8")
     ResponseEntity<User> signUp(@RequestBody User user) {
         return ResponseEntity.ok().body(
                 authService.signUp(user)

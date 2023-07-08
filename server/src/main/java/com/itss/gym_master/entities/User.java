@@ -1,23 +1,15 @@
 package com.itss.gym_master.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "Users")
@@ -28,7 +20,7 @@ import java.time.LocalDate;
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor
-@JsonIgnoreProperties(value = { "role" }, allowGetters = true)
+@JsonIgnoreProperties(value = {"role"}, allowGetters = true)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,12 +36,12 @@ public class User {
 
     private Integer role;
 
-    @JsonIgnoreProperties({ "user", "memberMemberships", "feedbacks" })
+    @JsonIgnoreProperties({"user", "memberMemberships", "feedbacks"})
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "manageMember")
     private Member member;
 
-    @JsonIgnoreProperties({ "user", "memberMemberships", "feedbacks", "replies" })
+    @JsonIgnoreProperties({"user", "memberMemberships", "feedbacks", "replies"})
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "manageStaff")
     private Staff staff;

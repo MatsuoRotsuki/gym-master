@@ -1,9 +1,8 @@
 package com.itss.gym_master.services;
 
-import com.itss.gym_master.entities.*;
+import com.itss.gym_master.entities.Equipment;
 import com.itss.gym_master.exceptions.EntityNotFoundException;
 import com.itss.gym_master.repositories.EquipmentRepository;
-import com.itss.gym_master.repositories.GymRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,7 @@ class EquipmentServiceTest {
 
     private EquipmentRepository equipmentRepository;
     private EquipmentService equipmentService;
-    private GymService gymService;
+
     @BeforeEach
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this); // Initialize mocks

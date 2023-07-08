@@ -11,16 +11,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import javax.xml.transform.Result;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MembershipServiceTest {
 
     private MembershipRepository membershipRepository;
     private StaffRepository staffRepository;
     private MembershipService membershipService;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -56,9 +54,9 @@ class MembershipServiceTest {
         Mockito.when(staffRepository.findById(staffId)).thenReturn(Optional.of(newStaff));
         Mockito.when(staffRepository.save(newStaff)).thenReturn(newStaff);
 
-        Membership result = membershipService.newMembership(newMembership,staffId);
+        Membership result = membershipService.newMembership(newMembership, staffId);
 
-        Assertions.assertEquals(newMembership,result);
+        Assertions.assertEquals(newMembership, result);
 
     }
 

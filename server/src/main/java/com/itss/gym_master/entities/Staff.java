@@ -2,10 +2,7 @@ package com.itss.gym_master.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -75,7 +72,7 @@ public class Staff {
     @JsonBackReference(value = "manageStaff")
     private User user;
 
-    @JsonIgnoreProperties(value = { "staff" }, allowSetters = true)
+    @JsonIgnoreProperties(value = {"staff"}, allowSetters = true)
     @OneToMany(mappedBy = "staff", cascade = CascadeType.DETACH)
     private Set<Reply> replies = new HashSet<>();
 }

@@ -1,4 +1,5 @@
 package com.itss.gym_master.configs;
+
 import com.itss.gym_master.exceptions.EntityNotFoundException;
 import com.itss.gym_master.exceptions.UserIsBannedException;
 import org.springframework.http.HttpHeaders;
