@@ -1,7 +1,5 @@
-import dayjs from 'dayjs'
 import { create } from 'zustand'
-import { deleteGym } from '~/lib/gymApi'
-import { deleteStaff, getAllStaff, getAllUser, getStaffById, getUserById } from '~/lib/staff'
+import { deleteStaff, getAllStaff, getStaffById } from '~/lib/staff'
 
 interface IStaffStore {
   staffs: IStaff[]

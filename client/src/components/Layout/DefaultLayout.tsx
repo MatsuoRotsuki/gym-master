@@ -20,7 +20,7 @@ const variants = {
   exit: { opacity: 0, x: -0, y: -10 }
 }
 
-const DefaultLayout = ({ children, title, style }: PropsType) => {
+const DefaultLayout = ({ children, title }: PropsType) => {
   return (
     <AnimatePresence
       initial={true}
@@ -38,7 +38,7 @@ const DefaultLayout = ({ children, title, style }: PropsType) => {
           <NavBar title={title} />
 
           <motion.div
-            className={`h-max ${style ?? 'p-3'}`}
+            className={`h-max p-3`}
             initial="hidden"
             animate="enter"
             exit="exit"

@@ -1,11 +1,9 @@
 import React from 'react'
-import { ArrowLeftOutlined } from '@ant-design/icons'
 import { useNavigate, useParams } from 'react-router-dom'
 import DefaultLayout from '~/components/Layout/DefaultLayout'
 import useFeedbackStore from './FeedbackStore'
-import useMemberStore from '../member/MemberStore'
 import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons'
-import { Form, Input, Rate, Tag } from 'antd'
+import { Input, Rate, Tag } from 'antd'
 import GymRoomThumbnail from '~/assets/gym-room.jpg'
 import ButtonBack from '~/components/ButtonBack'
 
@@ -35,7 +33,6 @@ const Detail = () => {
   const { id } = useParams()
 
   const [feedbacks] = useFeedbackStore(state => [state.feedbacks])
-  const [members] = useMemberStore(state => [state.members])
   const feedback = feedbacks.get(id as string) as IFeedback
 
   if (!id || !feedback) navigate(-1)

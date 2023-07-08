@@ -146,27 +146,8 @@ declare interface IReply {
   staff: IStaff
 }
 
-// type IMember = {
-//   id: string,
-//   joinDate: Date,
-//   weight: number,
-//   healthCondition: string,
-//   isBanned: boolean,
-//   bannedReason: string,
-//   note: string,
-//   user: IUser,
-//   feedbacks: IFeedbacks[]
-// }
-
-// type IUser = {
-//   id: number,
-//   email: string,
-//   firstName: string,
-//   lastName: string,
-//   gender: number,
-//   dateOfBirth: Date,
-//   address: string,
-//   phoneNumber: string,
-//   role: string,
-//   staff: IStaff
-// }
+declare type SubscribeDataType = {
+  memberId: string
+  membershipId: string
+  periodOfMonths: number
+}

@@ -36,3 +36,15 @@ export const deletePlan = async (id: string) => {
     console.error('==> Toang méo chạy được rồi ><!', error)
   }
 }
+
+export const subscribePlan = async ({
+  memberId,
+  membershipId,
+  periodOfMonths
+}: SubscribeDataType) => {
+  try {
+    await axiosClient.post(`/member-memberships/register`)
+  } catch (error) {
+    console.error('==> Toang méo chạy được rồi ><!', error)
+  }
+}

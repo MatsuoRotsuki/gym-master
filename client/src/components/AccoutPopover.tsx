@@ -30,11 +30,6 @@ const AccountPopover = () => {
       arrow={false}
       content={
         <div className="flex min-w-[10vw] flex-col items-start justify-start gap-1">
-          <PopoverItem onClick={() => console.log('send feedback')}>
-            <MailOutlined className="flex items-center justify-center" />
-            <span>Send me feedback</span>
-          </PopoverItem>
-
           <PopoverItem
             onClick={() => {
               localStorage.removeItem('currentUser')
@@ -43,7 +38,7 @@ const AccountPopover = () => {
             }}
           >
             <LogoutOutlined className="flex items-center justify-center" />
-            <span>Logout</span>
+            <span>Đăng xuất</span>
           </PopoverItem>
 
           <p className="w-full text-sm font-medium opacity-30">Team 6 · ITSS · © 2023</p>

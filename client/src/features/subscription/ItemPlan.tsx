@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Popconfirm, Space, Tag, message } from 'antd'
 import PlanThumbnail from '~/assets/plan-thumbnail.jpg'
 import { useNavigate } from 'react-router-dom'
 import useSubscriptionStore from './SubscriptionStore'
 import useAuth from '~/hooks/useAuth'
-import SubcribePlan from './SubcribePlan'
 
 type PropsType = {
   plan: IMembership
@@ -17,8 +16,6 @@ const ItemPlan = ({ plan }: PropsType) => {
   const { isStaff, isAdmin, isMember, currentUser } = useAuth()
   const [deletePlan] = useSubscriptionStore(state => [state.deletePlan])
 
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-
   const isSubcribed = plan.registrations.filter(each => each.member.id === currentUser).length > 0
 
   const onCardClick = () => {
@@ -27,7 +24,7 @@ const ItemPlan = ({ plan }: PropsType) => {
       return
     }
 
-    setIsOpen(true)
+    navigate(`/goi-tap/${plan.id}/dang-ky`)
   }
 
   return (
@@ -84,8 +81,6 @@ const ItemPlan = ({ plan }: PropsType) => {
           </Space>
         )}
       </div>
-
-      <SubcribePlan isOpen={isOpen} setIsOpen={setIsOpen} isSubcribed={isSubcribed} plan={plan} />
     </>
   )
 }

@@ -50,7 +50,7 @@ const Login = () => {
           name="password"
           rules={[{ required: true, message: 'Mật khẩu không thể bỏ trống.' }]}
         >
-          <Input
+          <Input.Password
             size="large"
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"

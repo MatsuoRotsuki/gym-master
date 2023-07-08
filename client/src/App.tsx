@@ -3,9 +3,6 @@ import Prefetch from './features/auth/Prefetch'
 import Overview from './features/auth/Overview'
 
 import GymList from './features/gym/List'
-import GymCreate from './features/gym/Create'
-import GymEdit from './features/gym/Edit'
-import GymDetail from './features/gym/Detail'
 
 import StaffList from './features/staff/StaffList'
 import StaffCreate from './features/staff/Create'
@@ -15,12 +12,9 @@ import StaffDetail from './features/staff/Detail'
 import EquipmentList from './features/equipment/List'
 
 import SubscriptionList from './features/subscription/List'
-import SubscriptionCreate from './features/subscription/Create'
-import SubscriptionEdit from './features/subscription/Edit'
 import SubscriptionDetail from './features/subscription/Detail'
 
 import MemberList from './features/member/List'
-import MemberCreate from './features/member/Create'
 
 import FeedBackList from './features/feedback/List'
 import FeedBackDetail from './features/feedback/Detail'
@@ -28,6 +22,7 @@ import Login from './features/auth/Login'
 import RequireAuth from './features/auth/RequireAuth'
 import LoggedIn from './features/auth/LoggedIn'
 import Account from './features/auth/Account'
+import SubcribePlan from './features/subscription/SubcribePlan'
 
 function App() {
   return (
@@ -57,8 +52,8 @@ function App() {
 
             <Route path="goi-tap">
               <Route index element={<SubscriptionList />} />
-              <Route path="edit" element={<SubscriptionEdit />} />
               <Route path=":id" element={<SubscriptionDetail />} />
+              <Route path=":id/dang-ky" element={<SubcribePlan />} />
             </Route>
 
             <Route path="thiet-bi">
@@ -67,9 +62,6 @@ function App() {
 
             <Route path="hoi-vien">
               <Route index element={<MemberList />} />
-              {/* <Route path="create" element={<MemberCreate />} /> */}
-              {/* <Route path="edit" element={<MemberEdit />} />
-            <Route path=":id" element={<MemberDetail />} /> */}
             </Route>
 
             <Route path="phan-hoi">
