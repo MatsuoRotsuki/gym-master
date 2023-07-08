@@ -14,19 +14,27 @@ import { toast } from 'react-toastify'
 import axiosClient from '~/lib/axiosClient'
 import uploadFile from '~/firebase/uploadFile'
 import UploadImage from '~/components/UploadImage'
+import dayjs from 'dayjs'
 
 const Edit = () => {
   const [form] = Form.useForm()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
-  const { id } = useParams()
-  const [image, setImage] = useState<FilePreview | { preview: string } | null>(null)
-  const [staff, getStaffById] = useStaffStore(state => [state.staff, state.getStaffById])
+  const {id} = useParams()
+  const [image, setImage] = useState<FilePreview | {preview: string} | null>(null)
+  const [staff, getStaffById] = useStaffStore(state => [
+    state.staff,
+    state.getStaffById
+  ])
   useEffectOnce(() => {
     getStaffById(id)
   })
   useEffect(() => {
-    form.setFieldsValue(staff)
+    form.setFieldsValue({
+      ...staff,
+      hiredDate: dayjs(staff.hiredDate),
+      dateOfBirth: dayjs(staff.dateOfBirth)
+    })
   }, [form, staff])
   const onFinish = async (values: any) => {
     setLoading(true)
@@ -195,6 +203,9 @@ const Edit = () => {
               <InputNumber addonAfter="vnd" />
             </Form.Item>
             <Form.Item name={['user', 'avatar']} label="Ảnh đại diện">
+              <UploadImage image={image} setImage={setImage} />
+            </Form.Item>
+            <Form.Item name={["user", "avatar"]} label="Ảnh đại diện">
               <UploadImage image={image} setImage={setImage} />
             </Form.Item>
           </div>
