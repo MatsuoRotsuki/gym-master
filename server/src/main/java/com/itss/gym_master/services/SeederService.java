@@ -107,7 +107,13 @@ public class SeederService {
 
         List<Member> members = new ArrayList<>();
 
-        for (int i = 0; i < 100; i++) {
+        User admin = new User();
+        admin.setEmail("admin@example.com");
+        admin.setPasswordDigest("123456");
+        admin.setRole(1);
+        admin = userRepository.save(admin);
+
+        for (int i = 0; i < 99; i++) {
             User user = new User();
             user.setEmail(faker.internet().emailAddress());
             user.setPasswordDigest(faker.internet().password());

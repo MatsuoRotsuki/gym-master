@@ -71,6 +71,7 @@ public class Member {
     private User user;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"member"})
     private Set<MemberMembership> memberMemberships = new HashSet<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)

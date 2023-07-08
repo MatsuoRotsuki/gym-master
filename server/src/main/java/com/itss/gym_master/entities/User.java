@@ -44,12 +44,12 @@ public class User {
 
     private Integer role;
 
-    @JsonIgnoreProperties({ "user" })
+    @JsonIgnoreProperties({ "user", "memberMemberships", "feedbacks" })
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "manageMember")
     private Member member;
 
-    @JsonIgnoreProperties({ "user" })
+    @JsonIgnoreProperties({ "user", "memberMemberships", "feedbacks", "replies" })
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "manageStaff")
     private Staff staff;
