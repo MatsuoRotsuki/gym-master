@@ -1,7 +1,7 @@
 # spring.datasource.url=jdbc:postgresql://john.db.elephantsql.com/psooiwew
-spring.datasource.url=jdbc:postgresql://localhost:5432/gym_master
-spring.datasource.username=postgres
-spring.datasource.password=Luongvu12345@
+spring.datasource.url=jdbc:postgresql://localhost:5432/{tên database}
+spring.datasource.username={tên người dùng}
+spring.datasource.password={mật khẩu}
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
@@ -9,4 +9,4 @@ spring.jpa.properties.hibernate.format_sql=true
 
 server.error.include-message=always
 
-allowed.origin=http://localhost:3000
+allowed.origin=http://project.localhost:3000
