@@ -1,10 +1,12 @@
 package com.itss.gym_master.services;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.itss.gym_master.entities.Feedback;
 import com.itss.gym_master.entities.Gym;
 import com.itss.gym_master.entities.Member;
 import com.itss.gym_master.entities.User;
 import com.itss.gym_master.exceptions.EntityNotFoundException;
+import com.itss.gym_master.exceptions.UserIsBannedException;
 import com.itss.gym_master.repositories.FeedbackRepository;
 import com.itss.gym_master.repositories.GymRepository;
 import com.itss.gym_master.repositories.MemberRepository;
@@ -131,5 +133,16 @@ public class MemberService {
         member.setIsBanned(false);
         member.setBannedReason(null);
         return member;
+    }
+
+    public Member editPassword(Long id, String oldPassword, String newPassword) {
+        return memberRepository.findById(id).map(member -> {
+            User user = member.getUser();
+            if (!user.getPasswordDigest().equals(oldPassword))
+                throw new UserIsBannedException("Password is not correct");
+            user.setPasswordDigest(newPassword);
+            userRepository.save(user);
+            return member;
+        }).orElseThrow(() -> new EntityNotFoundException("Could not found member with id: " + id));
     }
 }

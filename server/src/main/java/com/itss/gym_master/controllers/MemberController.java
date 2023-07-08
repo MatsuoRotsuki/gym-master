@@ -1,6 +1,7 @@
 package com.itss.gym_master.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.itss.gym_master.entities.Feedback;
 import com.itss.gym_master.entities.Member;
 import com.itss.gym_master.entities.MemberMembership;
@@ -77,5 +78,12 @@ public class MemberController {
     ResponseEntity<Member> unban(@PathVariable Long id) {
         Member member = memberService.unbanMember(id);
         return ResponseEntity.ok().body(member);
+    }
+
+    @PutMapping(value = "/password/{id}", consumes = "application/json;charset=UTF-8",
+            produces = "application/json;charset=UTF-8")
+    ResponseEntity<Member> editPassword(@PathVariable Long id, @RequestBody ObjectNode data) {
+        return ResponseEntity.ok().body(memberService.editPassword(id, data.get("oldPassword").asText(),
+                data.get("newPassword").asText()));
     }
 }
