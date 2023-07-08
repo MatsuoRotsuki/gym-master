@@ -12,6 +12,8 @@ import Feedback from './Feedback'
 import { useEffectOnce } from 'usehooks-ts'
 import { Button, Form, Input, Modal, Rate } from 'antd'
 import AddEquipment from './AddEquipment'
+import GymEquipmentItem from './GymEquiomentItem'
+import useMemberStore from '../member/MemberStore'
 
 type GymInfoItemProps = {
   label: string
@@ -28,6 +30,7 @@ type PropsType = {
   room: IGym
   isOpen: boolean
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  staff: IStaff
 }
 
 const GymInfoItem = ({ label, value }: GymInfoItemProps) => {
@@ -48,12 +51,42 @@ const EachGymInfoDiv = ({ label, className, children }: EachGymInfoDivProps) => 
   )
 }
 
-const Detail = ({ isOpen, setIsOpen, room }: PropsType) => {
+const Detail = ({ isOpen, setIsOpen, room, staff }: PropsType) => {
   const { id } = useParams()
   const navigate = useNavigate()
   const totalStars = room.feedbacks.reduce((total, feedback) => total + feedback.stars, 0)
-  const avgStars = (totalStars / room.feedbacks.length).toFixed(2)
+  const avgStars = Number((totalStars / room.feedbacks.length).toFixed(2))
   const [addEquipment, setAddEquipment] = useState<boolean>(false) 
+  const [form] = Form.useForm()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const onFinishFeedback =async (values: IFeedback) => {
+    setIsLoading(true)
+    try {
+      await axiosClient.post(`/members/1/gyms/${room.id}/feedbacks`, {
+        ...values,
+      })
+      form.resetFields()
+      setTimeout(() => {
+        toast.success('Thêm feedback thành công', {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 2000,
+          toastId: 'edit-gym-success'
+        })
+      }, 200)
+      // navigate(`/phong-tap`)
+      window.location.reload()
+    } catch (error) {
+      // const axiosError = error as AxiosError
+      // const dataError: { error: string } | unknown = axiosError.response?.data
+      // const dataError2 = dataError as { error: string }
+      // const messageError = dataError2.error
+      toast.error("Lỗi khi tạo feedback", {
+        position: toast.POSITION.TOP_RIGHT
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
   console.log(room)
   return (
     <Modal
@@ -111,7 +144,7 @@ const Detail = ({ isOpen, setIsOpen, room }: PropsType) => {
             <>
               <div className="grid grid-cols-4 gap-4 p-8">
                 {room.equipments?.map((equipment, index) => (
-                  <ItemCard equipment={equipment}/>
+                  <GymEquipmentItem equipment={equipment} room={room}/>
                 ))}
                 {/* {roomEquipments.length === 0 && <LoadingOutlined />} */}
               </div>
@@ -127,16 +160,21 @@ const Detail = ({ isOpen, setIsOpen, room }: PropsType) => {
             </EachGymInfoDiv>
             <EachGymInfoDiv label={`Các phản hồi của khách hàng`}>
                 {
-                  room.feedbacks ? (<Feedback feedbacks={room.feedbacks}/>) : (
+                  room.feedbacks ? (<Feedback feedbacks={room.feedbacks} staff={staff}/>) : (
                     <div className="flex w-full items-center justify-center">
                       <LoadingOutlined className="text-4xl text-primary" />
                     </div>)
                 }
-                <Form>
+                <Form
+                form={form}
+                onFinish={onFinishFeedback}
+                autoComplete="off"
+                layout="vertical"
+                >
                   <Form.Item
                     className="w-full"
                     label="Gửi feedback"
-                    name={["feedback", "content"]}
+                    name="content"
                     rules={[{ required: true, message: 'Hãy nhập feedback' }]}
                   >
                     <Input />
@@ -144,13 +182,15 @@ const Detail = ({ isOpen, setIsOpen, room }: PropsType) => {
                   <Form.Item
                     className="w-full"
                     label="Đánh giá"
-                    name={["feedback", "stars"]}
+                    name="stars"
                     rules={[{ required: true, message: 'Hãy đánh giá' }]}
                   >
                     <Rate allowHalf/>
                   </Form.Item>
                   <Form.Item>
-                    <Button>Thêm Feedback</Button>
+                    <Button disabled={isLoading} type="primary" htmlType="submit" ghost>
+                      {isLoading ? <LoadingOutlined /> : "Thêm Feedback"}
+                    </Button>
                   </Form.Item>
                 </Form>
             </EachGymInfoDiv>

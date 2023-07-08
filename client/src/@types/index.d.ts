@@ -38,6 +38,7 @@ declare interface IFeedback {
   member: IMember
   gym: IGym,
   member: IMember
+  replies: IReply[]
 }
 
 declare type EquipmentType = Map<string, IEquipment>
@@ -92,6 +93,13 @@ type IStaff = {
   salary: string
   employmentStatus: number
   note: string
+}
+
+declare interface IReply {
+  id: string,
+  content: string,
+  feedback: IFeedback,
+  staff: IStaff
 }
 
 // type IMember = {

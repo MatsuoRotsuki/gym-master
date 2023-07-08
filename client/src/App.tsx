@@ -35,7 +35,7 @@ function App() {
 
           <Route path="phong-tap">
             <Route index element={<GymList />} />
-            <Route path="create" element={<GymCreate />} />
+            {/* <Route path="create" element={<GymCreate />} /> */}
             {/* <Route path="edit" element={<GymEdit />} /> */}
             {/* <Route path=":id" element={<GymDetail />} /> */}
           </Route>

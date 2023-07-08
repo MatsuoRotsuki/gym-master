@@ -14,6 +14,7 @@ import uploadFile from '~/firebase/uploadFile'
 import axiosClient from '~/lib/axiosClient'
 import moment from 'moment'
 import { log } from 'console'
+import UploadImage from '~/components/UploadImage'
 
 const genderType = ["Nam", "Nữ"]
 
@@ -21,12 +22,15 @@ const Create = () => {
   const [form] = useForm()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
+  const [image, setImage] = useState<FilePreview | {preview: string} | null>(null)
   const onFinish = async (values: any) => {
     setLoading(true)
     const ngaySinhDate = new Date(values.user.dateOfBirth)
     const formattedngaySinhDate = moment(ngaySinhDate).format('YYYY-MM-DD')
     const hiredDate = new Date(values.hiredDate)
     const formattedHiredDate = moment(hiredDate).format('YYYY-MM-DD')
+    let imageUrl: string | undefined = undefined
+    if (image) imageUrl = await uploadFile(image as File)
     try {
       const request =  {
         ...values,
@@ -34,9 +38,11 @@ const Create = () => {
         hiredDate: formattedHiredDate,
         ...values.user,
         dateOfBirth: formattedngaySinhDate,
+        avatar: imageUrl,
         user: {
           ...values.user,
-          dateOfBirth: formattedngaySinhDate
+          dateOfBirth: formattedngaySinhDate,
+          avatar: imageUrl,
         }
       }
       console.log(request)
@@ -208,6 +214,9 @@ const Create = () => {
               rules={[{ required: true }]}
             >
               <InputNumber addonAfter="vnd"/>
+            </Form.Item>
+            <Form.Item name={["user", "avatar"]} label="Ảnh đại diện">
+              <UploadImage image={image} setImage={setImage} />
             </Form.Item>
           </div>
           <Form.Item className="col-span-8 col-start-6 ms-32">

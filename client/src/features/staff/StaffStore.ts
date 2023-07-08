@@ -1,12 +1,14 @@
 import dayjs from 'dayjs';
 import { create } from 'zustand'
-import { getAllStaff, getAllUser, getStaffById, getUserById } from '~/lib/staff'
+import { deleteGym } from '~/lib/gymApi';
+import { deleteStaff, getAllStaff, getAllUser, getStaffById, getUserById } from '~/lib/staff'
 
 interface IStaffStore {
     staffs:IStaff[]
     staff:IStaff
     getAllStaffs: () => void
     getStaffById: (id: string | undefined) => void
+    deleteStaff: (id: string) => Promise<void>
 }
 
 const useStaffStore = create<IStaffStore>(set => ({
@@ -26,6 +28,21 @@ const useStaffStore = create<IStaffStore>(set => ({
         }
         set({staff: data})
     },
+    deleteStaff: async (id) => {
+        await deleteStaff(id)
+
+        set(state => {
+            state.staffs = state.staffs.filter((staff) => staff.id !== Number(id))
+            return { staffs: state.staffs }
+          })
+    },
+    deleteGym: async (id) => {
+        await deleteGym(id)
+        set(state => {
+            state.rooms = state.rooms.filter((staff) => staff.id !== Number(id))
+            return { rooms: state.rooms }
+          })
+    }
 }))
 
 export default useStaffStore

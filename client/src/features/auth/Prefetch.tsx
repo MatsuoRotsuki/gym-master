@@ -11,12 +11,13 @@ const Prefetch = () => {
   const [getAllEquipments] = useEquipmentStore(state => [state.getAllEquipments])
   const [getAllMembers] = useMemberStore(state => [state.getAllMembers])
   const [getAllStaffs] = useStaffStore(state => [state.getAllStaffs])
-
+  const [getAllFeedbacks] = useGymStore(state => [state.getAllFeedbacks])
   useEffectOnce(() => {
     getRooms()
     getAllEquipments()
     getAllMembers()
     getAllStaffs()
+    getAllFeedbacks()
   })
 
   return <Outlet />

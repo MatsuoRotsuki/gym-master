@@ -12,12 +12,15 @@ import moment from 'moment'
 import { AxiosError, AxiosResponse } from 'axios'
 import { toast } from 'react-toastify'
 import axiosClient from '~/lib/axiosClient'
+import uploadFile from '~/firebase/uploadFile'
+import UploadImage from '~/components/UploadImage'
 
 const Edit = () => {
   const [form] = Form.useForm()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const {id} = useParams()
+  const [image, setImage] = useState<FilePreview | {preview: string} | null>(null)
   const [staff, getStaffById] = useStaffStore(state => [
     state.staff,
     state.getStaffById
@@ -34,8 +37,10 @@ const Edit = () => {
     const formattedngaySinhDate = moment(ngaySinhDate).format('YYYY-MM-DD')
     const hiredDate = new Date(values.hiredDate)
     const formattedHiredDate = moment(hiredDate).format('YYYY-MM-DD')
+    let imageUrl: string | undefined = undefined
+    if (image) imageUrl = await uploadFile(image as File)
     const request = {
-        avatar: null,
+        avatar: imageUrl,
         position: values.position,
         note: values.note,
         hiredDate: formattedHiredDate,
@@ -214,6 +219,9 @@ const Edit = () => {
               rules={[{ required: true }]}
             >
               <InputNumber addonAfter="vnd"/>
+            </Form.Item>
+            <Form.Item name={["user", "avatar"]} label="Ảnh đại diện">
+              <UploadImage image={image} setImage={setImage} />
             </Form.Item>
           </div>
           <Form.Item className="col-span-8 col-start-6 ms-32">

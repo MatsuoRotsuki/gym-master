@@ -33,3 +33,11 @@ export const getUserById = async (id: string | undefined) => {
 
   return response
 }
+
+export const deleteStaff = async (id: string) => {
+  try {
+    await axiosClient.delete(`/staffs/${id}`)
+  } catch (error) {
+    console.error('==> Toang méo chạy được rồi ><!', error)
+  }
+}

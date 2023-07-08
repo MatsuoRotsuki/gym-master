@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import { showDeleteConfirm } from '~/components/Layout/ConfirmModal'
 import axiosClient from '~/lib/axiosClient'
+import useStaffStore from './StaffStore'
 
 interface Props {}
 
@@ -14,6 +15,9 @@ const StaffTable = (props: any) => {
     const {staffs} = props
     const navigate = useNavigate()
     const total = staffs.length
+    const [deleteStaff] = useStaffStore(state => [
+        state.deleteStaff
+    ])
 
     const onDelete = (staffId: number) => {
         showDeleteConfirm({
@@ -21,14 +25,11 @@ const StaffTable = (props: any) => {
             icon: <WarningFilled />,
             onOk: async () => {
                 try {
-                    await axiosClient.delete(`/staffs/${staffId}`)
+                    await deleteStaff(staffId as unknown as string);
                     toast.success('Xóa nhân viên thành công', {
                         position: toast.POSITION.TOP_RIGHT,
                         autoClose: 2000
                     })
-                    setTimeout(() => {
-                        window.location.reload()
-                    }, 2000)
                 } catch (e) {
                     const err = e as Error
                     console.log(err.message)
