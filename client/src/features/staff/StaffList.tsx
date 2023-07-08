@@ -11,34 +11,43 @@ import DefaultLayout from '~/components/Layout/DefaultLayout'
 interface Props {}
 
 const StaffList = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
 
-    const [staffs] = useStaffStore(state => [
-        state.staffs
-      ])
+  const [staffs] = useStaffStore(state => [state.staffs])
+
+  const [searchValue, setSearchValue] = React.useState<string>('')
+
   return (
-        <DefaultLayout>
-            <div className="mb-2 flex min-h-full flex-col">
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center justify-between">
-                        <ArrowLeftOutlined className='me-4 mb-2' onClick={() => navigate(-1)} />
-                        <Input.Search className="w-[25vw]" placeholder="Tìm kiếm gì đó ..." />
-                    </div>
-                    <Space>
-                        <Button onClick={() => {
-                            navigate(`/nhan-vien/create`)
-                        }}>Thêm nhân viên mới</Button>
-                    </Space>
-                </div>
-                {/* <TabList defaultActiveKey='2' eventId={id} /> */}
-                <div className="mt-2 h-full grow rounded-lg bg-bgPrimary px-4 py-2 shadow-md">
-                    <div className="flex w-full items-center justify-between">
-                        <p className="text-2x2 font-medium">Danh sách nhân viên</p>
-                    </div>
-                    <StaffTable staffs={staffs} />
-                </div>
-            </div>
-        </DefaultLayout>
+    <DefaultLayout title="Danh sách nhân viên">
+      <div className="mb-2 flex min-h-full flex-col">
+        <div className="flex items-center justify-between">
+          <Input.Search
+            onChange={value => setSearchValue(value.target.value)}
+            className="w-[25vw]"
+            placeholder="Tìm kiếm gì đó ..."
+          />
+          <Space>
+            <Button
+              onClick={() => {
+                navigate(`/nhan-vien/create`)
+              }}
+            >
+              Thêm nhân viên mới
+            </Button>
+          </Space>
+        </div>
+        {/* <TabList defaultActiveKey='2' eventId={id} /> */}
+        <div className="bg-bgPrimary mt-2 h-full grow rounded-lg px-2 shadow-md">
+          <StaffTable
+            staffs={staffs.filter(staff =>
+              `${staff.firstName} ${staff.lastName}`
+                .toLowerCase()
+                .includes(searchValue.toLowerCase())
+            )}
+          />
+        </div>
+      </div>
+    </DefaultLayout>
   )
 }
 

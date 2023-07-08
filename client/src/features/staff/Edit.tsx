@@ -19,12 +19,9 @@ const Edit = () => {
   const [form] = Form.useForm()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
-  const {id} = useParams()
-  const [image, setImage] = useState<FilePreview | {preview: string} | null>(null)
-  const [staff, getStaffById] = useStaffStore(state => [
-    state.staff,
-    state.getStaffById
-  ])
+  const { id } = useParams()
+  const [image, setImage] = useState<FilePreview | { preview: string } | null>(null)
+  const [staff, getStaffById] = useStaffStore(state => [state.staff, state.getStaffById])
   useEffectOnce(() => {
     getStaffById(id)
   })
@@ -40,25 +37,22 @@ const Edit = () => {
     let imageUrl: string | undefined = undefined
     if (image) imageUrl = await uploadFile(image as File)
     const request = {
-        avatar: imageUrl,
-        position: values.position,
-        note: values.note,
-        hiredDate: formattedHiredDate,
-        employmentStatus: values.employmentStatus,
-        salary: values.salary,
-        firstName: values.firstName,
-        lastName: values.lastName,
-        gender: values.gender,
-        dateOfBirth: formattedngaySinhDate,
-        // email: values.email,
-        address: values.address,
-        phoneNumber: values.phoneNumber,
-     }
+      avatar: imageUrl,
+      position: values.position,
+      note: values.note,
+      hiredDate: formattedHiredDate,
+      employmentStatus: values.employmentStatus,
+      salary: values.salary,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      gender: values.gender,
+      dateOfBirth: formattedngaySinhDate,
+      // email: values.email,
+      address: values.address,
+      phoneNumber: values.phoneNumber
+    }
     try {
-      const response: AxiosResponse = await axiosClient.put(
-        `/staffs/${id}`,
-        request
-      )
+      const response: AxiosResponse = await axiosClient.put(`/staffs/${id}`, request)
       form.resetFields()
       setTimeout(() => {
         toast.success('Cập nhật nhân viên thành công', {
@@ -83,9 +77,9 @@ const Edit = () => {
   console.log(staff)
   return (
     <DefaultLayout>
-      <div className="min-h-full w-full rounded-lg bg-bgPrimary px-4 py-2 shadow-md">
-       <SubHeader title={`Chỉnh sửa nhân viên`} type="create" />
-       <Form
+      <div className="bg-bgPrimary min-h-full w-full rounded-lg px-4 py-2 shadow-md">
+        <SubHeader title={`Chỉnh sửa nhân viên`} type="create" />
+        <Form
           form={form}
           layout="vertical"
           name="form_in_modal"
@@ -95,11 +89,11 @@ const Edit = () => {
           onFinish={onFinish}
         >
           <div className="col-span-6 col-start-1">
-          <Form.Item
+            <Form.Item
               name="firstName"
               label="First Name"
               labelCol={{ span: 8 }}
-              rules={[{ required: true}]}
+              rules={[{ required: true }]}
             >
               <Input />
             </Form.Item>
@@ -111,22 +105,6 @@ const Edit = () => {
             >
               <Input />
             </Form.Item>
-            {/* <Form.Item
-              name= "email"
-              label="Email"
-              labelCol={{ span: 8 }}
-              rules={[{ required: true }]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name="passwordDigest"
-              label="Mật khẩu"
-              labelCol={{ span: 8 }}
-              rules={[{ required: true }]}
-            >
-              <Password />
-            </Form.Item> */}
             <Form.Item
               name="gender"
               label="Giới tính"
@@ -134,15 +112,15 @@ const Edit = () => {
               rules={[{ required: true }]}
             >
               <Radio.Group>
-                    {["Nam", "Nữ"].map((gender, index) => (
-                      <Radio value={index} key={index}>
-                        {gender}
-                      </Radio>
-                    ))}
-                </Radio.Group>
+                {['Nam', 'Nữ'].map((gender, index) => (
+                  <Radio value={index} key={index}>
+                    {gender}
+                  </Radio>
+                ))}
+              </Radio.Group>
             </Form.Item>
             <Form.Item
-              name= "dateOfBirth"
+              name="dateOfBirth"
               label="Ngày sinh"
               labelCol={{ span: 8 }}
               rules={[{ required: true }]}
@@ -183,11 +161,7 @@ const Edit = () => {
             >
               <Input />
             </Form.Item>
-            <Form.Item
-              name="note"
-              label="Ghi chú"
-              labelCol={{ span: 8 }}
-            >
+            <Form.Item name="note" label="Ghi chú" labelCol={{ span: 8 }}>
               <Input />
             </Form.Item>
             <Form.Item
@@ -205,10 +179,10 @@ const Edit = () => {
               rules={[{ required: true }]}
             >
               <Radio.Group>
-                {["Đang làm", "Không còn làm"].map((status, index) => (
-                    <Radio value={index+1} key={index+1}>
-                      {status}
-                    </Radio>
+                {['Đang làm', 'Không còn làm'].map((status, index) => (
+                  <Radio value={index + 1} key={index + 1}>
+                    {status}
+                  </Radio>
                 ))}
               </Radio.Group>
             </Form.Item>
@@ -218,37 +192,37 @@ const Edit = () => {
               labelCol={{ span: 8 }}
               rules={[{ required: true }]}
             >
-              <InputNumber addonAfter="vnd"/>
+              <InputNumber addonAfter="vnd" />
             </Form.Item>
-            <Form.Item name={["user", "avatar"]} label="Ảnh đại diện">
+            <Form.Item name={['user', 'avatar']} label="Ảnh đại diện">
               <UploadImage image={image} setImage={setImage} />
             </Form.Item>
           </div>
           <Form.Item className="col-span-8 col-start-6 ms-32">
-              <Space>
-                <Button
-                  type="primary"
-                  htmlType="button"
-                  className="bg-danger"
-                  onClick={() =>
-                    showDeleteConfirm({
-                      title: 'Bạn có chắc chắn muốn hủy quá trình ?',
-                      icon: <ExclamationCircleFilled />,
-                      onOk() {
-                        navigate(-1)
-                      }
-                    })
-                  }
-                >
-                  Hủy
-                </Button>
-                <Button disabled={loading} type="primary" htmlType="submit" ghost>
-                  {loading ? <LoadingOutlined /> : 'Tạo'}
-                </Button>
-              </Space>
-            </Form.Item>
+            <Space>
+              <Button
+                type="primary"
+                htmlType="button"
+                className="bg-danger"
+                onClick={() =>
+                  showDeleteConfirm({
+                    title: 'Bạn có chắc chắn muốn hủy quá trình ?',
+                    icon: <ExclamationCircleFilled />,
+                    onOk() {
+                      navigate(-1)
+                    }
+                  })
+                }
+              >
+                Hủy
+              </Button>
+              <Button disabled={loading} type="primary" htmlType="submit" ghost>
+                {loading ? <LoadingOutlined /> : 'Tạo'}
+              </Button>
+            </Space>
+          </Form.Item>
         </Form>
-        </div>
+      </div>
     </DefaultLayout>
   )
 }

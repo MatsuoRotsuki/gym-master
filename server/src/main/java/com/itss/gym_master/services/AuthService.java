@@ -24,8 +24,10 @@ public class AuthService {
         if (!user.getPasswordDigest().equals(password)) {
             throw new EntityNotFoundException("Password is not correct");
         }
-        if (user.getMember() != null) {
-            if (user.getMember().getIsBanned()) throw new UserIsBannedException("Member is banned");
+        if (user.getStaff() != null) {
+            user.setId(user.getStaff().getId());
+        } else {
+            user.setId(user.getMember().getId());
         }
         return user;
     }

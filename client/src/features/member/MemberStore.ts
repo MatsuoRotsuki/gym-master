@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { getAllMembers, updateMember } from '~/lib/memberApi'
+import { createMember, getAllMembers, updateMember } from '~/lib/memberApi'
 
 interface IMemberStore {
   members: Map<string, IMember>
@@ -7,6 +7,7 @@ interface IMemberStore {
   getAllMembers: () => void
   updateMember: (member: IMember) => void
   setCurrentPage: (page: PageType) => void
+  createMember: (member: IMember) => void
 }
 
 const useMemberStore = create<IMemberStore>((set, get) => ({
@@ -24,6 +25,15 @@ const useMemberStore = create<IMemberStore>((set, get) => ({
 
     const members = get().members
     members.set(member.id, member)
+
+    set({ members: members })
+  },
+  createMember: async member => {
+    const data = await createMember(member)
+    if (!data) return
+
+    const members = get().members
+    members.set(data.id, data)
 
     set({ members: members })
   }

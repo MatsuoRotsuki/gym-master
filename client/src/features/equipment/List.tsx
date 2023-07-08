@@ -28,7 +28,7 @@ const List = () => {
 
       <Pagination
         className="mt-4 flex items-center justify-end"
-        defaultCurrent={currentPage ?? 1}
+        current={currentPage}
         defaultPageSize={offset ?? 12}
         pageSizeOptions={['12', '24', '36']}
         total={Array.from(equipments.keys()).length}

@@ -66,9 +66,22 @@ declare interface IMember {
   address: string
   phoneNumber: string
   avatar?: string
+  memberMemberships: IMemberMembership[]
 }
 
 declare type FilePreview = File & { preview: string }
+
+declare interface IMemberMembership {
+  id: string
+  validUntil: Date
+  validFrom: Date
+  createdAt: Date
+  hasActivated: boolean
+  membership: IMembership
+  membershipActivityLogs: any[]
+  usageLogs: any[]
+}
+
 declare interface IMembership {
   id: string
   name: string
