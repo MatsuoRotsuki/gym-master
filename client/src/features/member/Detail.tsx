@@ -3,6 +3,8 @@ import React from 'react'
 import Edit from './Edit'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { genderType } from '~/app/config'
+import { useNavigate } from 'react-router-dom'
+import Table, { ColumnsType } from 'antd/es/table'
 
 type PropsType = {
   member: IMember
@@ -44,10 +46,56 @@ const MemberInfo = ({ member }: PropsType) => {
           label="Tham gia từ"
           value={new Date(member.joinedDate).toLocaleDateString('vi-VN')}
         />
-        <DetailWrapper label="Cân nặng" value={`${member.weight.toFixed(2)} kg`} />
+        <DetailWrapper label="Cân nặng" value={`${member.weight?.toFixed(2) ?? 60} kg`} />
         {member.isBanned && <DetailWrapper label="Lý do bị khóa" value={member.bannedReason} />}
       </div>
     </div>
+  )
+}
+
+const MemberMembership = ({ member }: PropsType) => {
+  const navigate = useNavigate()
+
+  const columns: ColumnsType<IMemberMembership> = [
+    {
+      title: 'Gói tập',
+      dataIndex: 'name',
+      render: (_, record) => record.membership.name
+    },
+    {
+      title: 'Ngày bắt đầu',
+      dataIndex: 'validFrom',
+      key: 'validFrom'
+    },
+    {
+      title: 'Ngày kết thúc',
+      dataIndex: 'validUntil',
+      key: 'validUntil'
+    },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'hasActivated',
+      render: (_, record) =>
+        record.hasActivated ? (
+          <Tag color="green">Đã kích hoạt</Tag>
+        ) : (
+          <Tag color="volcano">Đã hết hạn</Tag>
+        )
+    }
+  ]
+
+  return (
+    <Table
+      columns={columns}
+      dataSource={member.memberMemberships}
+      onRow={(record, _) => {
+        return {
+          onClick: () => {
+            navigate(`/goi-tap/${record.id}`)
+          }
+        }
+      }}
+    />
   )
 }
 
@@ -63,7 +111,7 @@ function Detail({ member }: PropsType) {
     {
       key: 'memberMembership',
       label: 'Gói tập đã đăng ký',
-      children: <div>Gói tập đã đăng ký</div>
+      children: <MemberMembership member={member} />
     }
   ]
 

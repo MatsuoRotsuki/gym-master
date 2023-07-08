@@ -10,7 +10,7 @@ type PropsType = {
 function MemberCard({ member, setCurrentMember, className }: PropsType) {
   return (
     <div
-      className={`flex items-start justify-start gap-2 p-4 hover:bg-bgSecondary ${className}`}
+      className={`flex items-start justify-start gap-2 p-4 hover:cursor-pointer hover:bg-bgSecondary ${className}`}
       onClick={() => setCurrentMember(member)}
     >
       <Avatar

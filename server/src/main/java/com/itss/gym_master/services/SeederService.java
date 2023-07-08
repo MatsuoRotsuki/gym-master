@@ -75,6 +75,24 @@ public class SeederService {
     public List<Staff> fakeStaffs() {
         List<Staff> staffs = new ArrayList<>();
 
+        User admin = new User();
+        admin.setEmail("admin@example.com");
+        admin.setPasswordDigest("123456");
+        admin.setRole(1);
+        admin = userRepository.save(admin);
+
+        Staff adminStaff = new Staff();
+        List<String> positions = List.of("Sales", "Trainer", "Receptionist");
+        adminStaff.setPosition(positions.get(new Random().nextInt(positions.size())));
+        adminStaff.setEmploymentStatus(faker.random().nextInt(1, 3));
+        adminStaff.setSalary(1000000L + faker.random().nextInt(0, 5000000));
+        adminStaff.setUser(admin);
+        adminStaff.setFirstName("Super");
+        adminStaff.setLastName("Admin");
+        adminStaff.setGender(faker.random().nextInt(0, 1));
+        adminStaff.setPhoneNumber(faker.phoneNumber().cellPhone());
+        adminStaff = staffRepository.save(adminStaff);
+
         for (int i = 0; i < 30; i++) {
             User user = new User();
 
@@ -84,7 +102,6 @@ public class SeederService {
             user = userRepository.save(user);
 
             Staff newStaff = new Staff();
-            List<String> positions = List.of("Sales", "Trainer", "Receptionist");
             newStaff.setPosition(positions.get(new Random().nextInt(positions.size())));
             newStaff.setEmploymentStatus(faker.random().nextInt(1, 3));
             newStaff.setNote(faker.lorem().sentence());
@@ -106,12 +123,6 @@ public class SeederService {
     public List<Member> fakeMembers() {
 
         List<Member> members = new ArrayList<>();
-
-        User admin = new User();
-        admin.setEmail("admin@example.com");
-        admin.setPasswordDigest("123456");
-        admin.setRole(1);
-        admin = userRepository.save(admin);
 
         for (int i = 0; i < 99; i++) {
             User user = new User();

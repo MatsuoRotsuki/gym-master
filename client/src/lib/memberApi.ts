@@ -30,7 +30,13 @@ export const updateMember = async (member: IMember) => {
 }
 
 export const getMemberById = async (id: string | undefined) => {
-    const response = await axiosClient.get(`members/${id}`)
-    if (!response) return
-    return response
-  }
+  const response = await axiosClient.get(`members/${id}`)
+  if (!response) return
+  return response
+}
+
+export const createMember = async (member: IMember) => {
+  const response = await axiosClient.post('/members', member)
+  if (!response) return
+  return response as unknown as IMember
+}
