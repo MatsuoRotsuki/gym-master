@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.itss.gym_master.entities.Member;
 import com.itss.gym_master.entities.User;
 import com.itss.gym_master.exceptions.EntityNotFoundException;
+import com.itss.gym_master.exceptions.UserIsBannedException;
 import com.itss.gym_master.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,10 @@ public class AuthService {
         User user = userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("Could not find user with that email"));
         if (!user.getPasswordDigest().equals(password)) {
-            System.out.println(user.getPasswordDigest());
             throw new EntityNotFoundException("Password is not correct");
+        }
+        if (user.getMember() != null) {
+            if (user.getMember().getIsBanned()) throw new UserIsBannedException("Member is banned");
         }
         return user;
     }

@@ -1,5 +1,6 @@
 package com.itss.gym_master.configs;
 import com.itss.gym_master.exceptions.EntityNotFoundException;
+import com.itss.gym_master.exceptions.UserIsBannedException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, List<String>>> handleNotFoundException(EntityNotFoundException ex) {
         List<String> errors = Collections.singletonList(ex.getMessage());
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UserIsBannedException.class)
+    public ResponseEntity<Map<String, List<String>>> handleUserIsBannedException(UserIsBannedException ex) {
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(Exception.class)
