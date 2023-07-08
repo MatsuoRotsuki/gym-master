@@ -20,6 +20,7 @@ const Edit = ({ equipment, isOpen, setIsOpen }: PropsType) => {
 
   const [image, setImage] = useState<FilePreview | null | { preview: string }>({
     preview:
+      equipment.image ??
       'https://firebasestorage.googleapis.com/v0/b/gym-master-3bb8c.appspot.com/o/images%2Fgym-equipment.jpg?alt=media&token=d30ba9f2-7edf-4e36-a2b5-3586fba43f65'
   })
   const [isLoading, setIsLoading] = useState(false)

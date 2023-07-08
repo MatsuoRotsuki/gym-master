@@ -12,3 +12,11 @@ export const genderType: {
   0: 'Nam',
   1: 'Nữ'
 }
+
+export const userRole: {
+  [key: number]: 'Admin' | 'Staff' | 'Member'
+} = {
+  1: 'Admin',
+  2: 'Staff',
+  3: 'Member'
+}

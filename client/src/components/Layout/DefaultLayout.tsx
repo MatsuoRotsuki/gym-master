@@ -6,8 +6,7 @@ import NavBar from '../NavBar'
 
 type PropsType = {
   children: React.ReactNode
-  title?: string
-  style?: string
+  title?: React.ReactNode
 }
 
 const variants = {

@@ -21,13 +21,10 @@ const StaffList = () => {
     <DefaultLayout title="Danh sách nhân viên">
       <div className="mb-2 flex min-h-full flex-col">
         <div className="flex items-center justify-between">
-          <Input.Search
-            onChange={value => setSearchValue(value.target.value)}
-            className="w-[25vw]"
-            placeholder="Tìm kiếm gì đó ..."
-          />
           <Space>
             <Button
+              type="primary"
+              ghost
               onClick={() => {
                 navigate(`/nhan-vien/create`)
               }}
@@ -36,7 +33,7 @@ const StaffList = () => {
             </Button>
           </Space>
         </div>
-        {/* <TabList defaultActiveKey='2' eventId={id} /> */}
+
         <div className="bg-bgPrimary mt-2 h-full grow rounded-lg px-2 shadow-md">
           <StaffTable
             staffs={staffs.filter(staff =>

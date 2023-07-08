@@ -21,8 +21,11 @@ const ItemCard = ({ equipment }: PropsType) => {
       <div className="relative rounded border border-cartBorder shadow-sm transition-shadow hover:shadow-2xl">
         <button className="text-start" onClick={() => setIsDetailOpen(true)}>
           <img
-            src="https://firebasestorage.googleapis.com/v0/b/gym-master-3bb8c.appspot.com/o/images%2Fgym-equipment.jpg?alt=media&token=d30ba9f2-7edf-4e36-a2b5-3586fba43f65"
-            alt="equipment image"
+            src={
+              equipment.image ??
+              'https://firebasestorage.googleapis.com/v0/b/gym-master-3bb8c.appspot.com/o/images%2Fgym-equipment.jpg?alt=media&token=d30ba9f2-7edf-4e36-a2b5-3586fba43f65'
+            }
+            alt="equipment-image"
             className="aspect-square w-full rounded-t object-cover"
           />
 

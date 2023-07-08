@@ -5,6 +5,7 @@ import UploadImage from '~/components/UploadImage'
 import useEquipmentStore from './EquipmentStore'
 import { LoadingOutlined } from '@ant-design/icons'
 import useGymStore from '../gym/GymStore'
+import uploadFile from '~/firebase/uploadFile'
 
 type PropsType = {
   isOpen: boolean
@@ -20,11 +21,13 @@ const Create = ({ isOpen, setIsOpen }: PropsType) => {
   const [image, setImage] = useState<FilePreview | null | { preview: string }>(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  const onFinish = (values: IEquipment) => {
+  const onFinish = async (values: IEquipment) => {
     if (!image) return
     setIsLoading(true)
 
-    addNewEquipment({ ...values, gyms: [] })
+    const imageUrl = await uploadFile(image as File)
+
+    addNewEquipment({ ...values, image: imageUrl, gyms: [] })
       .then(() => {
         setIsOpen(false)
         message.open({

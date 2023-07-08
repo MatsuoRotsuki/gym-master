@@ -38,9 +38,12 @@ const Detail = ({ equipment, isOpen, setIsOpen }: PropsType) => {
     >
       <div className="flex w-full items-start justify-start gap-4">
         <img
-          src="https://firebasestorage.googleapis.com/v0/b/gym-master-3bb8c.appspot.com/o/images%2Fgym-equipment.jpg?alt=media&token=d30ba9f2-7edf-4e36-a2b5-3586fba43f65"
+          src={
+            equipment.image ??
+            'https://firebasestorage.googleapis.com/v0/b/gym-master-3bb8c.appspot.com/o/images%2Fgym-equipment.jpg?alt=media&token=d30ba9f2-7edf-4e36-a2b5-3586fba43f65'
+          }
           alt="equipment-image"
-          className="aspect-square w-[25rem] rounded-md object-contain"
+          className="aspect-square w-[25rem] rounded-md object-cover"
         />
 
         <div className="flex w-full flex-col items-start justify-start gap-2">

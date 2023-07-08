@@ -1,4 +1,4 @@
-import axiosClient from "./axiosClient"
+import axiosClient from './axiosClient'
 
 export const getAllStaff = async () => {
   const response = await axiosClient.get('staffs')
@@ -6,8 +6,7 @@ export const getAllStaff = async () => {
   if (!response) return
 
   const data = (Array.isArray(response) ? response : [response]) as IStaff[]
-  console.log(data)
-  return data
+  return data.filter(each => each.id !== 1)
 }
 
 export const getAllUser = async () => {
@@ -16,7 +15,6 @@ export const getAllUser = async () => {
   if (!response) return
 
   const data = (Array.isArray(response) ? response : [response]) as IUser[]
-  console.log(data)
   return data
 }
 

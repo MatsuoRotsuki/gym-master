@@ -13,36 +13,33 @@ type PropsType = {
 }
 
 const StaffTable = (props: any) => {
-    const {staffs} = props
-    const navigate = useNavigate()
-    const total = staffs.length
-    const [deleteStaff] = useStaffStore(state => [
-        state.deleteStaff
-    ])
+  const { staffs } = props
+  const navigate = useNavigate()
+  const [deleteStaff] = useStaffStore(state => [state.deleteStaff])
 
-    const onDelete = (staffId: number) => {
-        showDeleteConfirm({
-            title: 'Bạn có chắc chắn muốn xóa nhân viên này không?',
-            icon: <WarningFilled />,
-            onOk: async () => {
-                try {
-                    await deleteStaff(staffId as unknown as string);
-                    toast.success('Xóa nhân viên thành công', {
-                        position: toast.POSITION.TOP_RIGHT,
-                        autoClose: 2000
-                    })
-                } catch (e) {
-                    const err = e as Error
-                    console.log(err.message)
-                    toast.error((err as Error).message, {
-                        position: toast.POSITION.TOP_RIGHT,
-                        autoClose: 2000
-                    })
-                }
-            }
-        })
-    }
-const columns: ColumnsType<IStaff> = [
+  const onDelete = (staffId: number) => {
+    showDeleteConfirm({
+      title: 'Bạn có chắc chắn muốn xóa nhân viên này không?',
+      icon: <WarningFilled />,
+      onOk: async () => {
+        try {
+          await deleteStaff(staffId as unknown as string)
+          toast.success('Xóa nhân viên thành công', {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000
+          })
+        } catch (e) {
+          const err = e as Error
+          console.log(err.message)
+          toast.error((err as Error).message, {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000
+          })
+        }
+      }
+    })
+  }
+  const columns: ColumnsType<IStaff> = [
     {
       title: 'Mã nhân viên',
       dataIndex: 'id',

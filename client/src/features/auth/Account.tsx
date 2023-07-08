@@ -1,12 +1,12 @@
 import React from 'react'
 import DefaultLayout from '~/components/Layout/DefaultLayout'
 
-const Feedback = () => {
+const Account = () => {
   return (
     <DefaultLayout>
-      <div>Feedback</div>
+      <div>Account</div>
     </DefaultLayout>
   )
 }
 
-export default Feedback
+export default Account

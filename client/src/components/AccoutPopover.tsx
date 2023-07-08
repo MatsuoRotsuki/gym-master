@@ -1,6 +1,6 @@
 import React, { MouseEventHandler } from 'react'
 import { LogoutOutlined, MailOutlined, UserOutlined } from '@ant-design/icons'
-import { Avatar, Popover, Tooltip } from 'antd'
+import { Avatar, Popover, Tooltip, message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
@@ -35,7 +35,13 @@ const AccountPopover = () => {
             <span>Send me feedback</span>
           </PopoverItem>
 
-          <PopoverItem onClick={() => console.log('==> logout')}>
+          <PopoverItem
+            onClick={() => {
+              localStorage.removeItem('currentUser')
+              navigate('/dang-nhap')
+              message.success('Đăng xuất tài khoản thành công.')
+            }}
+          >
             <LogoutOutlined className="flex items-center justify-center" />
             <span>Logout</span>
           </PopoverItem>

@@ -28,15 +28,16 @@ declare interface IEquipment {
   type: string
   manufacturer: string
   description: string
+  image?: string
   gyms: IGym[]
 }
 
 declare interface IFeedback {
-  id: number,
-  content: string,
-  stars: number,
+  id: number
+  content: string
+  stars: number
   member: IMember
-  gym: IGym,
+  gym: IGym
   member: IMember
   replies: IReply[]
 }
@@ -88,19 +89,49 @@ declare interface IMembership {
   monthlyPrice: number
   description: string
   maxNumOfMembers: number
-  createdBy: IUser
-  registrations: IMember[]
+  createdBy: IMember
+  registrations: RegistrationMember[]
+}
+
+declare interface IFeedback {
+  id: string
+  content: string
+  images?: FilePreview[]
+  stars: number
+  member: IMember
+  gym: IGym
+  replies?: IReply[]
+}
+
+declare interface IReply {
+  id: string
+  content: string
+  staff: IUser
+}
+
+declare type CredentialsType = {
+  email: string
+  password: string
+}
+
+declare type RegistrationMember = {
+  id: string
+  validUntil: Date
+  validFrom: Date
+  createdAt: Date
+  hasActived: false
+  member: IMember
 }
 type IStaff = {
   id: number
-  firstName: string,
-  lastName: string,
-  gender: number,
-  dateOfBirth: Date,
-  address: string,
-  phoneNumber: string,
-  avatar: string,
-  role: string,
+  firstName: string
+  lastName: string
+  gender: number
+  dateOfBirth: Date
+  address: string
+  phoneNumber: string
+  avatar: string
+  role: string
   hiredDate: Date
   position: string
   salary: string
@@ -109,9 +140,9 @@ type IStaff = {
 }
 
 declare interface IReply {
-  id: string,
-  content: string,
-  feedback: IFeedback,
+  id: string
+  content: string
+  feedback: IFeedback
   staff: IStaff
 }
 

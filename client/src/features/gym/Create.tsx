@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal, Space } from 'antd'
+import { Button, Form, Input, Modal, Space, message } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import { RcFile } from 'antd/es/upload'
 import { AxiosError } from 'axios'
@@ -19,9 +19,7 @@ const Create = ({ isOpen, setIsOpen }: PropsType) => {
   const [form] = useForm()
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
-  const [image, setImage] = useState<FilePreview | {preview: string} | null>(null)
-
-  const navigate = useNavigate()
+  const [image, setImage] = useState<FilePreview | { preview: string } | null>(null)
 
   const onFinish = async (values: any) => {
     setIsLoading(true)
@@ -34,23 +32,10 @@ const Create = ({ isOpen, setIsOpen }: PropsType) => {
         image: null
       })
       form.resetFields()
-      setTimeout(() => {
-        toast.success('Cập nhật nhân viên thành công', {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 2000,
-          toastId: 'add-gym-success'
-        })
-      }, 200)
-      // navigate(`/phong-tap`)
-      // window.location.reload()
+      message.success('Thêm mới nhân viên thành công')
+      setIsOpen(false)
     } catch (error) {
-      // const axiosError = error as AxiosError
-      // const dataError: { error: string } | unknown = axiosError.response?.data
-      // const dataError2 = dataError as { error: string }
-      // const messageError = dataError2.error
-      toast.error("Lỗi khi tạo", {
-        position: toast.POSITION.TOP_RIGHT
-      })
+      message.error('Lỗi khi tạo ><!')
     } finally {
       setIsLoading(false)
     }
@@ -65,9 +50,13 @@ const Create = ({ isOpen, setIsOpen }: PropsType) => {
           <p>Chỉnh sửa thông tin phòng tập</p>
         </div>
       }
+      centered
       footer={
         <Space>
           <Button
+            type="primary"
+            ghost
+            danger
             onClick={() => {
               setIsOpen(false)
               form.resetFields()
@@ -87,12 +76,7 @@ const Create = ({ isOpen, setIsOpen }: PropsType) => {
         </Space>
       }
     >
-      <Form
-        form={form}
-        onFinish={onFinish}
-        autoComplete="off"
-        layout="vertical"
-      >
+      <Form form={form} onFinish={onFinish} autoComplete="off" layout="vertical">
         <Form.Item
           className="w-full"
           label="Tên phòng tập"
@@ -138,7 +122,7 @@ const Create = ({ isOpen, setIsOpen }: PropsType) => {
           <Input placeholder="Nhập tên phòng tập" />
         </Form.Item> */}
         <Form.Item name="image" label="Ảnh minh họa">
-            <UploadImage image={image} setImage={setImage} />
+          <UploadImage image={image} setImage={setImage} />
         </Form.Item>
       </Form>
       <ToastContainer />

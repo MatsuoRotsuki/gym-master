@@ -1,29 +1,23 @@
 import {
   BankFilled,
   BankOutlined,
-  CaretUpOutlined,
   ControlFilled,
   ControlOutlined,
-  GiftFilled,
-  GiftOutlined,
   IdcardFilled,
   IdcardOutlined,
-  InfoCircleFilled,
-  InfoCircleOutlined,
   MacCommandFilled,
   MacCommandOutlined,
   ReconciliationFilled,
   ReconciliationOutlined,
-  SolutionOutlined,
   TeamOutlined,
-  UserAddOutlined,
   UserOutlined,
   WhatsAppOutlined
 } from '@ant-design/icons'
-import { Avatar, Divider } from 'antd'
+import { Divider } from 'antd'
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Logo from '~/assets/logo.png'
+import useAuth from '~/hooks/useAuth'
 
 type SideButtonProps = {
   icon: React.ReactNode
@@ -55,6 +49,8 @@ const SideButton = ({ icon, activedIcon, text, href }: SideButtonProps) => {
 }
 
 const Sidebar = () => {
+  const { isStaff, isAdmin, isMember } = useAuth()
+
   return (
     <div className="flex h-full min-w-[14rem] max-w-[14rem] flex-col items-center justify-start gap-8 border-r-2 border-borderLine bg-bgSideBar px-3 pt-8 text-textSideBar">
       <img className="w-3/5" src={Logo} alt="app logo" />
@@ -66,20 +62,28 @@ const Sidebar = () => {
           text="Tổng quan"
           href="/"
         />
+
         <SideButton
           icon={<BankOutlined />}
           activedIcon={<BankFilled />}
           text="Phòng tập"
           href="/phong-tap"
         />
-        <SideButton
-          icon={<TeamOutlined />}
-          activedIcon={<TeamOutlined />}
-          text="Nhân viên"
-          href="/nhan-vien"
-        />
 
-        <Divider className="mb-1 mt-0 bg-textSideBar" />
+        {(isStaff || isAdmin) && (
+          <>
+            {isAdmin && (
+              <SideButton
+                icon={<TeamOutlined />}
+                activedIcon={<TeamOutlined />}
+                text="Nhân viên"
+                href="/nhan-vien"
+              />
+            )}
+
+            <Divider className="mb-1 mt-0 bg-textSideBar" />
+          </>
+        )}
 
         <SideButton
           icon={<ReconciliationOutlined />}
@@ -87,27 +91,46 @@ const Sidebar = () => {
           text="Gói tập"
           href="/goi-tap"
         />
-        <SideButton
-          icon={<ControlOutlined />}
-          activedIcon={<ControlFilled />}
-          text="Thiết bị"
-          href="/thiet-bi"
-        />
-        <SideButton
-          icon={<IdcardOutlined />}
-          activedIcon={<IdcardFilled />}
-          text="Hội viên"
-          href="/hoi-vien"
-        />
 
-        <Divider className="mb-1 mt-0 bg-textSideBar" />
+        {(isStaff || isAdmin) && (
+          <>
+            <SideButton
+              icon={<ControlOutlined />}
+              activedIcon={<ControlFilled />}
+              text="Thiết bị"
+              href="/thiet-bi"
+            />
 
-        <SideButton
-          icon={<WhatsAppOutlined />}
-          activedIcon={<WhatsAppOutlined />}
-          text="Phản hồi"
-          href="/phan-hoi"
-        />
+            <SideButton
+              icon={<IdcardOutlined />}
+              activedIcon={<IdcardFilled />}
+              text="Hội viên"
+              href="/hoi-vien"
+            />
+
+            <Divider className="mb-1 mt-0 bg-textSideBar" />
+
+            <SideButton
+              icon={<WhatsAppOutlined />}
+              activedIcon={<WhatsAppOutlined />}
+              text="Phản hồi"
+              href="/phan-hoi"
+            />
+          </>
+        )}
+
+        {isMember && (
+          <>
+            <Divider className="mb-1 mt-0 bg-textSideBar" />
+
+            <SideButton
+              icon={<UserOutlined />}
+              activedIcon={<UserOutlined />}
+              text="Về tôi"
+              href="/tai-khoan"
+            />
+          </>
+        )}
       </div>
     </div>
   )

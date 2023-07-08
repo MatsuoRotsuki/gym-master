@@ -187,8 +187,9 @@ public class SeederService {
             for (int j = 0; j < 10; j++) {
                 Member randMember = members.get(rand.nextInt(members.size()));
                 MemberMembership memberMembership = new MemberMembership();
-                memberMembership.setValidFrom(LocalDate.of(2023, 7, 3));
-                memberMembership.setValidUntil(LocalDate.of(2023, 9, 3));
+                int day = rand.nextInt(8) + 2;
+                memberMembership.setValidFrom(LocalDate.of(2023, 7, day));
+                memberMembership.setValidUntil(LocalDate.of(2023, 9, day));
                 memberMembership.setMembership(membership);
                 memberMembership.setCreatedAt(LocalDateTime.now());
                 memberMembership.setMember(randMember);

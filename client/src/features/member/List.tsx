@@ -27,7 +27,7 @@ const List = () => {
   }, [members])
 
   return (
-    <DefaultLayout title="Danh sách hội viên" style="p-0">
+    <DefaultLayout title="Danh sách hội viên">
       <div className="flex flex-grow">
         <div className="flex items-start">
           <div
