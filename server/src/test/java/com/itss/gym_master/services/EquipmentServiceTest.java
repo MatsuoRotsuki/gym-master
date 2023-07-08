@@ -106,7 +106,7 @@ class EquipmentServiceTest {
     }
 
     @Test
-    public void testEditEquipment_EquipmentNotFound() {
+    public void editEquipment_EquipmentNotFound() {
         Long equipmentId = 1L;
         // Creating a new Equipment object
         Equipment newEquipment = new Equipment();
