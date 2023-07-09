@@ -22,6 +22,10 @@ const Login = () => {
         message.success('Đăng nhập thành công')
       })
       .catch(error => {
+        if (error.response.status === 401) {
+          message.error('Tài khoản đã bị khóa bởi quản trị viên ><!')
+          return
+        }
         message.error('Tên đăng nhập hoặc mật khẩu không chính xác !')
       })
       .finally(() => {

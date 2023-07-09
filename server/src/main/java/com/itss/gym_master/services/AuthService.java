@@ -3,6 +3,7 @@ package com.itss.gym_master.services;
 import com.itss.gym_master.entities.Member;
 import com.itss.gym_master.entities.User;
 import com.itss.gym_master.exceptions.EntityNotFoundException;
+import com.itss.gym_master.exceptions.UserIsBannedException;
 import com.itss.gym_master.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class AuthService {
         if (user.getStaff() != null) {
             user.setId(user.getStaff().getId());
         } else {
+            if(user.getMember().getIsBanned())  throw new UserIsBannedException("User is banned ><!");
             user.setId(user.getMember().getId());
         }
         return user;

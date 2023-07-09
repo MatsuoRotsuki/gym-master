@@ -87,10 +87,12 @@ const Overview = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="col-span-2 rounded-md border border-disabled p-2 shadow-sm">
-              <p className="mb-2 text-xl font-medium">Doanh thu</p>
-              <Revenue />
-            </div>
+            {isAdmin && (
+              <div className="col-span-2 rounded-md border border-disabled p-2 shadow-sm">
+                <p className="mb-2 text-xl font-medium">Doanh thu</p>
+                <Revenue />
+              </div>
+            )}
 
             <div className="col-span-2 rounded-md border border-disabled p-2 shadow-sm">
               <p className="mb-2 text-xl font-medium">Lượt đăng ký</p>
