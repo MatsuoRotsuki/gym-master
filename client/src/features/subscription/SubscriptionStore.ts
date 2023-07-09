@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { addNewPlan, deletePlan, getAllPlans } from '~/lib/subscriptionApi'
+import { addNewPlan, confirmSubscribePlan, deletePlan, getAllPlans } from '~/lib/subscriptionApi'
 
 interface ISubscriptionStore {
   plans: Map<string, IMembership>

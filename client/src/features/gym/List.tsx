@@ -38,7 +38,7 @@ const List = () => {
 
       <div className="grid grid-cols-4 gap-4">
         {rooms?.map((room, index) => (
-          <GymCard gym={room} staff={staff} />
+          <GymCard key={index} gym={room} staff={staff} />
         ))}
         {rooms.length === 0 && <LoadingOutlined />}
       </div>

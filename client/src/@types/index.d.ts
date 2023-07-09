@@ -151,3 +151,9 @@ declare type SubscribeDataType = {
   membershipId: string
   periodOfMonths: number
 }
+
+declare type ConfirmPayment = {
+  amount: number
+  method: string
+  invoiceNumber: string
+}

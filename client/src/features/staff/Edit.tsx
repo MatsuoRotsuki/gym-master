@@ -20,12 +20,9 @@ const Edit = () => {
   const [form] = Form.useForm()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
-  const {id} = useParams()
-  const [image, setImage] = useState<FilePreview | {preview: string} | null>(null)
-  const [staff, getStaffById] = useStaffStore(state => [
-    state.staff,
-    state.getStaffById
-  ])
+  const { id } = useParams()
+  const [image, setImage] = useState<FilePreview | { preview: string } | null>(null)
+  const [staff, getStaffById] = useStaffStore(state => [state.staff, state.getStaffById])
   useEffectOnce(() => {
     getStaffById(id)
   })
@@ -82,7 +79,7 @@ const Edit = () => {
       setLoading(false)
     }
   }
-  console.log(staff)
+
   return (
     <DefaultLayout>
       <div className="bg-bgPrimary min-h-full w-full rounded-lg px-4 py-2 shadow-md">
@@ -205,7 +202,7 @@ const Edit = () => {
             <Form.Item name={['user', 'avatar']} label="Ảnh đại diện">
               <UploadImage image={image} setImage={setImage} />
             </Form.Item>
-            <Form.Item name={["user", "avatar"]} label="Ảnh đại diện">
+            <Form.Item name={['user', 'avatar']} label="Ảnh đại diện">
               <UploadImage image={image} setImage={setImage} />
             </Form.Item>
           </div>

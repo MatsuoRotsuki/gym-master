@@ -43,7 +43,27 @@ export const subscribePlan = async ({
   periodOfMonths
 }: SubscribeDataType) => {
   try {
-    await axiosClient.post(`/member-memberships/register`)
+    const response = (await axiosClient.post(`/member-memberships/register`, {
+      memberId: Number(memberId),
+      membershipId: Number(membershipId),
+      periodOfMonths,
+      note: ''
+    })) as any
+
+    return response.membershipActivityLogs[0].id
+  } catch (error) {
+    console.error('==> Toang méo chạy được rồi ><!', error)
+  }
+}
+
+export const confirmSubscribePlan = async (registerId: string, confirmInfo: ConfirmPayment) => {
+  try {
+    const data = (await axiosClient.post(
+      `/member-activity-logs/${registerId}/confirm-payment`,
+      confirmInfo
+    )) as any
+
+    return data.memberMembership
   } catch (error) {
     console.error('==> Toang méo chạy được rồi ><!', error)
   }

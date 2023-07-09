@@ -18,7 +18,6 @@ const useStaffStore = create<IStaffStore>(set => ({
   },
   getStaffById: async (id: string | undefined) => {
     const response: IStaff | undefined = (await getStaffById(id)) as unknown as IStaff
-    console.log(response)
     const data: IStaff | undefined = {
       ...response
       // hiredDate: dayjs(response.hiredDate),

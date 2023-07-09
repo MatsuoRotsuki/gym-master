@@ -6,19 +6,12 @@ import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons'
 import { Input, Rate, Tag } from 'antd'
 import GymRoomThumbnail from '~/assets/gym-room.jpg'
 import ButtonBack from '~/components/ButtonBack'
+import { customIcons } from './List'
 
 type DetailItemWrapperPropsType = {
   label: string
   title: React.ReactNode
   className?: string
-}
-
-const customIcons: Record<number, React.ReactNode> = {
-  1: <FrownOutlined />,
-  2: <FrownOutlined />,
-  3: <MehOutlined />,
-  4: <SmileOutlined />,
-  5: <SmileOutlined />
 }
 
 const DetailItemWrapper = ({ label, title, className }: DetailItemWrapperPropsType) => (

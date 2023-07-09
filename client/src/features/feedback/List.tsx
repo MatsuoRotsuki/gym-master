@@ -7,7 +7,7 @@ import useMemberStore from '../member/MemberStore'
 import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 
-const customIcons: Record<number, React.ReactNode> = {
+export const customIcons: Record<number, React.ReactNode> = {
   1: <FrownOutlined />,
   2: <FrownOutlined />,
   3: <MehOutlined />,

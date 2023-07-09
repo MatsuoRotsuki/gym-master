@@ -23,7 +23,6 @@ const List = () => {
   useEffect(() => {
     if (Object.keys(currentMember).length > 0)
       setCurrentMember(members.get(currentMember?.id) as IMember)
-    console.log('Thay doi members')
   }, [members])
 
   return (

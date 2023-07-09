@@ -137,36 +137,38 @@ const Overview = () => {
 
             <div className="">
               <p className="mb-2 text-xl font-medium">Gói đăng ký của tôi</p>
-              {members.get(currentUser as string)?.memberMemberships.map((plan, index) => (
-                <button
-                  key={index}
-                  className="w-[8rem] rounded-md border border-cartBorder text-start shadow-sm"
-                >
-                  <img
-                    src={PlanThumbnail}
-                    alt="equipment-image"
-                    className="aspect-square w-full rounded-t object-cover"
-                  />
+              <div className="grid grid-cols-4 gap-2">
+                {members.get(currentUser as string)?.memberMemberships.map((plan, index) => (
+                  <button
+                    key={index}
+                    className="w-[8rem] rounded-md border border-cartBorder text-start shadow-sm"
+                  >
+                    <img
+                      src={PlanThumbnail}
+                      alt="equipment-image"
+                      className="aspect-square w-full rounded-t object-cover"
+                    />
 
-                  <div className="max-w-[15rem] p-2">
-                    <p className="truncate text-sm font-semibold">{plan.membership.name}</p>
-                    <p className="text-gray-500 truncate text-xs">
-                      {new Intl.NumberFormat('vi-VN', {
-                        style: 'currency',
-                        currency: 'VND'
-                      }).format(plan.membership.monthlyPrice ?? 0)}
-                    </p>
-                  </div>
+                    <div className="max-w-[15rem] p-2">
+                      <p className="truncate text-sm font-semibold">{plan.membership.name}</p>
+                      <p className="text-gray-500 truncate text-xs">
+                        {new Intl.NumberFormat('vi-VN', {
+                          style: 'currency',
+                          currency: 'VND'
+                        }).format(plan.membership.monthlyPrice ?? 0)}
+                      </p>
+                    </div>
 
-                  {isMember && (
-                    <Tag className="absolute top-2 " color="success">
-                      Đã đăng ký
-                    </Tag>
-                  )}
+                    {isMember && (
+                      <Tag className="absolute top-2 " color="success">
+                        Đã đăng ký
+                      </Tag>
+                    )}
 
-                  <div className="absolute top-2 rounded-sm bg-equipmentType px-2 text-base shadow-sm"></div>
-                </button>
-              ))}
+                    <div className="absolute top-2 rounded-sm bg-equipmentType px-2 text-base shadow-sm"></div>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>

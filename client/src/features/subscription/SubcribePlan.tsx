@@ -8,7 +8,7 @@ import DefaultLayout from '~/components/Layout/DefaultLayout'
 import ButtonBack from '~/components/ButtonBack'
 import DetailItemWrapper from '~/components/DetailItemWrapper'
 import useAuth from '~/hooks/useAuth'
-import { subscribePlan } from '~/lib/subscriptionApi'
+import { confirmSubscribePlan, subscribePlan } from '~/lib/subscriptionApi'
 
 const variants = {
   hidden: { opacity: 0, y: 10 },
@@ -26,25 +26,22 @@ const SubscribePlan = () => {
   const [plans] = useSubscriptionStore(state => [state.plans])
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isSuccess, setIsSuccess] = useState<boolean>(false)
+  const [isSuccess, setIsSuccess] = useState<string | null>(null)
 
   const plan = plans.get(id as string) as IMembership
   const isSubscribed = plan?.registrations.filter(each => each.member.id === currentUser).length > 0
-
-  if (!id || !plan) navigate(-1)
 
   const handleRequestSubscribePlan = async () => {
     if (!currentUser) return
 
     try {
       setIsLoading(true)
-      const data = await subscribePlan({
+      const id = (await subscribePlan({
         memberId: currentUser,
         membershipId: plan.id,
         periodOfMonths: quantity
-      })
-      console.log('==> data', data)
-      setIsSuccess(true)
+      })) as any
+      setIsSuccess(id)
     } catch (error) {
       message.error('Lỗi server, hãy thử lại sau ít phút ><!')
     } finally {
@@ -52,7 +49,24 @@ const SubscribePlan = () => {
     }
   }
 
-  const onFinish = (value: any) => {}
+  const onFinish = async (values: ConfirmPayment) => {
+    try {
+      if (!Boolean(isSuccess)) return
+
+      setIsLoading(true)
+      await confirmSubscribePlan(isSuccess as string, {
+        amount: plan.monthlyPrice * quantity,
+        method: 'Cash',
+        invoiceNumber: values.invoiceNumber
+      })
+      message.success('Đăng ký gói tập thành công !')
+      window.location.href = '/goi-tap'
+    } catch (error) {
+      message.error('Lỗi server, hãy thử lại sau ít phút ><!')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <DefaultLayout title={<ButtonBack />}>
@@ -97,7 +111,12 @@ const SubscribePlan = () => {
                 name="quantity"
                 rules={[{ required: true, message: 'Số lượng không được để trống' }]}
               >
-                <InputNumber disabled={isSuccess} max={3} min={1} placeholder="Nhập số lượng" />
+                <InputNumber
+                  disabled={Boolean(isSuccess)}
+                  max={3}
+                  min={1}
+                  placeholder="Nhập số lượng"
+                />
               </Form.Item>
 
               <p className="mb-4 text-lg font-medium">Phương thức thanh toán</p>
@@ -117,7 +136,7 @@ const SubscribePlan = () => {
                 <p>Thẻ tín dụng</p>
               </button>
 
-              {isSuccess && (
+              {Boolean(isSuccess) && (
                 <motion.div
                   variants={variants}
                   initial="hidden"
@@ -134,7 +153,7 @@ const SubscribePlan = () => {
                   </p>
                   <Form.Item
                     label="Thông tin thẻ tín dụng"
-                    name="cardInfo"
+                    name="invoiceNumber"
                     rules={[{ required: true, message: 'Số thẻ không được để trống' }]}
                   >
                     <Input max={3} min={1} placeholder="1234 1234 1234 1234" />

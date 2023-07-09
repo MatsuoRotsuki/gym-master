@@ -5,7 +5,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import useGymStore from './GymStore'
 import Detail from '../equipment/Detail'
 import Edit from '../equipment/Edit'
-
+import useAuth from '~/hooks/useAuth'
 
 type PropsType = {
   equipment: IEquipment
@@ -15,6 +15,7 @@ type PropsType = {
 const GymEquipmentItem = ({ equipment, room }: PropsType) => {
   const [deleteGymEquipment] = useGymStore(state => [state.deleteGymEquipment])
 
+  const { isAdmin, isStaff } = useAuth()
   const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false)
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false)
 
@@ -38,28 +39,30 @@ const GymEquipmentItem = ({ equipment, room }: PropsType) => {
           </div>
         </button>
 
-        <Space className="absolute bottom-2 right-2 gap-1">
-          <EditOutlined
-            className="cursor-pointer px-1 text-lg text-primary-4"
-            onClick={() => setIsEditOpen(true)}
-          />
+        {(isStaff || isAdmin) && (
+          <Space className="absolute bottom-2 right-2 gap-1">
+            <EditOutlined
+              className="cursor-pointer px-1 text-lg text-primary-4"
+              onClick={() => setIsEditOpen(true)}
+            />
 
-          <Popconfirm
-            title="Bạn có chắc muốn xóa thiết bị này ở phòng tập này?"
-            okText="Xác nhận"
-            cancelText="Hủy"
-            onConfirm={async () => {
-              await deleteGymEquipment(room.id, equipment.id)
-              message.open({
-                type: 'success',
-                content: 'Xóa thiết bị ở phòng tập này thành công !'
-              })
-              window.location.reload()
-            }}
-          >
-            <DeleteOutlined className="cursor-pointer px-1 text-lg text-danger" />
-          </Popconfirm>
-        </Space>
+            <Popconfirm
+              title="Bạn có chắc muốn xóa thiết bị này ở phòng tập này?"
+              okText="Xác nhận"
+              cancelText="Hủy"
+              onConfirm={async () => {
+                await deleteGymEquipment(room.id, equipment.id)
+                message.open({
+                  type: 'success',
+                  content: 'Xóa thiết bị ở phòng tập này thành công !'
+                })
+                window.location.reload()
+              }}
+            >
+              <DeleteOutlined className="cursor-pointer px-1 text-lg text-danger" />
+            </Popconfirm>
+          </Space>
+        )}
       </div>
 
       <Detail equipment={equipment} isOpen={isDetailOpen} setIsOpen={setIsDetailOpen} />
