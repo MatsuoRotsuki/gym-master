@@ -22,16 +22,23 @@ const Create = ({ isOpen, setIsOpen }: PropsType) => {
   const [createMember] = useMemberStore(state => [state.createMember])
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const [image, setImage] = React.useState<FilePreview | { preview: string } | null>(null)
 
   const onFinish = async (values: any) => {
     setIsLoading(true)
     let error = false
+    let imageUrl = null
+
+    if (image) {
+      imageUrl = await uploadFile(image as File)
+    }
 
     try {
       createMember({
         ...values,
         dateOfBirth: dayjs(values.dateOfBirth).format('YYYY-MM-DD'),
-        user: { email: values.email, passwordDigest: values.password }
+        user: { email: values.email, passwordDigest: values.password },
+        avatar: imageUrl
       })
       toast.success('Thêm hội viên thành công', { toastId: 'createMember-success' })
     } catch (error) {
@@ -43,8 +50,6 @@ const Create = ({ isOpen, setIsOpen }: PropsType) => {
       if (!error) setIsOpen(false)
     }
   }
-
-  const [image, setImage] = React.useState<FilePreview | { preview: string } | null>(null)
 
   return (
     <Modal

@@ -29,9 +29,12 @@ const MemberInfo = ({ member }: PropsType) => {
   return (
     <div className="flex items-start justify-start gap-4">
       <img
-        src="https://cali.vn/storage/app/media/old/Calipso-NganPham/gymer-insta/cropped-images/gymer-insta-5-0-0-0-0-1546234815.jpg"
+        src={
+          member.avatar ??
+          'https://cali.vn/storage/app/media/old/Calipso-NganPham/gymer-insta/cropped-images/gymer-insta-5-0-0-0-0-1546234815.jpg'
+        }
         alt="member-image"
-        className="aspect-square w-[20rem] rounded-md object-contain"
+        className="aspect-square w-[20rem] rounded-md object-contain shadow"
       />
       <div className="grid w-full grid-cols-2 gap-4">
         <DetailWrapper label="Họ và tên" value={`${member.firstName} ${member.lastName}`} />
@@ -75,12 +78,7 @@ const MemberMembership = ({ member }: PropsType) => {
     {
       title: 'Trạng thái',
       dataIndex: 'hasActivated',
-      render: (_, record) =>
-        record.hasActivated ? (
-          <Tag color="green">Đã kích hoạt</Tag>
-        ) : (
-          <Tag color="volcano">Đã hết hạn</Tag>
-        )
+      render: (_, record) => <Tag color="green">Đã kích hoạt</Tag>
     }
   ]
 
@@ -91,7 +89,7 @@ const MemberMembership = ({ member }: PropsType) => {
       onRow={(record, _) => {
         return {
           onClick: () => {
-            navigate(`/goi-tap/${record.id}`)
+            navigate(`/goi-tap/${record.membership.id}`)
           }
         }
       }}

@@ -89,7 +89,7 @@ public class SeederService {
         adminStaff.setLastName("Admin");
         adminStaff.setGender(faker.random().nextInt(0, 1));
         adminStaff.setPhoneNumber(faker.phoneNumber().cellPhone());
-        adminStaff = staffRepository.save(adminStaff);
+        staffRepository.save(adminStaff);
 
         for (int i = 0; i < 30; i++) {
             User user = new User();
