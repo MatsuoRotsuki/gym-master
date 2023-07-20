@@ -4,6 +4,7 @@ import com.itss.gym_master.entities.Member;
 import com.itss.gym_master.entities.MemberMembership;
 import com.itss.gym_master.entities.Membership;
 import com.itss.gym_master.entities.MembershipActivityLog;
+import com.itss.gym_master.exceptions.AlreadyRegisteredMembershipException;
 import com.itss.gym_master.exceptions.EntityNotFoundException;
 import com.itss.gym_master.repositories.MemberMembershipRepository;
 import com.itss.gym_master.repositories.MemberRepository;
@@ -48,7 +49,12 @@ public class MemberMembershipService {
         Membership membership = membershipRepository.findById(membershipId)
                 .orElseThrow(() -> new EntityNotFoundException("Could not found membership with id " + membershipId));
 
-        //Cần xử lý ngoại lệ cho việc đăng ký gói lần nữa
+        for (MemberMembership memberMembership : member.getMemberMemberships()) {
+            if (memberMembership.getMembership().getId().equals(membershipId))
+            {
+                throw new AlreadyRegisteredMembershipException("The member has already registered that membership");
+            }
+        }
 
         MemberMembership memberMembership = new MemberMembership();
         memberMembership.setMember(member);
